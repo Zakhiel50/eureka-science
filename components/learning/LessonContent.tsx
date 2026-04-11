@@ -56,11 +56,15 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
           className="space-y-8"
         >
           <div className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-800 shadow-inner bg-slate-800 flex items-center justify-center">
-            {/* Simulation d'image si non présente */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/20 to-slate-900 flex items-center justify-center text-slate-500 italic">
-               [ Illustration : {step.title} ]
-            </div>
-            {/* <img src={step.imageUrl} alt={step.title} className="object-cover w-full h-full" /> */}
+            <img 
+              src={step.imageUrl} 
+              alt={step.title} 
+              className="object-contain w-full h-full"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 to-slate-900/10 pointer-events-none" />
           </div>
 
           <div className="space-y-4">
