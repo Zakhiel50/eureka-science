@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LessonStep } from "@/lib/lessons/water-cycle";
 import { ChevronRight, ChevronLeft, GraduationCap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface LessonContentProps {
   steps: LessonStep[];
@@ -55,14 +56,14 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
           exit={{ opacity: 0, x: -20 }}
           className="space-y-8"
         >
-          <div className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-800 shadow-inner bg-slate-800 flex items-center justify-center">
-            <img 
-              src={step.imageUrl} 
-              alt={step.title} 
-              className="object-contain w-full h-full"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
-              }}
+          <div className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-800 shadow-inner bg-slate-800">
+            <Image
+              src={step.imageUrl}
+              alt={step.title}
+              fill
+              className="object-contain p-4"
+              priority
+              unoptimized // On désactive l'optimisation pour les images locales simples si besoin
             />
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 to-slate-900/10 pointer-events-none" />
           </div>

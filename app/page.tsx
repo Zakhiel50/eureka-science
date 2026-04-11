@@ -50,7 +50,7 @@ export default function Home() {
             <GraduationCap className="w-10 h-10 text-cyan-400" />
             EUREKA
           </h1>
-          <p className="text-slate-400 mt-2 font-medium">L'aventure du savoir commence ici, petit explorateur !</p>
+          <p className="text-slate-400 mt-2 font-medium">L'aventure du savoir commence ici !</p>
         </div>
         <div className="flex gap-4">
           <div className="bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">
