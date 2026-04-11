@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { waterCycleCourse } from "@/lib/lessons/water-cycle";
 import { GraduationCap, Lock, Star, Play, CheckCircle } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
@@ -73,13 +74,22 @@ export default function Home() {
                   : "bg-slate-900/60 border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
               }`}
             >
-              <div className={`h-48 bg-gradient-to-br ${course.color} relative overflow-hidden`}>
+              <div className={`h-48 relative overflow-hidden bg-gradient-to-br ${course.color}`}>
+                {course.thumbnailUrl && !course.isLocked && (
+                  <Image 
+                    src={course.thumbnailUrl} 
+                    alt={course.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-60"
+                    unoptimized
+                  />
+                )}
                 {course.isLocked ? (
                   <div className="absolute inset-0 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm">
                     <Lock className="w-12 h-12 text-slate-400" />
                   </div>
                 ) : (
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all flex items-center justify-center">
                     {isCompleted && (
                       <div className="bg-green-500/90 text-white px-4 py-2 rounded-full flex items-center gap-2 font-bold shadow-lg">
                         <CheckCircle className="w-5 h-5" /> Terminé

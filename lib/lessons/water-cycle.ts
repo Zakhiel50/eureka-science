@@ -16,6 +16,7 @@ export type Course = {
   id: string;
   title: string;
   description: string;
+  thumbnailUrl?: string;
   steps: LessonStep[];
   quiz: QuizQuestion[];
 };
@@ -24,6 +25,7 @@ export const waterCycleCourse: Course = {
   id: "cycle-de-leau",
   title: "L'Odyssée de l'Eau : Le Cycle Complet",
   description: "Un voyage complexe et fascinant à travers les états de la matière et les profondeurs de la Terre.",
+  thumbnailUrl: "/images/cycle-water/cycle_eau_10.jpg",
   steps: [
     {
       id: "evaporation",
