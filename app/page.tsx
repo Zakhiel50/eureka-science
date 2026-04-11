@@ -6,6 +6,17 @@ import { GraduationCap, Lock, Star, Play, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
+// Définition d'un type local pour les cartes de cours du menu
+type CourseCard = {
+  id: string;
+  title: string;
+  description: string;
+  thumbnailUrl?: string;
+  isLocked: boolean;
+  color: string;
+  unlocks?: string;
+};
+
 export default function Home() {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [xp, setXp] = useState(0);
@@ -19,9 +30,12 @@ export default function Home() {
     }
   }, []);
 
-  const courses = [
+  const courses: CourseCard[] = [
     { 
-      ...waterCycleCourse, 
+      id: waterCycleCourse.id,
+      title: waterCycleCourse.title,
+      description: waterCycleCourse.description,
+      thumbnailUrl: waterCycleCourse.thumbnailUrl,
       isLocked: false, 
       color: "from-cyan-500 to-blue-600",
       unlocks: "electricite"
