@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { LessonStep } from "@/lib/lessons/water-cycle";
-import { ChevronRight, ChevronLeft, GraduationCap } from "lucide-react";
+import { ChevronRight, ChevronLeft, GraduationCap, X, Maximize2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -13,6 +13,7 @@ interface LessonContentProps {
 
 export default function LessonContent({ steps, onComplete }: LessonContentProps) {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -43,9 +44,11 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
             />
           ))}
         </div>
-        <span className="text-slate-400 font-mono text-sm">
-          Étape {currentStep + 1} / {steps.length}
-        </span>
+        <div className="flex justify-between items-center">
+          <span className="text-slate-400 font-mono text-sm">
+            Étape {currentStep + 1} / {steps.length}
+          </span>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -56,16 +59,27 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
           exit={{ opacity: 0, x: -20 }}
           className="space-y-8"
         >
-          <div className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-800 shadow-inner bg-slate-800 mt-6">
+          <div 
+            onClick={() => setIsExpanded(true)}
+            className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-800 shadow-inner bg-slate-800 mt-6 cursor-zoom-in group"
+          >
             <Image
               src={step.imageUrl}
               alt={step.title}
               fill
-              className="object-contain p-4"
+              className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
               priority
               unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 to-slate-900/10 pointer-events-none" />
+            
+            <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md p-2 rounded-full border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Maximize2 className="w-5 h-5 text-cyan-400" />
+            </div>
+            
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/80 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-medium text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity border border-slate-700">
+              Cliquer pour agrandir
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -77,6 +91,46 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
             </p>
           </div>
         </motion.div>
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsExpanded(false)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-8 cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full h-full max-w-7xl flex flex-col items-center justify-center gap-4"
+            >
+              <div className="relative w-full h-full flex-1">
+                <Image
+                  src={step.imageUrl}
+                  alt={step.title}
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
+              
+              <button
+                onClick={() => setIsExpanded(false)}
+                className="absolute top-0 right-0 md:-top-2 md:-right-2 p-3 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all shadow-xl z-[101] transform hover:scale-110 active:scale-90"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              
+              <div className="w-full text-center pb-4">
+                <h3 className="text-2xl font-bold text-white">{step.title}</h3>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       <div className="mt-12 flex justify-between gap-4">
