@@ -30,10 +30,11 @@ Application éducative interactive pour enfants de 10 à 16 ans.
 - **Réutilisation** : Tout nouveau type de contenu (vidéo, schéma interactif) doit être un composant isolé.
 
 ## 📝 Roadmap Courte Terme
-- [ ] Initialisation de la structure du projet.
-- [ ] Création du moteur de quiz.
-- [ ] Implémentation du 1er cours : Le Cycle de l'Eau.
-- [ ] Système de déblocage basé sur le score.
+- [x] Initialisation de la structure du projet.
+- [x] Création du moteur de quiz.
+- [x] Implémentation du 1er cours : Le Cycle de l'Eau.
+- [ ] Implémentation du 2ème cours : Les Secrets des Volcans (Types, Roches, Magma).
+- [ ] Système de déblocage basé sur le score (XP et LocalStorage).
 
 ---
 *Dernière mise à jour : 11 avril 2026*

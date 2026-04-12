@@ -32,12 +32,12 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-slate-900/50 backdrop-blur-md rounded-3xl border border-slate-700 shadow-2xl">
-      <div className="mb-8 flex justify-between items-center">
+      <div className="md:mb-8 flex-col justify-between items-center">
         <div className="flex gap-2">
           {steps.map((_, idx) => (
             <div
               key={idx}
-              className={`h-2 w-12 rounded-full transition-all duration-300 ${
+              className={`mb-4 h-2 w-4 md:h-2 md:w-4 rounded-full transition-all duration-300 ${
                 idx <= currentStep ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-slate-700"
               }`}
             />
@@ -56,14 +56,14 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
           exit={{ opacity: 0, x: -20 }}
           className="space-y-8"
         >
-          <div className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-800 shadow-inner bg-slate-800">
+          <div className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-800 shadow-inner bg-slate-800 mt-6">
             <Image
               src={step.imageUrl}
               alt={step.title}
               fill
               className="object-contain p-4"
               priority
-              unoptimized // On désactive l'optimisation pour les images locales simples si besoin
+              unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 to-slate-900/10 pointer-events-none" />
           </div>

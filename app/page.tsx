@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { waterCycleCourse } from "@/lib/lessons/water-cycle";
+import { volcanologyCourse } from "@/lib/lessons/volcanology";
 import { GraduationCap, Lock, Star, Play, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -38,13 +39,22 @@ export default function Home() {
       thumbnailUrl: waterCycleCourse.thumbnailUrl,
       isLocked: false, 
       color: "from-cyan-500 to-blue-600",
+      unlocks: volcanologyCourse.id
+    },
+    { 
+      id: volcanologyCourse.id,
+      title: volcanologyCourse.title,
+      description: volcanologyCourse.description,
+      thumbnailUrl: volcanologyCourse.thumbnailUrl,
+      isLocked: !completedCourses.includes(waterCycleCourse.id), 
+      color: "from-orange-500 to-red-600",
       unlocks: "electricite"
     },
     { 
       id: "electricite", 
       title: "Le Secret des Éclairs", 
       description: "Découvre comment fonctionne l'électricité et les circuits.", 
-      isLocked: !completedCourses.includes("cycle-de-leau"), 
+      isLocked: !completedCourses.includes(volcanologyCourse.id), 
       color: "from-yellow-400 to-orange-500",
       unlocks: "gravite"
     },
@@ -59,7 +69,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12">
-      <header className="flex justify-between items-center bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm">
+      <header className="flex justify-between flex-col items-center bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm md:flex-row">
         <div>
           <h1 className="text-4xl font-black text-white flex items-center gap-3">
             <GraduationCap className="w-10 h-10 text-cyan-400" />
@@ -68,7 +78,7 @@ export default function Home() {
           <p className="text-slate-400 mt-2 font-medium">L'aventure du savoir commence ici !</p>
         </div>
         <div className="flex gap-4">
-          <div className="bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">
+          <div className="mt-12 md:mt-0 bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">
             <Star className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />
             <span className="font-bold text-2xl text-white">{xp} XP</span>
           </div>

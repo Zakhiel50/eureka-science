@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { QuizQuestion } from "@/lib/lessons/water-cycle";
-import { CheckCircle2, XCircle, Trophy, ArrowRight, RefreshCcw } from "lucide-react";
+import { CheckCircle2, XCircle, Trophy, ArrowRight, RefreshCcw, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface QuizEngineProps {
@@ -13,15 +13,20 @@ interface QuizEngineProps {
 export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [isAnswered, setIsAnswered] = useState(false);
+  const [isValidated, setIsValidated] = useState(false);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
   const handleOptionClick = (index: number) => {
-    if (isAnswered) return;
+    if (isValidated) return;
     setSelectedOption(index);
-    setIsAnswered(true);
-    if (index === questions[currentQuestion].correctAnswer) {
+  };
+
+  const handleValidate = () => {
+    if (selectedOption === null || isValidated) return;
+    
+    setIsValidated(true);
+    if (selectedOption === questions[currentQuestion].correctAnswer) {
       setScore(score + 1);
     }
   };
@@ -30,7 +35,7 @@ export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(null);
-      setIsAnswered(false);
+      setIsValidated(false);
     } else {
       setShowResult(true);
     }
@@ -39,7 +44,7 @@ export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
   const resetQuiz = () => {
     setCurrentQuestion(0);
     setSelectedOption(null);
-    setIsAnswered(false);
+    setIsValidated(false);
     setScore(0);
     setShowResult(false);
   };
@@ -129,7 +134,8 @@ export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
       <div className="grid gap-4">
         {q.options.map((option, idx) => {
           let styles = "bg-slate-800/50 border-slate-700 text-slate-300 hover:border-cyan-500/50";
-          if (isAnswered) {
+          
+          if (isValidated) {
             if (idx === q.correctAnswer) {
               styles = "bg-green-500/20 border-green-500 text-green-400";
             } else if (idx === selectedOption) {
@@ -145,30 +151,40 @@ export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
             <button
               key={idx}
               onClick={() => handleOptionClick(idx)}
-              disabled={isAnswered}
+              disabled={isValidated}
               className={`w-full p-5 text-left rounded-2xl border-2 font-medium transition-all flex justify-between items-center ${styles}`}
             >
               {option}
-              {isAnswered && idx === q.correctAnswer && <CheckCircle2 className="w-6 h-6" />}
-              {isAnswered && idx === selectedOption && idx !== q.correctAnswer && <XCircle className="w-6 h-6" />}
+              {isValidated && idx === q.correctAnswer && <CheckCircle2 className="w-6 h-6" />}
+              {isValidated && idx === selectedOption && idx !== q.correctAnswer && <XCircle className="w-6 h-6" />}
             </button>
           );
         })}
       </div>
 
       <div className="mt-10 flex justify-end">
-        <button
-          onClick={nextQuestion}
-          disabled={!isAnswered}
-          className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all ${
-            isAnswered
-              ? "bg-cyan-500 text-white shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5"
-              : "bg-slate-800 text-slate-500 cursor-not-allowed"
-          }`}
-        >
-          {currentQuestion === questions.length - 1 ? "Terminer" : "Suivant"}
-          <ArrowRight className="w-5 h-5" />
-        </button>
+        {!isValidated ? (
+          <button
+            onClick={handleValidate}
+            disabled={selectedOption === null}
+            className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all ${
+              selectedOption !== null
+                ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5"
+                : "bg-slate-800 text-slate-500 cursor-not-allowed"
+            }`}
+          >
+            Valider
+            <Check className="w-5 h-5" />
+          </button>
+        ) : (
+          <button
+            onClick={nextQuestion}
+            className="flex items-center gap-2 px-8 py-3 bg-cyan-500 text-white rounded-xl font-bold shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5 transition-all"
+          >
+            {currentQuestion === questions.length - 1 ? "Terminer" : "Suivant"}
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        )}
       </div>
     </div>
   );

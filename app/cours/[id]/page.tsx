@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { waterCycleCourse } from "@/lib/lessons/water-cycle";
+import { volcanologyCourse } from "@/lib/lessons/volcanology";
 import LessonContent from "@/components/learning/LessonContent";
 import QuizEngine from "@/components/learning/QuizEngine";
 import { ChevronLeft, Home } from "lucide-react";
@@ -13,10 +14,13 @@ export default function CoursePage() {
   const router = useRouter();
   const [mode, setMode] = useState<"lesson" | "quiz">("lesson");
 
-  // Pour cette démo, on utilise uniquement le cycle de l'eau
-  const course = waterCycleCourse;
+  // Sélection du cours en fonction de l'ID dans l'URL
+  const allCourses = [waterCycleCourse, volcanologyCourse];
+  const course = allCourses.find(c => c.id === params.id);
 
   const handleSuccess = () => {
+    if (!course) return;
+
     // Récupérer la progression actuelle
     const saved = localStorage.getItem("eureka_progress");
     const progress = saved ? JSON.parse(saved) : { completed: [], xp: 0 };
@@ -32,7 +36,7 @@ export default function CoursePage() {
     router.push("/");
   };
 
-  if (params.id !== course.id) {
+  if (!course) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-white space-y-4">
         <h1 className="text-2xl font-bold">Oups ! Ce cours n'existe pas encore.</h1>
@@ -46,10 +50,10 @@ export default function CoursePage() {
   return (
     <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-5xl mx-auto space-y-8">
-        <div className="flex justify-between items-center">
+        <div className="md:flex-row flex flex-col justify-between items-between">
           <Link
             href="/"
-            className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold"
+            className="mb-6 md:mb-0 flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold"
           >
             <ChevronLeft className="w-5 h-5" />
             Retour au menu

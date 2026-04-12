@@ -16,16 +16,16 @@ export type Course = {
   id: string;
   title: string;
   description: string;
-  thumbnailUrl?: string;
   steps: LessonStep[];
   quiz: QuizQuestion[];
+  thumbnailUrl: string
 };
 
 export const waterCycleCourse: Course = {
   id: "cycle-de-leau",
-  title: "L'Odyssée de l'Eau : Le Cycle Complet",
-  description: "Un voyage complexe et fascinant à travers les états de la matière et les profondeurs de la Terre.",
+  title: "L'Odyssée de l'Eau : Le Cycle de l'eau",
   thumbnailUrl: "/images/cycle-water/cycle_eau_10.jpg",
+  description: "Un voyage complexe et fascinant à travers les états de la matière et les profondeurs de la Terre.",
   steps: [
     {
       id: "evaporation",
@@ -84,7 +84,7 @@ export const waterCycleCourse: Course = {
     {
       id: "boucle",
       title: "10. La Boucle Éternelle",
-      content: "Sais-tu que l'eau que tu bois aujourd'hui est la même que celle que buvaient les dinosaures il y a 150 millions d'années ? L'eau sur Terre ne disparaît jamais : elle voyage, change d'état (glace, liquide ou gaz) et se recycle à l'infini. Sache qu'en physique et en chimie, 'Rien ne se perd, rien ne se crée, tout se transforme'. Par exemple, si tu as 100 grammes de sable humide et que tu le chauffes très fort, tu obtiendras peut-être 90 grammes de verre, mais les 10 grammes manquants ne se sont pas volatilisés : ils se sont transformés en vapeur d'eau et en gaz invisibles. Au total, tu as toujours tes 100 grammes de matière !",
+      content: "Sais-tu que l'eau que tu bois aujourd'hui est la même que celle que buvaient les dinosaures il y a 150 millions d'années ? L'eau sur Terre ne disparaît jamais : elle voyage, change d'état (glace, liquide ou gaz) et se recycle à l'infini depuis des milliards d'années. C'est une boucle fermée parfaite qui permet à la vie de continuer sur notre planète ! Sache qu'en physique et chimie, rien ne se perd, tout se transforme. Par exemple, si tu à 100 grammes de sable et que tu le chauffe, tu aura 90 grammes de verre et 10 grammes d'eau qui se seront évaporé, ce qui donne une transformation de 100 grammes",
       imageUrl: "/images/cycle-water/cycle_eau_10.jpg"
     }
   ],
@@ -115,8 +115,8 @@ export const waterCycleCourse: Course = {
     },
     {
       id: "q5",
-      question: "Quel est le moteur principal qui fait monter l'eau dans l'atmosphère ?",
-      options: ["Le Vent", "La Lune", "L'Énergie Solaire", "La Gravité"],
+      question: "Quelle est l'énergie qui fait monter l'eau dans l'atmosphère ?",
+      options: ["La puissance du Vent", "La lumière de la Lune", "L'Énergie Solaire", "La Gravité"],
       correctAnswer: 2
     },
     {
