@@ -7,10 +7,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface QuizEngineProps {
   questions: QuizQuestion[];
-  onSuccess: () => void;
+  onSuccess: (score: number) => void;
+  onScoreUpdate?: (score: number) => void;
 }
 
-export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
+export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: QuizEngineProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isValidated, setIsValidated] = useState(false);
@@ -37,6 +38,8 @@ export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
       setSelectedOption(null);
       setIsValidated(false);
     } else {
+      const finalScore = Math.round((score / questions.length) * 100);
+      onScoreUpdate?.(finalScore);
       setShowResult(true);
     }
   };
@@ -94,17 +97,23 @@ export default function QuizEngine({ questions, onSuccess }: QuizEngineProps) {
             : "Il te faut au moins 80% pour débloquer la suite. Relis bien le cours et réessaie !"}
         </p>
 
-        <div className="flex gap-4 justify-center">
+        <div className="flex flex-wrap gap-4 justify-center">
+          <button
+            onClick={() => onSuccess(Math.round(successRate))}
+            className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 transition-all"
+          >
+            Quitter
+          </button>
           <button
             onClick={resetQuiz}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 transition-all"
+            className="flex items-center gap-2 px-6 py-3 bg-slate-700/50 text-white rounded-xl font-bold hover:bg-slate-700 transition-all border border-slate-600"
           >
             <RefreshCcw className="w-5 h-5" />
             Réessayer
           </button>
           {isPassed && (
             <button
-              onClick={onSuccess}
+              onClick={() => onSuccess(Math.round(successRate))}
               className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-lg hover:shadow-green-500/25 transition-all transform hover:-translate-y-1"
             >
               Cours Suivant

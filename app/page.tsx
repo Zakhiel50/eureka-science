@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { waterCycleCourse } from "@/lib/lessons/water-cycle";
 import { volcanologyCourse } from "@/lib/lessons/volcanology";
-import { GraduationCap, Lock, Star, Play, CheckCircle } from "lucide-react";
+import { humanBody } from "@/lib/lessons/human-body";
+import { GraduationCap, Lock, Star, Play, CheckCircle, Target } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -21,6 +22,7 @@ type CourseCard = {
 export default function Home() {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [xp, setXp] = useState(0);
+  const [scores, setScores] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const saved = localStorage.getItem("eureka_progress");
@@ -28,6 +30,7 @@ export default function Home() {
       const progress = JSON.parse(saved);
       setCompletedCourses(progress.completed || []);
       setXp(progress.xp || 0);
+      setScores(progress.scores || {});
     }
   }, []);
 
@@ -48,14 +51,15 @@ export default function Home() {
       thumbnailUrl: volcanologyCourse.thumbnailUrl,
       isLocked: !completedCourses.includes(waterCycleCourse.id), 
       color: "from-orange-500 to-red-600",
-      unlocks: "electricite"
+      unlocks: humanBody.id
     },
     { 
-      id: "electricite", 
-      title: "Le Secret des Éclairs", 
-      description: "Découvre comment fonctionne l'électricité et les circuits.", 
+      id: humanBody.id, 
+      title: humanBody.title, 
+      description: humanBody.description, 
+      thumbnailUrl: humanBody.thumbnailUrl,
       isLocked: !completedCourses.includes(volcanologyCourse.id), 
-      color: "from-yellow-400 to-orange-500",
+      color: "from-red-100 to-red-500",
       unlocks: "gravite"
     },
     { 
@@ -88,6 +92,8 @@ export default function Home() {
       <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {courses.map((course) => {
           const isCompleted = completedCourses.includes(course.id);
+          const rawScore = scores[course.id];
+          const score = rawScore !== undefined ? rawScore : (isCompleted ? 100 : undefined);
           
           return (
             <div
@@ -121,6 +127,13 @@ export default function Home() {
                     )}
                   </div>
                 )}
+                
+                {score !== undefined && !course.isLocked && (
+                  <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 flex items-center gap-2 shadow-xl">
+                    <Target className="w-4 h-4 text-cyan-400" />
+                    <span className="text-white font-black text-sm">{score}%</span>
+                  </div>
+                )}
               </div>
 
               <div className="p-6 space-y-4">
@@ -132,6 +145,25 @@ export default function Home() {
                 <p className="text-slate-400 leading-relaxed">
                   {course.description}
                 </p>
+
+                {score !== undefined && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
+                      <span>Maîtrise</span>
+                      <span className={score === 100 ? "text-green-400" : "text-cyan-400"}>
+                        {score}%
+                      </span>
+                    </div>
+                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                      <div 
+                        className={`h-full transition-all duration-1000 ${
+                          score === 100 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" : "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+                        }`}
+                        style={{ width: `${score}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 {!course.isLocked ? (
                   <Link

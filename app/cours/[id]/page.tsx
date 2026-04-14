@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { waterCycleCourse } from "@/lib/lessons/water-cycle";
 import { volcanologyCourse } from "@/lib/lessons/volcanology";
+import { humanBody } from "@/lib/lessons/human-body";
 import LessonContent from "@/components/learning/LessonContent";
 import QuizEngine from "@/components/learning/QuizEngine";
 import { ChevronLeft, Home } from "lucide-react";
@@ -15,25 +16,44 @@ export default function CoursePage() {
   const [mode, setMode] = useState<"lesson" | "quiz">("lesson");
 
   // Sélection du cours en fonction de l'ID dans l'URL
-  const allCourses = [waterCycleCourse, volcanologyCourse];
+  const allCourses = [waterCycleCourse, volcanologyCourse, humanBody];
   const course = allCourses.find(c => c.id === params.id);
 
-  const handleSuccess = () => {
+  const saveProgress = (score: number) => {
     if (!course) return;
 
     // Récupérer la progression actuelle
     const saved = localStorage.getItem("eureka_progress");
-    const progress = saved ? JSON.parse(saved) : { completed: [], xp: 0 };
+    const progress = saved ? JSON.parse(saved) : { completed: [], xp: 0, scores: {} };
     
-    // Ajouter le cours actuel s'il n'y est pas déjà
-    if (!progress.completed.includes(course.id)) {
-      progress.completed.push(course.id);
-      progress.xp += 100; // Bonus de 100 XP par cours réussi
-      localStorage.setItem("eureka_progress", JSON.stringify(progress));
+    // Migration/Initialisation pour le nouveau système de score
+    if (!progress.scores) progress.scores = {};
+    
+    const previousScore = progress.scores[course.id] || 0;
+
+    // Si le nouveau score est meilleur, on ajoute la différence d'XP
+    if (score > previousScore) {
+      const xpGain = score - previousScore;
+      progress.xp += xpGain;
+      progress.scores[course.id] = score;
     }
-    
+
+    // Ajouter le cours à la liste des complétés si score >= 80%
+    if (score >= 80 && !progress.completed.includes(course.id)) {
+      progress.completed.push(course.id);
+    }
+
+    localStorage.setItem("eureka_progress", JSON.stringify(progress));
+  };
+
+  const handleSuccess = (score: number) => {
+    saveProgress(score);
     // Rediriger vers l'accueil
     router.push("/");
+  };
+
+  const handleScoreUpdate = (score: number) => {
+    saveProgress(score);
   };
 
   if (!course) {
@@ -92,6 +112,7 @@ export default function CoursePage() {
             <QuizEngine
               questions={course.quiz}
               onSuccess={handleSuccess}
+              onScoreUpdate={handleScoreUpdate}
             />
           </div>
         )}
