@@ -25,7 +25,7 @@ export default function CoursePage() {
 
     // Récupérer la progression actuelle
     const saved = localStorage.getItem("eureka_progress");
-    let progress = { completed: [], xp: 0, scores: {} as Record<string, number> };
+    let progress = { completed: [] as string[], xp: 0, scores: {} as Record<string, number> };
     
     if (saved) {
       try {

@@ -82,7 +82,7 @@ export default function Home() {
             EUREKA
             <p className="text-[24px] text-green-400 font-blackflex mt-2 gap-1">Science</p>
           </h1>
-          <p className="text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici !</p>
+          <p className="text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici avec Einstein-bot!</p>
         </div>
         <div className="flex gap-4">
           <div className="mt-12 md:mt-0 bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">
