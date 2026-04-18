@@ -72,61 +72,71 @@ export const waterCycleCourse: Course = {
       id: "q1",
       question: "Quel terme désigne la vapeur rejetée par les plantes ?",
       options: ["La Respiration", "L'Évapotranspiration", "La Photosynthèse", "L'Infiltration"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "L'évapotranspiration est la combinaison de l'évaporation de l'eau du sol et de la transpiration des plantes. C'est ainsi que les végétaux rejettent de la vapeur d'eau dans l'atmosphère !"
     },
     {
       id: "q2",
       question: "La sublimation est le passage direct de...",
       options: ["Liquide à Gaz", "Gaz à Liquide", "Solide à Gaz", "Solide à Liquide"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "La sublimation est un phénomène fascinant où la glace (solide) se transforme directement en vapeur (gaz) sans passer par l'étape liquide. C'est fréquent sur les hauts sommets très secs !"
     },
     {
       id: "q3",
       question: "Comment appelle-t-on l'eau qui pénètre dans le sol ?",
       options: ["Le Ruissellement", "La Condensation", "L'Infiltration", "La Collection"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "L'infiltration, c'est quand l'eau 's'infiltre' à travers les petits trous (pores) du sol et des roches pour aller nourrir les plantes ou remplir les réserves souterraines."
     },
     {
       id: "q4",
       question: "Où se trouve l'eau lors de l'écoulement souterrain ?",
       options: ["Dans les nuages", "Dans les nappes phréatiques", "Dans les fleuves", "Dans les feuilles des arbres"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Sous nos pieds, l'eau s'accumule dans des nappes phréatiques. Elle y circule lentement à travers les roches poreuses avant de ressortir sous forme de sources ou de rejoindre les océans."
     },
     {
       id: "q5",
       question: "Quelle est l'énergie qui fait monter l'eau dans l'atmosphère ?",
       options: ["La puissance du Vent", "La lumière de la Lune", "L'Énergie Solaire", "La Gravité"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "C'est la chaleur du Soleil (l'énergie solaire) qui donne assez d'énergie aux molécules d'eau pour qu'elles s'évaporent et s'élèvent dans le ciel. Le Soleil est le moteur du cycle !"
     },
     {
       id: "q6",
       question: "Quelle force fait tomber les précipitations vers le sol ?",
       options: ["Le Magnétisme", "La Gravité", "La Pression", "La Force Centrifuge"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "La gravité est la force invisible qui attire tout vers le centre de la Terre. Quand les gouttes d'eau dans les nuages deviennent trop lourdes, la gravité les fait tomber sous forme de pluie !"
     },
     {
       id: "q7",
       question: "Le ruissellement de surface se produit quand...",
       options: ["L'eau s'évapore", "L'eau coule sur le sol", "L'eau gèle", "L'eau est bue par les plantes"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Le ruissellement, c'est quand l'eau de pluie ne peut pas s'infiltrer dans le sol et qu'elle 'ruisselle' à sa surface en suivant la pente pour former des ruisseaux et des rivières."
     },
     {
       id: "q8",
       question: "De quoi sont composés les nuages lors de la condensation ?",
       options: ["De gaz pur", "De gouttelettes d'eau ou cristaux de glace", "De fumée de volcan", "D'oxygène liquide"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Contrairement aux idées reçues, les nuages ne sont pas de la vapeur (gaz invisible). Ce sont des milliards de minuscules gouttelettes d'eau liquide ou de cristaux de glace en suspension !"
     },
     {
       id: "q9",
       question: "L'évapotranspiration combine quels phénomènes ?",
       options: ["Évaporation du sol + Transpiration des plantes", "Pluie + Infiltration", "Neige + Sublimation", "Ruissellement + Retour"],
-      correctAnswer: 0
+      correctAnswer: 0,
+      explanation: "Le mot dit tout : 'évapo' pour l'évaporation de l'eau présente sur le sol, et 'transpiration' pour l'eau rejetée par les feuilles des arbres et des plantes."
     },
     {
       id: "q10",
       question: "Que peut-on dire de la quantité totale d'eau sur Terre au fil du temps ?",
       options: ["Elle diminue car l'eau s'évapore dans l'espace", "Elle augmente grâce aux comètes", "Elle reste quasiment identique car l'eau se recycle à l'infini", "Elle change selon les saisons"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "Rien ne se perd, tout se transforme ! L'eau sur Terre voyage en boucle fermée depuis des milliards d'années. Tu bois peut-être la même eau qu'un diplodocus autrefois !"
     }
   ]
 };

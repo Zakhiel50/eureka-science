@@ -80,7 +80,7 @@ export default function Home() {
           <h1 className="text-4xl font-black text-white flex items-center gap-3">
             <GraduationCap className="w-10 h-10 text-cyan-400" />
             EUREKA
-            <h2 className="text-[24px] text-green-400 font-blackflex mt-2 gap-1">Science</h2>
+            <p className="text-[24px] text-green-400 font-blackflex mt-2 gap-1">Science</p>
           </h1>
           <p className="text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici !</p>
         </div>

@@ -3,6 +3,7 @@ export type QuizQuestion = {
   question: string;
   options: string[];
   correctAnswer: number;
+  explanation: string;
 };
 
 export type LessonStep = {

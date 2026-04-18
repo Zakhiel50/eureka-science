@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { QuizQuestion } from "@/lib/lessons/water-cycle";
+import { useState, useEffect } from "react";
+import { QuizQuestion } from "@/app/types/types";
 import { CheckCircle2, XCircle, Trophy, ArrowRight, RefreshCcw, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEinstein } from "@/app/context/EinsteinContext";
 
 interface QuizEngineProps {
   questions: QuizQuestion[];
@@ -12,11 +13,17 @@ interface QuizEngineProps {
 }
 
 export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: QuizEngineProps) {
+  const { say, clear } = useEinstein();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isValidated, setIsValidated] = useState(false);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
+
+  // Nettoyer les messages d'Einstein quand on quitte le quiz
+  useEffect(() => {
+    return () => clear();
+  }, [clear]);
 
   const handleOptionClick = (index: number) => {
     if (isValidated) return;
@@ -27,12 +34,17 @@ export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: Quiz
     if (selectedOption === null || isValidated) return;
     
     setIsValidated(true);
-    if (selectedOption === questions[currentQuestion].correctAnswer) {
+    const q = questions[currentQuestion];
+    if (selectedOption === q.correctAnswer) {
       setScore(score + 1);
+      say("Excellent ! C'est la bonne réponse.", "congrats");
+    } else {
+      say(q.explanation, "explanation");
     }
   };
 
   const nextQuestion = () => {
+    clear(); // Enlever l'explication d'Einstein
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(null);
@@ -45,6 +57,7 @@ export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: Quiz
   };
 
   const resetQuiz = () => {
+    clear();
     setCurrentQuestion(0);
     setSelectedOption(null);
     setIsValidated(false);
@@ -99,7 +112,7 @@ export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: Quiz
 
         <div className="flex flex-wrap gap-4 justify-center">
           <button
-            onClick={() => onSuccess(Math.round(successRate))}
+            onClick={() => { clear(); onSuccess(Math.round(successRate)); }}
             className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 transition-all"
           >
             Quitter
@@ -113,7 +126,7 @@ export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: Quiz
           </button>
           {isPassed && (
             <button
-              onClick={() => onSuccess(Math.round(successRate))}
+              onClick={() => { clear(); onSuccess(Math.round(successRate)); }}
               className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-lg hover:shadow-green-500/25 transition-all transform hover:-translate-y-1"
             >
               Cours Suivant
