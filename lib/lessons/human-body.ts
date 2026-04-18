@@ -1,4 +1,4 @@
-import { Course } from "./water-cycle";
+import { Course } from "@/app/types/types";
 
 export const humanBody: Course = {
   id: "humanBody",

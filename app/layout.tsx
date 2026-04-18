@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import EinsteinBot from "@/components/learning/EinsteinBot";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <main className="relative z-10">
           {children}
         </main>
+        <EinsteinBot />
       </body>
     </html>
   );

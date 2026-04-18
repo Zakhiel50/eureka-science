@@ -1,30 +1,9 @@
-export type QuizQuestion = {
-  id: string;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-};
-
-export type LessonStep = {
-  id: string;
-  title: string;
-  content: string;
-  imageUrl: string;
-};
-
-export type Course = {
-  id: string;
-  title: string;
-  description: string;
-  steps: LessonStep[];
-  quiz: QuizQuestion[];
-  thumbnailUrl: string
-};
+import { Course } from "@/app/types/types";
 
 export const waterCycleCourse: Course = {
   id: "cycle-de-leau",
   title: "L'Odyssée de l'Eau : Le Cycle de l'eau",
-  thumbnailUrl: "/images/cycle-water/cycle_eau_10.jpg",
+  thumbnailUrl: "/images/cycle-water/cover.jpg",
   description: "Un voyage complexe et fascinant à travers les états de la matière et les profondeurs de la Terre.",
   steps: [
     {

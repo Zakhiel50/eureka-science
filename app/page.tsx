@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { waterCycleCourse } from "@/lib/lessons/water-cycle";
 import { volcanologyCourse } from "@/lib/lessons/volcanology";
 import { humanBody } from "@/lib/lessons/human-body";
+import { gravity } from "@/lib/lessons/gravity";
 import { GraduationCap, Lock, Star, Play, CheckCircle, Target } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -63,11 +64,12 @@ export default function Home() {
       unlocks: "gravite"
     },
     { 
-      id: "gravite", 
-      title: "Pourquoi on ne s'envole pas ?", 
-      description: "Exploration de la gravité et des forces de l'univers.", 
-      isLocked: !completedCourses.includes("electricite"), 
-      color: "from-purple-500 to-pink-600" 
+      id: gravity.id, 
+      title: gravity.title, 
+      description: gravity.description,
+      thumbnailUrl: gravity.thumbnailUrl,
+      isLocked: !completedCourses.includes("humanBody"), 
+      color: "from-gray-200 to-blue-300" 
     },
   ];
 
@@ -78,8 +80,9 @@ export default function Home() {
           <h1 className="text-4xl font-black text-white flex items-center gap-3">
             <GraduationCap className="w-10 h-10 text-cyan-400" />
             EUREKA
+            <h2 className="text-[24px] text-green-400 font-blackflex mt-2 gap-1">Science</h2>
           </h1>
-          <p className="text-slate-400 mt-2 font-medium">L'aventure du savoir commence ici !</p>
+          <p className="text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici !</p>
         </div>
         <div className="flex gap-4">
           <div className="mt-12 md:mt-0 bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">

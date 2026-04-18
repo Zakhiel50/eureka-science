@@ -9,6 +9,7 @@ import LessonContent from "@/components/learning/LessonContent";
 import QuizEngine from "@/components/learning/QuizEngine";
 import { ChevronLeft, Home } from "lucide-react";
 import Link from "next/link";
+import { gravity } from "@/lib/lessons/gravity";
 
 export default function CoursePage() {
   const params = useParams();
@@ -16,7 +17,7 @@ export default function CoursePage() {
   const [mode, setMode] = useState<"lesson" | "quiz">("lesson");
 
   // Sélection du cours en fonction de l'ID dans l'URL
-  const allCourses = [waterCycleCourse, volcanologyCourse, humanBody];
+  const allCourses = [waterCycleCourse, volcanologyCourse, humanBody, gravity];
   const course = allCourses.find(c => c.id === params.id);
 
   const saveProgress = (score: number) => {
@@ -59,9 +60,9 @@ export default function CoursePage() {
   if (!course) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-white space-y-4">
-        <h1 className="text-2xl font-bold">Oups ! Ce cours n'existe pas encore.</h1>
+        <h1 className="text-2xl font-bold">Oups ! Ce cours n&apos;existe pas encore.</h1>
         <Link href="/" className="text-cyan-400 flex items-center gap-2">
-           <Home className="w-5 h-5" /> Retour à l'accueil
+           <Home className="w-5 h-5" /> Retour à l&apos;accueil
         </Link>
       </div>
     );
@@ -91,7 +92,7 @@ export default function CoursePage() {
                 {course.title}
               </h1>
               <p className="text-slate-400 text-xl max-w-2xl mx-auto italic">
-                "{course.description}"
+                {course.description}
               </p>
             </div>
             <LessonContent
