@@ -72,61 +72,71 @@ export const gravity: Course = {
       id: "q_grav1",
       question: "Qu'est-ce que la gravité ?",
       options: ["Une sorte de vent", "Une force invisible qui attire les objets", "Une lumière", "Un bruit"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "La gravité est une force d'attraction universelle. Tout objet qui possède une masse attire les autres objets vers lui."
     },
     {
       id: "q_grav2",
       question: "Vers où la Terre attire-t-elle tout ce qui nous entoure ?",
       options: ["Vers le ciel", "Vers la droite", "Vers son centre", "Vers la Lune"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "La gravité terrestre tire tout vers le centre de la planète, ce qui nous permet de rester au sol partout sur le globe."
     },
     {
       id: "q_grav3",
       question: "Qui a compris la gravité grâce à une pomme ?",
       options: ["Albert Einstein", "Isaac Newton", "Spiderman", "Un astronaute"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Isaac Newton a publié la loi de la gravitation universelle en 1687 après avoir médité sur la chute des corps."
     },
     {
       id: "q_grav4",
       question: "Que se passerait-il sans gravité ?",
       options: ["On serait plus lourd", "On flotterait dans les airs", "On courrait plus vite", "Rien ne changerait"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Sans cette 'colle' invisible, rien ne serait retenu au sol et nous dériverions dans le vide de l'espace !"
     },
     {
       id: "q_grav5",
       question: "Pourquoi la gravité de la Terre est-elle forte ?",
       options: ["Parce qu'elle est très chaude", "Parce que la Terre est très massive (grosse et lourde)", "Parce qu'elle tourne vite", "Parce qu'il y a de l'eau"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Plus un objet est massif, plus sa force de gravité est grande. La Terre est si énorme qu'elle exerce une attraction puissante."
     },
     {
       id: "q_grav6",
       question: "Sur la Lune, comment te sentirais-tu ?",
       options: ["Plus lourd", "Plus léger", "Pareil", "Incapable de bouger"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "La Lune est moins massive que la Terre, sa gravité est donc 6 fois plus faible. Tu y pèserais 6 fois moins lourd !"
     },
     {
       id: "q_grav7",
       question: "Grâce à quoi l'air et l'atmosphère reste-t-ils autour de la Terre ?",
       options: ["Grâce aux arbres", "Grâce à la gravité", "Grâce aux nuages", "Grâce au vent"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "La gravité retient les gaz de l'atmosphère près de la surface, nous permettant ainsi de respirer."
     },
     {
       id: "q_grav8",
       question: "Quelle force fait tourner la Terre autour du Soleil ?",
       options: ["Le magnétisme", "La gravité du Soleil", "L'électricité", "La force du vent"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "L'immense gravité du Soleil maintient toutes les planètes sur leurs orbites, les empêchant de se perdre dans l'espace."
     },
     {
       id: "q_grav9",
       question: "Comment appelle-t-on le fait de flotter dans l'espace ?",
       options: ["La légèreté", "L'impesanteur", "La natation", "Le vol libre"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "L'impesanteur est l'état d'un corps qui ne ressent plus l'effet de la pesanteur, comme les astronautes en orbite."
     },
     {
       id: "q_grav10",
       question: "Pourquoi la mer monte et descend (les marées) ?",
       options: ["À cause des poissons", "À cause de la gravité de la Lune", "À cause de la pluie", "À cause des bateaux"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "La Lune attire l'eau des océans vers elle en passant au-dessus d'eux, ce qui crée le mouvement des marées."
     }
   ]
 };

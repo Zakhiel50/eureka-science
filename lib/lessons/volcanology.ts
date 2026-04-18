@@ -72,61 +72,71 @@ export const volcanologyCourse: Course = {
       id: "q1",
       question: "Quelle roche épaisse et légère compose principalement la croûte continentale ?",
       options: ["Le Basalte", "Le Granite", "La Péridotite", "L'Andésite"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Le granite est une roche ignée légère et riche en silice qui constitue le fondement des continents. Contrairement au basalte océanique, il est moins dense."
     },
     {
       id: "q2",
       question: "Quelle est la principale différence entre le magma et la lave ?",
       options: ["Leur couleur", "Leur température", "Le magma est sous terre, la lave est à l'extérieur", "Il n'y a aucune différence"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "C'est une question de lieu ! Le magma contient des gaz dissous sous pression sous la surface. Une fois dehors, les gaz s'échappent et on parle de lave."
     },
     {
       id: "q3",
       question: "Comment s'appelle la réserve de magma se trouvant profondément sous terre ?",
       options: ["La chambre magmatique", "La chambre de lave", "Le réservoir", "La croûte océanique"],
-      correctAnswer: 0
+      correctAnswer: 0,
+      explanation: "La chambre magmatique est une zone de stockage située dans la croûte terrestre où le magma s'accumule avant de remonter vers la surface."
     },
     {
       id: "q4",
       question: "Quelle roche noire et dense se forme après le refroidissement d'une lave fluide (volcan effusif) ?",
       options: ["Le Basalte", "Le Granite", "Le Quartz", "Le Calcaire"],
-      correctAnswer: 0
+      correctAnswer: 0,
+      explanation: "Le basalte est la roche volcanique la plus courante. Il se forme à partir de laves fluides et pauvres en gaz, typiques des dorsales océaniques et des volcans rouges."
     },
     {
       id: "q5",
       question: "Pourquoi les volcans explosifs rejettent-ils d'immenses nuages de cendres ?",
       options: ["Leur magma est trop liquide", "Il n'y a pas de gaz", "Leur magma est très visqueux et explose sous la préssion", "À cause de la pluie"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "La viscosité empêche les gaz de s'échapper. La pression monte jusqu'à ce que le magma soit littéralement pulvérisé en cendres lors d'une violente explosion."
     },
     {
       id: "q6",
       question: "Comment appelle-t-on les roches anciennes formées de morceaux cassés dans les volcans hybrides ?",
       options: ["Les Galets", "Les Brèches", "Les Cristaux", "Les Ardoises"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Les brèches volcaniques sont composées de fragments anguleux de roches brisées lors des explosions, cimentés par du magma refroidi."
     },
     {
       id: "q7",
       question: "Quel pourcentage de l'activité volcanique terrestre se passe sous les océans ?",
       options: ["10%", "50%", "80%", "95%"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "L'immense majorité des volcans est cachée dans les abysses, principalement le long des dorsales océaniques où les plaques tectoniques s'écartent."
     },
     {
       id: "q8",
       question: "Que se passe-t-il quand la lave à 1200°C touche l'eau glacée des abysses ?",
       options: ["Elle s'évapore", "Elle devient du sable", "Elle se fige en verre volcanique", "Elle reste liquide"],
-      correctAnswer: 2
+      correctAnswer: 2,
+      explanation: "Le choc thermique est si brutal que la lave n'a pas le temps de cristalliser. Elle se transforme instantanément en verre volcanique (obsidienne)."
     },
     {
       id: "q9",
       question: "Qu'est-ce qui provoque la montée du magma juste avant une éruption ?",
       options: ["L'augmentation de la pression dans la chambre magmatique", "Le refroidissement de la terre", "Le mouvement de la Lune", "Le bruit des voitures"],
-      correctAnswer: 0
+      correctAnswer: 0,
+      explanation: "L'arrivée de nouveau magma frais en provenance du manteau fait grimper la pression dans la chambre magmatique, forçant le passage vers la surface."
     },
     {
       id: "q10",
       question: "Quel est l'un des rôles essentiels des volcans pour la vie sur Terre ?",
       options: ["Ils refroidissent la planète", "Ils créent des sols fertiles et l'atmosphère", "Ils empêchent les séismes", "Ils nettoient les océans"],
-      correctAnswer: 1
+      correctAnswer: 1,
+      explanation: "Les volcans ont libéré les gaz qui ont formé l'atmosphère primitive et les cendres enrichissent les sols en minéraux indispensables à la vie végétale."
     }
   ]
 };

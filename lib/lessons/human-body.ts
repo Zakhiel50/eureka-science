@@ -77,7 +77,8 @@ quiz: [
       "Un os",
       "Un message envoyé par le cerveau"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "Un organe est un ensemble de tissus qui collaborent pour remplir une fonction vitale. Par exemple, le cœur pompe le sang et les poumons assurent la respiration."
   },
   {
     id: "q_bodyTeam",
@@ -88,7 +89,8 @@ quiz: [
       "Faire circuler l'air",
       "Fabriquer des os"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "Le cerveau est le centre de commande. Il reçoit les informations de tes sens et envoie des ordres à tes muscles et organes par le système nerveux."
   },
   {
     id: "q_heart",
@@ -99,7 +101,8 @@ quiz: [
       "À fabriquer de l'urine",
       "À nous faire respirer"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "Le cœur agit comme une pompe musculaire qui propulse le sang dans tout ton corps pour apporter de l'oxygène à tes cellules."
   },
   {
     id: "q_pulmon",
@@ -110,7 +113,8 @@ quiz: [
       "De la nourriture",
       "De la chaleur"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "Lorsque tu inspires, tes poumons se gonflent d'air et extraient l'oxygène indispensable au fonctionnement de tes organes."
   },
   {
     id: "q_disget",
@@ -121,7 +125,8 @@ quiz: [
       "Elle disparaît totalement",
       "Elle devient des os"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "La digestion casse les aliments en nutriments minuscules qui passent dans le sang pour donner de l'énergie à ton corps."
   },
   {
     id: "q_muscle",
@@ -132,7 +137,8 @@ quiz: [
       "En restant immobiles",
       "En fabriquant du sang"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "Les muscles sont attachés aux os par des tendons. En se contractant, ils tirent sur les os, ce qui permet de créer le mouvement."
   },
   {
     id: "q_skull",
@@ -143,7 +149,8 @@ quiz: [
       "À transporter l'oxygène",
       "À réfléchir"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "Le squelette est ton armature solide. Sans lui, tu ne pourrais pas tenir debout, et tes organes comme le cerveau seraient sans protection."
   },
   {
     id: "q_kidneys",
@@ -154,7 +161,8 @@ quiz: [
       "Digérer les bonbons",
       "Porter le squelette"
     ],
-    correctAnswer: 0
+    correctAnswer: 0,
+    explanation: "Les reins filtrent le sang pour en extraire les déchets toxiques et l'excès d'eau, qu'ils transforment en urine."
   },
   {
     id: "q_skin",
@@ -165,7 +173,8 @@ quiz: [
       "Fabriquer de l'énergie",
       "Pomper le sang"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "La peau est ta première ligne de défense. C'est un bouclier qui bloque les bactéries et les virus extérieurs."
   },
   {
     id: "q_immuneSystem",
@@ -176,7 +185,8 @@ quiz: [
       "Les poils du nez",
       "Les battements du cœur"
     ],
-    correctAnswer: 1
+    correctAnswer: 1,
+    explanation: "Les globules blancs sont les soldats de ton corps. Ils patrouillent dans le sang et attaquent les intrus (microbes) pour te garder en bonne santé."
   }
 ]
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { LessonStep } from "@/lib/lessons/water-cycle";
+import { LessonStep } from "@/app/types/types";
 import { ChevronRight, ChevronLeft, GraduationCap, X, Maximize2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
