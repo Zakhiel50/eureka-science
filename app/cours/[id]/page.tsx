@@ -25,10 +25,20 @@ export default function CoursePage() {
 
     // Récupérer la progression actuelle
     const saved = localStorage.getItem("eureka_progress");
-    const progress = saved ? JSON.parse(saved) : { completed: [], xp: 0, scores: {} };
+    let progress = { completed: [], xp: 0, scores: {} as Record<string, number> };
     
-    // Migration/Initialisation pour le nouveau système de score
-    if (!progress.scores) progress.scores = {};
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        progress = {
+          completed: parsed.completed || [],
+          xp: parsed.xp || 0,
+          scores: parsed.scores || {}
+        };
+      } catch (e) {
+        console.error("Failed to parse progress", e);
+      }
+    }
     
     const previousScore = progress.scores[course.id] || 0;
 
