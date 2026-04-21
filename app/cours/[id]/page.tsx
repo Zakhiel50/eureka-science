@@ -63,6 +63,18 @@ export default function CoursePage() {
     router.push("/");
   };
 
+  const handleNextCourse = (score: number) => {
+    saveProgress(score);
+    const currentIndex = allCourses.findIndex(c => c.id === params.id);
+    if (currentIndex !== -1 && currentIndex < allCourses.length - 1) {
+      const nextCourse = allCourses[currentIndex + 1];
+      setMode("lesson");
+      router.push(`/cours/${nextCourse.id}`);
+    } else {
+      router.push("/");
+    }
+  };
+
   const handleScoreUpdate = (score: number) => {
     saveProgress(score);
   };
@@ -123,6 +135,7 @@ export default function CoursePage() {
             <QuizEngine
               questions={course.quiz}
               onSuccess={handleSuccess}
+              onNextCourse={handleNextCourse}
               onScoreUpdate={handleScoreUpdate}
             />
           </div>

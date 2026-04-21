@@ -5,14 +5,17 @@ import { QuizQuestion } from "@/app/types/types";
 import { CheckCircle2, XCircle, Trophy, ArrowRight, RefreshCcw, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEinstein } from "@/app/context/EinsteinContext";
+import { useRouter } from "next/router";
 
 interface QuizEngineProps {
   questions: QuizQuestion[];
   onSuccess: (score: number) => void;
   onScoreUpdate?: (score: number) => void;
+  onNextCourse: (score: number) => void
 }
 
-export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: QuizEngineProps) {
+export default function QuizEngine({ questions, onSuccess, onNextCourse, onScoreUpdate }: QuizEngineProps) {
+  const router = useRouter
   const { say, clear } = useEinstein();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -126,7 +129,7 @@ export default function QuizEngine({ questions, onSuccess, onScoreUpdate }: Quiz
           </button>
           {isPassed && (
             <button
-              onClick={() => { clear(); onSuccess(Math.round(successRate)); }}
+              onClick={() => { clear(); onNextCourse(Math.round(successRate)); }}
               className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold shadow-lg hover:shadow-green-500/25 transition-all transform hover:-translate-y-1"
             >
               Cours Suivant
