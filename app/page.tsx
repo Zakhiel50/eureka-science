@@ -8,6 +8,7 @@ import { gravity } from "@/lib/lessons/gravity";
 import { GraduationCap, Lock, Star, Play, CheckCircle, Target } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { lightning } from "@/lib/lessons/lightning";
 
 // Définition d'un type local pour les cartes de cours du menu
 type CourseCard = {
@@ -69,6 +70,14 @@ export default function Home() {
       description: gravity.description,
       thumbnailUrl: gravity.thumbnailUrl,
       isLocked: !completedCourses.includes("humanBody"), 
+      color: "from-gray-200 to-blue-300" 
+    },
+    { 
+      id: lightning.id, 
+      title: lightning.title, 
+      description: gravity.description,
+      thumbnailUrl: lightning.thumbnailUrl,
+      isLocked: !completedCourses.includes("gravity"), 
       color: "from-gray-200 to-blue-300" 
     },
   ];
