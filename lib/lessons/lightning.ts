@@ -57,7 +57,7 @@ export const lightning: Course = {
     {
       id: "lightForms",
       title: "9. Les formes étranges d'un éclair.",
-      content: "L'éclair peux avoir différentes forme. il y a l'intra-nuage, il est caché dans les nuages, la longue racine de foudre qui touche le sol et une forme plus rare appelé le feu de Saint-Elme. c'est une lueur bleue sur les pointes de l'éclair.",
+      content: "L'éclair peux avoir différentes forme. il y a l'intra-nuage, il est caché dans les nuages, la longue racine de foudre qui touche le sol et une forme plus rare appelé le feu de Saint-Elme, c'est une lueur bleue sur les pointes de l'éclair.",
       imageUrl: "/images/lightning/step9.jpg"
     },
     {

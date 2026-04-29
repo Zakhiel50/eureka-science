@@ -9,6 +9,7 @@ import { GraduationCap, Lock, Star, Play, CheckCircle, Target } from "lucide-rea
 import Link from "next/link";
 import Image from "next/image";
 import { lightning } from "@/lib/lessons/lightning";
+import { microscopic } from "@/lib/lessons/microscopic";
 
 // Définition d'un type local pour les cartes de cours du menu
 type CourseCard = {
@@ -17,7 +18,6 @@ type CourseCard = {
   description: string;
   thumbnailUrl?: string;
   isLocked: boolean;
-  color: string;
   unlocks?: string;
 };
 
@@ -43,7 +43,6 @@ export default function Home() {
       description: waterCycleCourse.description,
       thumbnailUrl: waterCycleCourse.thumbnailUrl,
       isLocked: false, 
-      color: "from-cyan-500 to-blue-600",
       unlocks: volcanologyCourse.id
     },
     { 
@@ -52,35 +51,41 @@ export default function Home() {
       description: volcanologyCourse.description,
       thumbnailUrl: volcanologyCourse.thumbnailUrl,
       isLocked: !completedCourses.includes(waterCycleCourse.id), 
-      color: "from-orange-500 to-red-600",
       unlocks: humanBody.id
     },
     { 
-      id: humanBody.id, 
-      title: humanBody.title, 
-      description: humanBody.description, 
-      thumbnailUrl: humanBody.thumbnailUrl,
-      isLocked: !completedCourses.includes(volcanologyCourse.id), 
-      color: "from-red-100 to-red-500",
-      unlocks: "gravite"
-    },
-    { 
-      id: gravity.id, 
-      title: gravity.title, 
-      description: gravity.description,
-      thumbnailUrl: gravity.thumbnailUrl,
-      isLocked: !completedCourses.includes("humanBody"), 
-      color: "from-gray-200 to-blue-300" 
-    },
-    { 
-      id: lightning.id, 
-      title: lightning.title, 
-      description: gravity.description,
-      thumbnailUrl: lightning.thumbnailUrl,
-      isLocked: !completedCourses.includes("gravity"), 
-      color: "from-gray-200 to-blue-300" 
-    },
-  ];
+        id: humanBody.id, 
+        title: humanBody.title, 
+        description: humanBody.description, 
+        thumbnailUrl: humanBody.thumbnailUrl,
+        isLocked: !completedCourses.includes(volcanologyCourse.id),
+        unlocks: gravity.id
+      },
+      { 
+        id: gravity.id, 
+        title: gravity.title, 
+        description: gravity.description,
+        thumbnailUrl: gravity.thumbnailUrl,
+        isLocked: !completedCourses.includes(humanBody.id),
+        unlocks: lightning.id
+      },
+      { 
+        id: lightning.id, 
+        title: lightning.title, 
+        description: lightning.description,
+        thumbnailUrl: lightning.thumbnailUrl,
+        isLocked: !completedCourses.includes(gravity.id),
+        unlocks: microscopic.id
+      },
+      { 
+        id: microscopic.id, 
+        title: microscopic.title, 
+        description: microscopic.description,
+        thumbnailUrl: microscopic.thumbnailUrl,
+        isLocked: !completedCourses.includes(lightning.id),
+        unlocks: ''
+      },
+      ];
 
   return (
     <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12">
@@ -116,7 +121,7 @@ export default function Home() {
                   : "bg-slate-900/60 border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
               }`}
             >
-              <div className={`h-48 relative overflow-hidden bg-gradient-to-br ${course.color}`}>
+              <div className={"h-48 relative overflow-hidden bg-gradient-to-br"}>
                 {course.thumbnailUrl && !course.isLocked && (
                   <Image 
                     src={course.thumbnailUrl} 

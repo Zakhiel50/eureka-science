@@ -2,7 +2,7 @@ import { Course } from "@/app/types/types";
 
 export const waterCycleCourse: Course = {
   id: "cycle-de-leau",
-  title: "L'Odyssée de l'Eau : Le Cycle de l'eau",
+  title: "Le Cycle de l'eau",
   thumbnailUrl: "/images/cycle-water/cover.jpg",
   description: "Un voyage complexe et fascinant à travers les états de la matière et les profondeurs de la Terre.",
   steps: [
