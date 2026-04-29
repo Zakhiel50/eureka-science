@@ -7,61 +7,26 @@ import QuizEngine from "@/components/learning/QuizEngine";
 import { ChevronLeft, Home } from "lucide-react";
 import Link from "next/link";
 import { coursesList } from "@/lib/courses-utils";
+import { useUser } from "@/app/context/UserContext";
 
 export default function CoursePage() {
   const params = useParams();
   const router = useRouter();
   const [mode, setMode] = useState<"lesson" | "quiz">("lesson");
+  const { saveCourseProgress } = useUser();
 
   // Sélection du cours en fonction de l'ID dans l'URL
   const allCourses = coursesList;
   const course = allCourses.find(c => c.id === params.id);
 
-  const saveProgress = (score: number) => {
-    if (!course) return;
-
-    // Récupérer la progression actuelle
-    const saved = localStorage.getItem("eureka_progress");
-    let progress = { completed: [] as string[], xp: 0, scores: {} as Record<string, number> };
-    
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        progress = {
-          completed: parsed.completed || [],
-          xp: parsed.xp || 0,
-          scores: parsed.scores || {}
-        };
-      } catch (e) {
-        console.error("Failed to parse progress", e);
-      }
-    }
-    
-    const previousScore = progress.scores[course.id] || 0;
-
-    // Si le nouveau score est meilleur, on ajoute la différence d'XP
-    if (score > previousScore) {
-      const xpGain = score - previousScore;
-      progress.xp += xpGain;
-      progress.scores[course.id] = score;
-    }
-
-    // Ajouter le cours à la liste des complétés si score >= 80%
-    if (score >= 80 && !progress.completed.includes(course.id)) {
-      progress.completed.push(course.id);
-    }
-
-    localStorage.setItem("eureka_progress", JSON.stringify(progress));
-  };
-
   const handleSuccess = (score: number) => {
-    saveProgress(score);
+    if (course) saveCourseProgress(course.id, score);
     // Rediriger vers l'accueil
     router.push("/");
   };
 
   const handleNextCourse = (score: number) => {
-    saveProgress(score);
+    if (course) saveCourseProgress(course.id, score);
     const currentIndex = allCourses.findIndex(c => c.id === params.id);
     if (currentIndex !== -1 && currentIndex < allCourses.length - 1) {
       const nextCourse = allCourses[currentIndex + 1];
@@ -73,7 +38,7 @@ export default function CoursePage() {
   };
 
   const handleScoreUpdate = (score: number) => {
-    saveProgress(score);
+    if (course) saveCourseProgress(course.id, score);
   };
 
   if (!course) {
