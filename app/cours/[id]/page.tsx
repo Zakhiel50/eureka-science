@@ -2,16 +2,11 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { waterCycleCourse } from "@/lib/lessons/water-cycle";
-import { volcanologyCourse } from "@/lib/lessons/volcanology";
-import { humanBody } from "@/lib/lessons/human-body";
 import LessonContent from "@/components/learning/LessonContent";
 import QuizEngine from "@/components/learning/QuizEngine";
 import { ChevronLeft, Home } from "lucide-react";
 import Link from "next/link";
-import { gravity } from "@/lib/lessons/gravity";
-import { lightning } from "@/lib/lessons/lightning";
-import { microscopic } from "@/lib/lessons/microscopic";
+import { coursesList } from "@/lib/courses-utils";
 
 export default function CoursePage() {
   const params = useParams();
@@ -19,7 +14,7 @@ export default function CoursePage() {
   const [mode, setMode] = useState<"lesson" | "quiz">("lesson");
 
   // Sélection du cours en fonction de l'ID dans l'URL
-  const allCourses = [waterCycleCourse, volcanologyCourse, humanBody, gravity, lightning, microscopic];
+  const allCourses = coursesList;
   const course = allCourses.find(c => c.id === params.id);
 
   const saveProgress = (score: number) => {

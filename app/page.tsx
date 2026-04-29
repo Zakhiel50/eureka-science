@@ -1,25 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { waterCycleCourse } from "@/lib/lessons/water-cycle";
-import { volcanologyCourse } from "@/lib/lessons/volcanology";
-import { humanBody } from "@/lib/lessons/human-body";
-import { gravity } from "@/lib/lessons/gravity";
+import { coursesList } from "@/lib/courses-utils";
 import { GraduationCap, Lock, Star, Play, CheckCircle, Target } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { lightning } from "@/lib/lessons/lightning";
-import { microscopic } from "@/lib/lessons/microscopic";
-
-// Définition d'un type local pour les cartes de cours du menu
-type CourseCard = {
-  id: string;
-  title: string;
-  description: string;
-  thumbnailUrl?: string;
-  isLocked: boolean;
-  unlocks?: string;
-};
 
 export default function Home() {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
@@ -35,57 +20,6 @@ export default function Home() {
       setScores(progress.scores || {});
     }
   }, []);
-
-  const courses: CourseCard[] = [
-    { 
-      id: waterCycleCourse.id,
-      title: waterCycleCourse.title,
-      description: waterCycleCourse.description,
-      thumbnailUrl: waterCycleCourse.thumbnailUrl,
-      isLocked: false, 
-      unlocks: volcanologyCourse.id
-    },
-    { 
-      id: volcanologyCourse.id,
-      title: volcanologyCourse.title,
-      description: volcanologyCourse.description,
-      thumbnailUrl: volcanologyCourse.thumbnailUrl,
-      isLocked: !completedCourses.includes(waterCycleCourse.id), 
-      unlocks: humanBody.id
-    },
-    { 
-        id: humanBody.id, 
-        title: humanBody.title, 
-        description: humanBody.description, 
-        thumbnailUrl: humanBody.thumbnailUrl,
-        isLocked: !completedCourses.includes(volcanologyCourse.id),
-        unlocks: gravity.id
-      },
-      { 
-        id: gravity.id, 
-        title: gravity.title, 
-        description: gravity.description,
-        thumbnailUrl: gravity.thumbnailUrl,
-        isLocked: !completedCourses.includes(humanBody.id),
-        unlocks: lightning.id
-      },
-      { 
-        id: lightning.id, 
-        title: lightning.title, 
-        description: lightning.description,
-        thumbnailUrl: lightning.thumbnailUrl,
-        isLocked: !completedCourses.includes(gravity.id),
-        unlocks: microscopic.id
-      },
-      { 
-        id: microscopic.id, 
-        title: microscopic.title, 
-        description: microscopic.description,
-        thumbnailUrl: microscopic.thumbnailUrl,
-        isLocked: !completedCourses.includes(lightning.id),
-        unlocks: ''
-      },
-      ];
 
   return (
     <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12">
@@ -107,22 +41,26 @@ export default function Home() {
       </header>
 
       <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {courses.map((course) => {
+        {coursesList.map((course, index) => {
           const isCompleted = completedCourses.includes(course.id);
           const rawScore = scores[course.id];
           const score = rawScore !== undefined ? rawScore : (isCompleted ? 100 : undefined);
+          
+          // Logic for locking: first course is always unlocked, 
+          // others are unlocked if the previous course is completed.
+          const isLocked = index === 0 ? false : !completedCourses.includes(coursesList[index - 1].id);
           
           return (
             <div
               key={course.id}
               className={`group relative overflow-hidden rounded-3xl border transition-all duration-500 ${
-                course.isLocked
+                isLocked
                   ? "bg-slate-900/20 border-slate-800 opacity-60 grayscale"
                   : "bg-slate-900/60 border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
               }`}
             >
               <div className={"h-48 relative overflow-hidden bg-gradient-to-br"}>
-                {course.thumbnailUrl && !course.isLocked && (
+                {course.thumbnailUrl && !isLocked && (
                   <Image 
                     src={course.thumbnailUrl} 
                     alt={course.title}
@@ -131,7 +69,7 @@ export default function Home() {
                     unoptimized
                   />
                 )}
-                {course.isLocked ? (
+                {isLocked ? (
                   <div className="absolute inset-0 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm">
                     <Lock className="w-12 h-12 text-slate-400" />
                   </div>
@@ -145,7 +83,7 @@ export default function Home() {
                   </div>
                 )}
                 
-                {score !== undefined && !course.isLocked && (
+                {score !== undefined && !isLocked && (
                   <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 flex items-center gap-2 shadow-xl">
                     <Target className="w-4 h-4 text-cyan-400" />
                     <span className="text-white font-black text-sm">{score}%</span>
@@ -182,7 +120,7 @@ export default function Home() {
                   </div>
                 )}
 
-                {!course.isLocked ? (
+                {!isLocked ? (
                   <Link
                     href={`/cours/${course.id}`}
                     className={`mt-4 flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-black transition-all shadow-lg ${
