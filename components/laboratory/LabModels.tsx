@@ -123,3 +123,73 @@ export function PlanetModel({ color, position }: { color: string, position: [num
     </Float>
   );
 }
+
+export function EinsteinBotModel({ position }: { position: [number, number, number] }) {
+  const headRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (headRef.current) {
+      headRef.current.position.y = 1.1 + Math.sin(state.clock.getElapsedTime() * 2) * 0.05;
+      headRef.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.2;
+    }
+  });
+
+  return (
+    <group position={position}>
+      {/* Platform/Pedestal */}
+      <mesh position={[0, -0.05, 0]}>
+        <cylinderGeometry args={[0.8, 1, 0.1, 32]} />
+        <meshStandardMaterial color="#1e293b" />
+      </mesh>
+
+      <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
+        {/* Base / Body */}
+        <mesh position={[0, 0.4, 0]}>
+          <cylinderGeometry args={[0.4, 0.6, 0.8, 32]} />
+          <meshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
+        </mesh>
+        
+        {/* Glowing ring at base */}
+        <mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.5, 0.05, 16, 100]} />
+          <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+        </mesh>
+
+        {/* Floating Head */}
+        <group ref={headRef}>
+          {/* Head Sphere */}
+          <mesh>
+            <sphereGeometry args={[0.45, 32, 32]} />
+            <meshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
+          </mesh>
+          
+          {/* Eyes / Visor */}
+          <mesh position={[0, 0.05, 0.35]}>
+            <boxGeometry args={[0.6, 0.15, 0.1]} />
+            <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+          </mesh>
+
+          {/* Antennas */}
+          <mesh position={[0.3, 0.4, 0]} rotation={[0, 0, -0.5]}>
+            <cylinderGeometry args={[0.02, 0.02, 0.3]} />
+            <meshStandardMaterial color="#555" />
+          </mesh>
+          <mesh position={[-0.3, 0.4, 0]} rotation={[0, 0, 0.5]}>
+            <cylinderGeometry args={[0.02, 0.02, 0.3]} />
+            <meshStandardMaterial color="#555" />
+          </mesh>
+          
+          {/* Little glowing balls on antennas */}
+          <mesh position={[0.38, 0.55, 0]}>
+            <sphereGeometry args={[0.05]} />
+            <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+          </mesh>
+          <mesh position={[-0.38, 0.55, 0]}>
+            <sphereGeometry args={[0.05]} />
+            <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+          </mesh>
+        </group>
+      </Float>
+    </group>
+  );
+}
