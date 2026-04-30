@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Text, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Cylinder, Box, TorusKnot } from '@react-three/drei';
+import { Float, Text, MeshDistortMaterial, MeshWobbleMaterial, Sphere, Cylinder, Box, TorusKnot, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 export function Flask({ color, position }: { color: string, position: [number, number, number] }) {
@@ -43,22 +43,42 @@ export function Flask({ color, position }: { color: string, position: [number, n
 }
 
 export function Microscope({ color, position }: { color: string, position: [number, number, number] }) {
+  const { scene } = useGLTF('/objects/microscope.glb');
+  
+  // Cloner la scène pour pouvoir modifier les matériaux sans affecter les autres instances
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone();
+    clone.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+        
+        if (child.material) {
+          child.material = child.material.clone();
+          // On peut teinter certaines parties pour que le "skin" choisi par l'utilisateur soit visible
+          if (child.name.toLowerCase().includes('body') || child.name.toLowerCase().includes('base')) {
+             // Optionnel: On pourrait teinter le corps
+          }
+          if (child.name.toLowerCase().includes('glass') || child.name.toLowerCase().includes('lens') || child.name.toLowerCase().includes('accent')) {
+             child.material.color.set(color);
+             child.material.emissive = new THREE.Color(color);
+             child.material.emissiveIntensity = 0.5;
+          }
+        }
+      }
+    });
+    return clone;
+  }, [scene, color]);
+
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3} position={position}>
-      <group rotation={[0, Math.PI / 4, 0]}>
-        <Box args={[1, 0.2, 1]} position={[0, -0.5, 0]}>
-          <meshStandardMaterial color="#333" />
-        </Box>
-        <Cylinder args={[0.1, 0.1, 1]} position={[-0.3, 0, 0]} rotation={[0, 0, 0.2]}>
-          <meshStandardMaterial color="#555" />
-        </Cylinder>
-        <Cylinder args={[0.2, 0.2, 0.6]} position={[0, 0.3, 0]} rotation={[0, 0, -0.8]}>
-          <meshStandardMaterial color={color} />
-        </Cylinder>
-      </group>
+      <primitive object={clonedScene} scale={0.6} rotation={[0, -Math.PI / 2, 0]} />
     </Float>
   );
 }
+
+// Pré-chargement du modèle
+useGLTF.preload('/objects/microscope.glb');
 
 export function Telescope({ color, position }: { color: string, position: [number, number, number] }) {
   return (
@@ -139,7 +159,7 @@ export function EinsteinBotModel({ position }: { position: [number, number, numb
       {/* Platform/Pedestal */}
       <mesh position={[0, -0.05, 0]}>
         <cylinderGeometry args={[0.8, 1, 0.1, 32]} />
-        <meshStandardMaterial color="#1e293b" />
+        <meshStandardMaterial color="#94a3b8" />
       </mesh>
 
       <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
