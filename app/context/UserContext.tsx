@@ -6,16 +6,19 @@ export type LabItem = {
   id: string;
   name: string;
   price: number;
-  modelType: 'flask' | 'microscope' | 'telescope' | 'atom' | 'planet';
+  modelType: 'flask' | 'microscope' | 'telescope' | 'atom' | 'planet' | 'distillator' | 'virus' | 'hearth' | 'moon' | 'rocket';
   color: string;
 };
 
 export const AVAILABLE_ITEMS: LabItem[] = [
-  { id: '1', name: 'Flacon de Chimiste', price: 50, modelType: 'flask', color: '#ff0055' },
+  { id: '1', name: 'Fiole de Chimie', price: 50, modelType: 'flask', color: '#ff3366' },
   { id: '2', name: 'Microscope Optique', price: 150, modelType: 'microscope', color: '#00ffcc' },
-  { id: '3', name: 'Télescope Stellaire', price: 300, modelType: 'telescope', color: '#5500ff' },
+  { id: '3', name: 'Distillateur Chimique', price: 250, modelType: 'distillator', color: '#8b5cf6' },
   { id: '4', name: 'Modèle Atomique', price: 100, modelType: 'atom', color: '#ffff00' },
-  { id: '5', name: 'Planète Miniature', price: 200, modelType: 'planet', color: '#ff8800' },
+  { id: '5', name: 'Échantillon Viral', price: 300, modelType: 'virus', color: '#ff0055' },
+  { id: '6', name: 'Cœur Anatomique', price: 400, modelType: 'hearth', color: '#ff4d4d' },
+  { id: '7', name: 'Modèle Lunaire', price: 200, modelType: 'moon', color: '#e2e8f0' },
+  { id: '8', name: 'Fusée d\'Exploration', price: 500, modelType: 'rocket', color: '#38bdf8' },
 ];
 
 interface UserContextType {
@@ -31,7 +34,8 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [xp, setXp] = useState(0);
+  // TODO: TEMPORAIRE POUR TESTS - REMETTRE À 0 ET UTILISER LA DATA RÉELLE PLUS TARD
+  const [xp, setXp] = useState(100000);
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [scores, setScores] = useState<Record<string, number>>({});
   const [inventory, setInventory] = useState<string[]>([]);
@@ -42,7 +46,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
     if (saved) {
       try {
         const data = JSON.parse(saved);
-        setXp(data.xp || 0);
+        // TODO: TEMPORAIRE - FORCER 100000 XP POUR LES TESTS
+        setXp(100000); 
         setCompletedCourses(data.completed || []);
         setScores(data.scores || {});
         setInventory(data.inventory || []);
@@ -89,24 +94,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const item = AVAILABLE_ITEMS.find(i => i.id === itemId);
     if (!item) return false;
     
-    // Check if already owned or not enough XP
-    // Note: in a real app, I'd use a functional update for XP to be safe
-    let success = false;
-    setInventory(prev => {
-      if (prev.includes(itemId)) return prev;
-      
-      setXp(currentXp => {
-        if (currentXp >= item.price) {
-          success = true;
-          return currentXp - item.price;
-        }
-        return currentXp;
-      });
-      
-      return success ? [...prev, itemId] : prev;
-    });
+    if (inventory.includes(itemId)) return false;
+    if (xp < item.price) return false;
+
+    setXp(prev => prev - item.price);
+    setInventory(prev => [...prev, itemId]);
     
-    return success;
+    return true;
   };
 
   return (

@@ -6,7 +6,7 @@ import { OrbitControls, PerspectiveCamera, Environment, ContactShadows, Float, G
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
 import { useUser, AVAILABLE_ITEMS, LabItem } from '@/app/context/UserContext';
-import { Flask, Microscope, Telescope, AtomModel, PlanetModel, EinsteinBotModel } from './LabModels';
+import { Flask, Microscope, Telescope, AtomModel, PlanetModel, EinsteinBotModel, Distillator, Virus, Hearth, Moon, Rocket } from './LabModels';
 
 function Room() {
   const ROOM_RADIUS = 12;
@@ -115,18 +115,26 @@ function Table() {
   );
 }
 
-function ItemRenderer({ item, position }: { item: LabItem, position: [number, number, number] }) {
+function ItemRenderer({ item, position }: any) {
   switch (item.modelType) {
     case 'flask':
       return <Flask color={item.color} position={position} />;
+    case 'distillator':
+      return <Distillator color={item.color} position={position} />;
     case 'microscope':
       return <Microscope color={item.color} position={position} />;
-    case 'telescope':
-      return <Telescope color={item.color} position={position} />;
     case 'atom':
       return <AtomModel color={item.color} position={position} />;
+    case 'virus':
+      return <Virus color={item.color} position={position} />;
     case 'planet':
       return <PlanetModel color={item.color} position={position} />;
+    case 'hearth':
+      return <Hearth color={item.color} position={position} />;
+    case 'moon':
+      return <Moon color={item.color} position={position} />;
+    case 'rocket':
+      return <Rocket color={item.color} position={position} />;
     default:
       return null;
   }
@@ -160,7 +168,7 @@ export default function LabScene() {
             enablePan={false} 
             maxPolarAngle={Math.PI / 2.2} 
             minDistance={6} 
-            maxDistance={15} 
+            maxDistance={12} 
           />
           
           <ambientLight intensity={0.4} />
@@ -175,12 +183,12 @@ export default function LabScene() {
           
           <EinsteinBotModel position={[0, -0.1, 0]} />
           
-          {ownedItems.map((item, index) => (
-            index < SLOT_COUNT && (
-              <ItemRenderer 
-                key={`${item.id}-${index}`} 
-                item={item} 
-                position={slots[index]} 
+          {ownedItems.map((item, i) => (
+           i < slots.length && (
+              <ItemRenderer
+                key={item.id + i}
+                item={item}
+                position={slots[i]}
               />
             )
           ))}
