@@ -158,4 +158,41 @@ Créer un laboratoire immersif, crédible et pédagogique inspiré de vrais envi
 - Ajout de nouveaux modules scientifiques
 - Laboratoires thématiques (chimie, biologie, physique)
 ---
-*Dernière mise à jour : 11 avril 2026*
+
+# 🔊 Implémentation Vocale : Edge-TTS (Serveur)
+
+## 🎯 Objectif
+
+Ajouter une narration vocale immersive et légère compatible :
+- Vercel,
+- Next.js App Router,
+- mobile,
+- desktop,
+- faible latence.
+
+Le système vocal doit :
+- rester simple,
+- être scalable,
+- éviter les modèles IA lourds,
+- fonctionner sur tous les navigateurs.
+
+---
+
+# ✅ Solution retenue
+
+Utilisation de :
+- `edge-tts`
+- côté serveur uniquement
+- via API Routes Next.js
+
+---
+
+# 🧠 Règle Absolue
+
+⚠️ `edge-tts` ne doit JAMAIS être exécuté côté client/browser.
+
+Toujours utiliser :
+```txt id="yo6k4g"
+Client → API Route Next.js → edge-tts → audio mp3
+
+*Dernière mise à jour : 14 mai 2026*

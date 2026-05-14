@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { LessonStep } from "@/app/types/types";
-import { ChevronRight, ChevronLeft, GraduationCap, X, Maximize2 } from "lucide-react";
+import { ChevronRight, ChevronLeft, GraduationCap, X, Maximize2, Volume2, Square, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -14,10 +14,76 @@ interface LessonContentProps {
 export default function LessonContent({ steps, onComplete }: LessonContentProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Cleanup audio on step change or unmount
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [currentStep]);
+
+  const toggleAudio = async () => {
+    if (isPlaying && audioRef.current) {
+      console.log('Stopping audio...');
+      audioRef.current.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    try {
+      console.log('Requesting TTS for step:', currentStep + 1);
+      setIsLoading(true);
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: steps[currentStep].content }),
+      });
+
+      console.log('API Response status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.details || 'Failed to fetch audio');
+      }
+
+      console.log('Fetching audio blob...');
+      const blob = await response.blob();
+      console.log('Blob received, size:', blob.size);
+      
+      const url = URL.createObjectURL(blob);
+      
+      if (audioRef.current) {
+        audioRef.current.src = url;
+      } else {
+        audioRef.current = new Audio(url);
+      }
+      
+      audioRef.current.onended = () => {
+        console.log('Audio ended');
+        setIsPlaying(false);
+      };
+
+      console.log('Playing audio...');
+      await audioRef.current.play();
+      setIsPlaying(true);
+    } catch (error: any) {
+      console.error('Playback error:', error);
+      alert(`Erreur de lecture vocale : ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+      setIsPlaying(false);
     } else {
       onComplete();
     }
@@ -26,6 +92,7 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
   const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      setIsPlaying(false);
     }
   };
 
@@ -83,9 +150,29 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
-              {step.title}
-            </h2>
+            <div className="flex justify-between items-start gap-4">
+              <h2 className="text-3xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+                {step.title}
+              </h2>
+              <button
+                onClick={toggleAudio}
+                disabled={isLoading}
+                className={`p-3 rounded-full border transition-all transform active:scale-95 ${
+                  isPlaying 
+                    ? "bg-red-500/20 border-red-500/50 text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.3)]" 
+                    : "bg-cyan-500/20 border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/30"
+                }`}
+                title={isPlaying ? "Arrêter la lecture" : "Lire le texte"}
+              >
+                {isLoading ? (
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                ) : isPlaying ? (
+                  <Square className="w-6 h-6 fill-current" />
+                ) : (
+                  <Volume2 className="w-6 h-6" />
+                )}
+              </button>
+            </div>
             <p className="text-xl text-slate-300 leading-relaxed">
               {step.content}
             </p>
