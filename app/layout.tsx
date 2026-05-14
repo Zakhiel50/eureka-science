@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import EinsteinBot from "@/components/learning/EinsteinBot";
 import { EinsteinProvider } from "./context/EinsteinContext";
+import { UserProvider } from "./context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,14 @@ export default function RootLayout({
       <body className={`${inter.className} bg-[#020617] text-slate-200 min-h-screen selection:bg-cyan-500/30`}>
         <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none" />
         <div className="fixed inset-0 bg-gradient-to-tr from-cyan-950/20 via-transparent to-blue-950/20 pointer-events-none" />
-        <EinsteinProvider>
-          <main className="relative z-10">
-            {children}
-          </main>
-          <EinsteinBot />
-        </EinsteinProvider>
+        <UserProvider>
+          <EinsteinProvider>
+            <main className="relative z-10">
+              {children}
+            </main>
+            <EinsteinBot />
+          </EinsteinProvider>
+        </UserProvider>
       </body>
     </html>
   );

@@ -1,25 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useUser } from "@/app/context/UserContext";
 import { coursesList } from "@/lib/courses-utils";
-import { GraduationCap, Lock, Star, Play, CheckCircle, Target } from "lucide-react";
+import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
-  const [completedCourses, setCompletedCourses] = useState<string[]>([]);
-  const [xp, setXp] = useState(0);
-  const [scores, setScores] = useState<Record<string, number>>({});
-
-  useEffect(() => {
-    const saved = localStorage.getItem("eureka_progress");
-    if (saved) {
-      const progress = JSON.parse(saved);
-      setCompletedCourses(progress.completed || []);
-      setXp(progress.xp || 0);
-      setScores(progress.scores || {});
-    }
-  }, []);
+  const { xp, completedCourses, scores } = useUser();
 
   return (
     <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12">
@@ -28,12 +16,19 @@ export default function Home() {
           <h1 className="text-4xl font-black text-white flex items-center gap-3">
             <GraduationCap className="w-10 h-10 text-cyan-400" />
             EUREKA
-            <p className="text-[24px] text-green-400 font-blackflex mt-2 gap-1">Science</p>
+            <p className="text-[24px] text-green-400 font-black mt-2 gap-1">Science</p>
           </h1>
           <p className="text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici avec Einstein-bot!</p>
         </div>
-        <div className="flex gap-4">
-          <div className="mt-12 md:mt-0 bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">
+        <div className="flex flex-col md:flex-row gap-4 items-center">
+          <Link 
+            href="/laboratoire"
+            className="mt-4 md:mt-0 bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 rounded-2xl border border-white/20 flex items-center gap-3 shadow-lg hover:scale-105 transition-transform group"
+          >
+            <FlaskConical className="w-6 h-6 text-white group-hover:rotate-12 transition-transform" />
+            <span className="font-bold text-white uppercase tracking-wider">Laboratoire</span>
+          </Link>
+          <div className="mt-4 md:mt-0 bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">
             <Star className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />
             <span className="font-bold text-2xl text-white">{xp} XP</span>
           </div>
