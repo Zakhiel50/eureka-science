@@ -46,8 +46,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     if (saved) {
       try {
         const data = JSON.parse(saved);
-        // TODO: TEMPORAIRE - FORCER 100000 XP POUR LES TESTS
-        setXp(100000); 
+        setXp(data.xp || 0);
         setCompletedCourses(data.completed || []);
         setScores(data.scores || {});
         setInventory(data.inventory || []);

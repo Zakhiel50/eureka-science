@@ -6,7 +6,7 @@ import { OrbitControls, PerspectiveCamera, Environment, ContactShadows, Float, G
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
 import { useUser, AVAILABLE_ITEMS, LabItem } from '@/app/context/UserContext';
-import { Flask, Microscope, Telescope, AtomModel, PlanetModel, EinsteinBotModel, Distillator, Virus, Hearth, Moon, Rocket } from './LabModels';
+import { Flask, Microscope, AtomModel, EinsteinBotModel, Distillator, Virus, Hearth, Moon, Rocket } from './LabModels';
 
 function Room() {
   const ROOM_RADIUS = 12;
@@ -127,8 +127,6 @@ function ItemRenderer({ item, position }: any) {
       return <AtomModel color={item.color} position={position} />;
     case 'virus':
       return <Virus color={item.color} position={position} />;
-    case 'planet':
-      return <PlanetModel color={item.color} position={position} />;
     case 'hearth':
       return <Hearth color={item.color} position={position} />;
     case 'moon':

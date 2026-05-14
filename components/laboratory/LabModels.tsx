@@ -1,5 +1,5 @@
 "use client";
-
+"use cache";
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Float, useGLTF, Sphere, Cylinder, MeshDistortMaterial, Center } from '@react-three/drei';
@@ -235,14 +235,12 @@ export function Hearth({ color, position }: { color: string, position: [number, 
       if (child instanceof THREE.Mesh) {
         if (child.material) {
           child.material = (child.material as THREE.Material).clone();
-          (child.material as any).color.set(color);
-          (child.material as any).emissive = new THREE.Color(color);
           (child.material as any).emissiveIntensity = 0.2;
         }
       }
     });
     return clone;
-  }, [scene, color]);
+  }, [scene]);
 
   useFrame((state) => {
     if (ref.current) {
@@ -292,22 +290,6 @@ export function Moon({ color, position }: { color: string, position: [number, nu
         <primitive ref={ref} object={model} scale={1.5} />
       </Float>
     </group>
-  );
-}
-
-export function PlanetModel({ color, position }: { color: string, position: [number, number, number] }) {
-  return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5} position={position}>
-      <group>
-        <Sphere args={[0.6, 32, 32]}>
-          <MeshDistortMaterial color={color} speed={2} distort={0.3} radius={1} />
-        </Sphere>
-        <mesh rotation={[Math.PI / 2.5, 0, 0]}>
-          <torusGeometry args={[1, 0.05, 16, 100]} />
-          <meshStandardMaterial color="rgba(255,255,255,0.5)" transparent opacity={0.5} />
-        </mesh>
-      </group>
-    </Float>
   );
 }
 

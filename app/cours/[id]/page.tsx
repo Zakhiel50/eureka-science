@@ -1,5 +1,5 @@
 "use client";
-
+"use cache"
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LessonContent from "@/components/learning/LessonContent";
