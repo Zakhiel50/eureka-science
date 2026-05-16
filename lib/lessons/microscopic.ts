@@ -4,67 +4,67 @@ export const microscopic: Course = {
   id: "microscopic",
   title: "Voyage vers l'infiniment petit",
   description: "Découvre les choses que tu ne vois pas mais qui sont bien là",
-  thumbnailUrl: "/images/microscopic/cover.jpg",
+  thumbnailUrl: "/images/microscopic/cover.webp",
   steps: [
     {
       id: "macro-limit",
       title: "1. La limite de nos yeux",
       content: "L'œil humain est un outil incroyable, mais il a ses limites. À l'échelle normale, un cheveu ou une petite miette semblent n'être qu'un fil. Pourtant, si on pouvait zoomer, on découvrirait que chaque petit objet possède son propre paysage avec ses reliefs et ses détails invisibles à l'oeil nu.",
-      imageUrl: "/images/microscopic/step1.jpg"
+      imageUrl: "/images/microscopic/step1.webp"
     },
     {
       id: "insect-world",
       title: "2. Le monde des insectes",
       content: "À l'aide d'une simple loupe, le monde change. L'œil d'une mouche n'est plus une tache noire, mais un assemblage de milliers de petites facettes. Les ailes d'un papillon révèlent qu'elles sont couvertes d'écailles minuscules, comme les tuiles d'un toit, qui capturent la lumière.",
-      imageUrl: "/images/microscopic/step2.jpg"
+      imageUrl: "/images/microscopic/step2.webp"
     },
     {
       id: "microscope-tool",
       title: "3. Le Microscope : La machine à zoomer",
       content: "Pour aller plus loin, les scientifiques utilisent le microscope. C'est un instrument qui utilise des lentilles pour plier la lumière et agrandir les images jusqu'à 1 000 fois. C'est la porte d'entrée vers un univers totalement caché à nos sens.",
-      imageUrl: "/images/microscopic/step3.jpg"
+      imageUrl: "/images/microscopic/step3.webp"
     },
     {
       id: "cell-brick",
       title: "4. La Cellule : La brique de la vie",
       content: "Sous l'objectif du microscope, on découvre que tout ce qui est vivant (une feuille, ta peau, un muscle) est fait de petites unités appelées 'cellules'. Imagine un mur de briques : la brique est l'élément de base, c'est la cellule. On peut donc dire que la cellule est la brique de tout être vivant.",
-      imageUrl: "/images/microscopic/step4.jpg"
+      imageUrl: "/images/microscopic/step4.webp"
     },
     {
       id: "blood-river",
       title: "5. L'intérieur d'une goutte de sang",
       content: "Le sang est rouge, non? Mais si on regarde une goutte de sang, on ne voit plus un liquide rouge uni. On y voit des millions de globules rouges qui ressemblent à de petites soucoupes. Ils circulent dans nos vaisseaux comme des camions sur une autoroute pour transporter l'oxygène à tout notre corps.",
-      imageUrl: "/images/microscopic/step5.jpg"
+      imageUrl: "/images/microscopic/step5.webp"
     },
     {
       id: "bacteria-citizens",
       title: "6. Les habitants invisibles",
       content: "Nous ne sommes jamais seuls ! Sur un seul centimètre de ta peau vivent des millions de bactéries. Elles sont si petites qu'il en faudrait plusieurs milliards pour couvrir la tête d'une épingle. La plupart sont amicales et nous aident à rester en bonne santé et d'autre peuvent nous rendre malade.",
-      imageUrl: "/images/microscopic/step6.jpg"
+      imageUrl: "/images/microscopic/step6.webp"
     },
     {
       id: "surface-texture",
       title: "7. Le relief de l'invisible",
       content: "Rien n'est vraiment lisse. Si tu regardes une lame de rasoir ou une feuille de papier glacé au microscope électronique (comme un microscope à lentille mais avec un petit écran dessus), tu verras des montagnes, des crevasses et des cratères. Ce qui semble plat à notre main est en réalité un terrain très accidenté à l'échelle microscopique.",
-      imageUrl: "/images/microscopic/step7.jpg"
+      imageUrl: "/images/microscopic/step7.webp"
     },
     {
       id: "sun-dust",
       title: "8. La poussière de soleil",
       content: "L'air semble vide, mais il est rempli de passagers clandestins. Des grains de pollen, des fibres de vêtements et des débris de roches flottent partout. On ne les voit que lorsqu'un rayon de lumière les éclaire dans le noir. Mets toi dans le noir et place une lampe torche devant toi, tu pourras voir ces petits éléments grâce à la réflexion de la lumière.",
-      imageUrl: "/images/microscopic/step8.jpg"
+      imageUrl: "/images/microscopic/step8.webp"
     },
     {
       id: "concept-of-void",
       title: "9. La notion de Vide",
       content: "Plus on descend dans le petit, plus on réalise une chose étrange : la matière est pleine de trous ! Entre deux cellules ou deux bactéries, il y a de l'espace. Le monde n'est pas un bloc compact, c'est un assemblage d'objets séparés par du vide, mais qui n'est pas si vide, on en parlera sur le cours qui t'apprendrons ce que sont les atomes.",
-      imageUrl: "/images/microscopic/step9.jpg"
+      imageUrl: "/images/microscopic/step9.webp"
     },
     {
       id: "invisible-door",
       title: "10. La porte vers l'invisible",
       content: "Au bout de ce voyage, nous arrivons à une frontière. En dessous des plus petits microbes, il existe encore autre chose : les composants de la matière elle-même. C'est ici que s'arrête le monde des objets et que commence le monde des atomes, que nous explorerons au prochain cours.",
-      imageUrl: "/images/microscopic/step10.jpg"
+      imageUrl: "/images/microscopic/step10.webp"
     }
   ],
   quiz: [

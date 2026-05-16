@@ -4,67 +4,67 @@ export const atom: Course = {
   id: "atom",
   title: "A la recherche du monde atomique",
   description: "Découvre les choses que tu ne vois pas mais qui sont bien là",
-  thumbnailUrl: "/images/atomic/cover.jpg",
+  thumbnailUrl: "/images/atomic/cover.webp",
   steps: [
   {
     id: "atom-discovery",
     title: "1. Qu'est-ce qu'un atome ?",
     content: "Tout ce qui existe autour de toi est composé d’atomes. Un atome est une des plus petites unités de matière. Imagine que tu coupes un objet encore et encore : à un moment, tu atteins une limite où tu ne peux plus le diviser sans changer ce qu’il est. C’est l’atome. Même s’il est minuscule et invisible à l’œil nu, il est la base de tout ce qui existe.",
-    imageUrl: "/images/atomic/step1.jpg"
+    imageUrl: "/images/atomic/step1.webp"
   },
   {
     id: "atom-everywhere",
     title: "2. Les atomes sont partout",
     content: "Les atomes sont présents dans tout l’univers. Ils composent ton corps, l’air que tu respires, l’eau que tu bois, mais aussi les étoiles et les planètes. Ton corps contient des milliards de milliards d’atomes ! Cela veut dire que toi aussi, tu fais partie de ce grand univers.",
-    imageUrl: "/images/atomic/step2.jpg"
+    imageUrl: "/images/atomic/step2.webp"
   },
   {
     id: "atom-structure",
     title: "3. La structure de l’atome",
     content: "Un atome est composé de trois types de particules : les protons (charge positive), les neutrons (neutres) et les électrons (charge négative). Les protons et neutrons forment le noyau au centre, tandis que les électrons se déplacent autour. Cette organisation permet à l’atome d’exister et d’interagir avec les autres.",
-    imageUrl: "/images/atomic/step3.jpg"
+    imageUrl: "/images/atomic/step3.webp"
   },
   {
     id: "nucleus",
     title: "4. Le noyau : le centre de l’atome",
     content: "Le noyau est la partie centrale de l’atome. Il est très petit mais contient presque toute sa masse. Il est composé de protons et de neutrons, fortement liés entre eux. Malgré sa taille minuscule, le noyau joue un rôle essentiel dans la stabilité de l’atome.",
-    imageUrl: "/images/atomic/step4.jpg"
+    imageUrl: "/images/atomic/step4.webp"
   },
   {
     id: "electrons",
     title: "5. Les électrons",
     content: "Les électrons sont de très petites particules qui se déplacent autour du noyau. Ils sont très légers et bougent extrêmement vite. Ce sont eux qui permettent aux atomes de se lier entre eux et de former de nouvelles substances. Sans électrons, aucune réaction chimique ne serait possible.",
-    imageUrl: "/images/atomic/step5.jpg"
+    imageUrl: "/images/atomic/step5.webp"
   },
   {
     id: "elements",
     title: "6. Les éléments chimiques",
     content: "Chaque type d’atome correspond à un élément chimique. Par exemple, l’hydrogène, l’oxygène ou le carbone. Ce qui différencie les éléments, c’est le nombre de protons dans leur noyau. Il existe plus de 100 éléments différents, et chacun a ses propres propriétés.",
-    imageUrl: "/images/atomic/step6.jpg"
+    imageUrl: "/images/atomic/step6.webp"
   },
   {
     id: "periodic-table",
     title: "7. Le tableau périodique",
     content: "Les scientifiques ont organisé tous les éléments dans un tableau appelé le tableau périodique. Il permet de classer les atomes selon leurs propriétés et de mieux comprendre leurs comportements. C’est un outil essentiel en chimie pour comprendre la matière.",
-    imageUrl: "/images/atomic/step7.jpg"
+    imageUrl: "/images/atomic/step7.webp"
   },
   {
     id: "molecules",
     title: "8. Les molécules",
     content: "Les atomes ne restent pas toujours seuls. Ils peuvent s’assembler pour former des molécules. Par exemple, une molécule d’eau est composée de deux atomes d’hydrogène et d’un atome d’oxygène (H2O). Ces assemblages permettent de créer toutes les substances que nous connaissons.",
-    imageUrl: "/images/atomic/step8.jpg"
+    imageUrl: "/images/atomic/step8.webp"
   },
   {
     id: "chemical-reactions",
     title: "9. Les réactions chimiques",
     content: "Les atomes peuvent se transformer en se réorganisant. Lors d’une réaction chimique, ils se séparent puis se recombinent pour former de nouvelles molécules. Par exemple, quand quelque chose brûle, les atomes changent d’organisation pour créer de nouvelles substances.",
-    imageUrl: "/images/atomic/step9.jpg"
+    imageUrl: "/images/atomic/step9.webp"
   },
   {
     id: "atomic-world",
     title: "10. Le monde invisible",
     content: "Les atomes sont invisibles mais essentiels. Ils composent tout ce qui existe autour de nous. Comprendre les atomes permet de mieux comprendre la matière, la chimie et même la vie elle-même. C’est un voyage dans un monde minuscule mais fondamental.",
-    imageUrl: "/images/atomic/step10.jpg"
+    imageUrl: "/images/atomic/step10.webp"
   }
 ],
   quiz: [
