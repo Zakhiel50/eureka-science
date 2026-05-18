@@ -7,6 +7,7 @@ import { microscopic } from "./lessons/microscopic";
 import { volcanologyCourse } from "./lessons/volcanology";
 import { waterCycleCourse } from "./lessons/water-cycle";
 import { chemistry } from "./lessons/chemistry";
+import { physics } from "./lessons/physics";
 
 export const coursesList: Course[] = [
   waterCycleCourse, 
@@ -16,5 +17,6 @@ export const coursesList: Course[] = [
   lightning, 
   microscopic, 
   atom,
-  chemistry
+  chemistry,
+  physics
 ];
