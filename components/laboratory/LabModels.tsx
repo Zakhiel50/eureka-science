@@ -241,7 +241,7 @@ export function Virus({ color, position }: { color: string, position: [number, n
     return clone;
   }, [scene, color]);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (ref.current) {
       ref.current.rotation.y += 0;
       ref.current.rotation.z += 0;
@@ -260,6 +260,7 @@ export function Virus({ color, position }: { color: string, position: [number, n
 export function Hearth({ color, position }: { color: string, position: [number, number, number] }) {
   const { scene } = useGLTF('/objects/hearth.glb');
   const ref = useRef<THREE.Group>(null);
+  const timeRef = useRef(0);
 
   const model = useMemo(() => {
     const clone = cloneScene(scene);
@@ -274,10 +275,11 @@ export function Hearth({ color, position }: { color: string, position: [number, 
     return clone;
   }, [scene]);
 
-  useFrame((state) => {
+  useFrame((_state, delta) => {
+    timeRef.current += delta;
     if (ref.current) {
       // Heartbeat animation
-      const scale = 0.8 + Math.pow(Math.sin(state.clock.getElapsedTime() * 4), 2) * 0.05;
+      const scale = 0.8 + Math.pow(Math.sin(timeRef.current * 4), 2) * 0.05;
       ref.current.scale.set(scale, scale, scale);
     }
   });
@@ -327,11 +329,13 @@ export function Moon({ color, position }: { color: string, position: [number, nu
 
 export function EinsteinBotModel({ position }: { position: [number, number, number] }) {
   const headRef = useRef<THREE.Group>(null);
+  const timeRef = useRef(0);
   
-  useFrame((state) => {
+  useFrame((_state, delta) => {
+    timeRef.current += delta;
     if (headRef.current) {
-      headRef.current.position.y = 1.1 + Math.sin(state.clock.getElapsedTime() * 2) * 0.05;
-      headRef.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.2;
+      headRef.current.position.y = 1.1 + Math.sin(timeRef.current * 2) * 0.05;
+      headRef.current.rotation.y = Math.sin(timeRef.current * 0.5) * 0.2;
     }
   });
 
@@ -398,6 +402,7 @@ export function EinsteinBotModel({ position }: { position: [number, number, numb
 export function Rocket({ color, position }: { color: string, position: [number, number, number] }) {
   const { scene } = useGLTF('/objects/rocket.glb');
   const ref = useRef<THREE.Group>(null);
+  const timeRef = useRef(0);
 
   const model = useMemo(() => {
     const clone = cloneScene(scene);
@@ -423,10 +428,11 @@ export function Rocket({ color, position }: { color: string, position: [number, 
     return clone;
   }, [scene, color]);
 
-  useFrame((state) => {
+  useFrame((_state, delta) => {
+    timeRef.current += delta;
     if (ref.current) {
       // Gentle takeoff/landing hover animation
-      ref.current.position.y = Math.sin(state.clock.getElapsedTime() * 1.5) * 0.15;
+      ref.current.position.y = Math.sin(timeRef.current * 1.5) * 0.15;
     }
   });
 

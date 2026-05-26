@@ -118,6 +118,7 @@ export default function EinsteinBot() {
               alt="Einstein Bot Mascot"
               width={120}
               height={120}
+              style={{ width: "120px", height: "120px" }}
               className="relative drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
               priority
             />

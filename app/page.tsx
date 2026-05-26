@@ -60,8 +60,9 @@ export default function Home() {
                     src={course.thumbnailUrl} 
                     alt={course.title}
                     fill
+                    sizes="{width: auto, heigth: auto}"
                     className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-60"
-                    unoptimized
+                    loading="eager"
                   />
                 )}
                 {isLocked ? (

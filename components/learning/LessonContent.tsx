@@ -134,9 +134,9 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
               src={step.imageUrl}
               alt={step.title}
               fill
+              sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
               priority
-              unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 to-slate-900/10 pointer-events-none" />
             

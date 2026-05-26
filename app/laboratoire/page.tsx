@@ -25,18 +25,6 @@ export default function LaboratoryPage() {
             <p className="text-slate-400 font-medium">Collectionne des objets et personnalise ton espace de recherche !</p>
           </div>
         </div>
-        
-        <div className="flex gap-2">
-           <div className="p-3 bg-slate-800/50 rounded-xl border border-slate-700/50">
-              <Beaker className="w-5 h-5 text-cyan-400" />
-           </div>
-           <div className="p-3 bg-slate-800/50 rounded-xl border border-slate-700/50">
-              <Atom className="w-5 h-5 text-purple-400" />
-           </div>
-           <div className="p-3 bg-slate-800/50 rounded-xl border border-slate-700/50">
-              <Microscope className="w-5 h-5 text-green-400" />
-           </div>
-        </div>
       </header>
 
       <main className="grid grid-cols-1 gap-12">

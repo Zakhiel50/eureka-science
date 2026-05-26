@@ -53,6 +53,7 @@ export default function LabStore() {
                       src={item.image} 
                       alt={item.name} 
                       fill
+                      sizes="(max-width: 768px) 80px, 80px"
                       className="object-contain p-2"
                     />
                   ) : (

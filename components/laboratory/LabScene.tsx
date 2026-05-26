@@ -170,7 +170,7 @@ export default function LabScene() {
 
   return (
     <div className="w-full h-[500px] md:h-[600px] bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-800 shadow-2xl relative">
-      <Canvas shadows>
+      <Canvas shadows={{ type: THREE.PCFShadowMap }}>
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 6, 12]} fov={45} />
           <OrbitControls 
