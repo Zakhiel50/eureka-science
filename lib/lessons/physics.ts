@@ -87,7 +87,7 @@ export const physics: Course = {
       "Comment fonctionne le monde",
       "Seulement les plantes",
       "Uniquement les animaux",
-      "Comment cuisiner"
+      "Comment bien cuisiner"
     ],
     correctAnswer: 0,
     explanation:
@@ -110,10 +110,10 @@ export const physics: Course = {
     id: "q3",
     question: "Pourquoi un ballon qui roule finit-il par s'arrêter ?",
     options: [
-      "Parce qu'il devient plus lourd",
+      "Parce qu'il est lourd",
       "À cause des frottements et de l'air",
-      "Parce que la gravité disparaît",
-      "Parce qu'il manque de lumière"
+      "Parce que la gravité le retient",
+      "A cause de la lumière"
     ],
     correctAnswer: 1,
     explanation:
@@ -126,7 +126,7 @@ export const physics: Course = {
       "À cause du vent",
       "À cause de la gravité",
       "À cause du Soleil",
-      "À cause des nuages"
+      "À cause de la pluie"
     ],
     correctAnswer: 1,
     explanation:
@@ -139,7 +139,7 @@ export const physics: Course = {
       "À faire fonctionner ou bouger les choses",
       "À arrêter le temps",
       "À rendre invisible",
-      "À refroidir le Soleil"
+      "À voir l'invisible"
     ],
     correctAnswer: 0,
     explanation:
@@ -177,8 +177,8 @@ export const physics: Course = {
     options: [
       "Parce qu'il y fait trop froid",
       "Parce qu'il n'y a pas d'air pour transporter les vibrations",
-      "Parce que les astronautes sont trop loin",
-      "Parce que le Soleil empêche le son"
+      "Parce qu'il faut un casque dans l'espace",
+      "Parce que la lumière empêche le son de vibrer"
     ],
     correctAnswer: 1,
     explanation:
@@ -190,10 +190,10 @@ export const physics: Course = {
     options: [
       "Des piles et batteries seulement",
       "Des éclairs seulement",
-      "Des piles, batteries, centrales électriques et éclairs",
-      "Des arbres"
+      "Des centrales électriques",
+      "Toutes les réponses ci-dessus"
     ],
-    correctAnswer: 2,
+    correctAnswer: 3,
     explanation:
       "L'électricité peut avoir plusieurs sources : piles, batteries, centrales électriques ou même les éclairs."
   },

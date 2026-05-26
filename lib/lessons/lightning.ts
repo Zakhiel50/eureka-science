@@ -78,7 +78,7 @@ export const lightning: Course = {
       {
         "id": "q2",
         "question": "Qu'est-ce qui crée l'électricité dans le nuage ?",
-        "options": ["Le vent", "Les chocs entre glace et eau", "Le soleil", "Les avions"],
+        "options": ["Le vent", "Les chocs entre glace et eau", "Le soleil", "La gravité"],
         "correctAnswer": 1,
         "explanation": "C'est la friction (frottement) entre les cristaux de glace et les gouttes d'eau qui arrache les électrons et crée l'électricité statique."
       },
@@ -99,14 +99,14 @@ export const lightning: Course = {
       {
         "id": "q5",
         "question": "Quel est l'état de l'air chauffé à 30 000°C ?",
-        "options": ["Liquide", "Gaz", "Plasma", "Solide"],
+        "options": ["Liquide", "Gazeux", "Plasma", "Solide"],
         "correctAnswer": 2,
         "explanation": "À cette température extrême, les atomes perdent leurs électrons et le gaz devient du plasma, un état qui émet une lumière intense."
       },
       {
         "id": "q6",
         "question": "Pourquoi le tonnerre fait-il du bruit ?",
-        "options": ["Nuages qui cognent", "Air qui explose", "Pluie forte", "Électrons qui crient"],
+        "options": ["Les Nuages se percutent", "L'air explose", "La pluie est forte", "Parce qu'il brille"],
         "correctAnswer": 1,
         "explanation": "La chaleur brutale dilate l'air si vite qu'il se produit une explosion sonore appelée onde de choc."
       },
@@ -115,26 +115,26 @@ export const lightning: Course = {
         "question": "Si on compte 9 secondes, l'orage est à...",
         "options": ["1 km", "3 km", "9 km", "27 km"],
         "correctAnswer": 1,
-        "explanation": "Le son voyageant à 340 m/s, il parcourt 1 km en 3 secondes. 9 secondes correspondent donc à 3 kilomètres."
+        "explanation": "Le son voyageant à 340 m/s, il parcourt 1 km en 3 secondes. 9 secondes divisé par 3 ( 9 / 3 = 3 ) correspondent donc à 3 kilomètres."
       },
       {
         "id": "q8",
         "question": "Comment appelle-t-on l'éclair caché dans le nuage ?",
-        "options": ["Coup de foudre", "Intra-nuage", "Boule de feu", "Lueur"],
+        "options": ["Le coup de foudre", "L'intra-nuage", "La boule de feu", "La lueur"],
         "correctAnswer": 1,
         "explanation": "L'éclair 'intra-nuage' se produit à l'intérieur d'un seul nuage, entre ses zones positives et négatives."
       },
       {
         "id": "q9",
         "question": "Pourquoi la voiture nous protège-t-elle ?",
-        "options": ["Pneus caoutchouc", "Carrosserie métallique", "Vitesse", "Autoradio"],
+        "options": ["Grace à ses pneus en caoutchouc", "Grace à la carrosserie métallique", "Grace à sa vitesse", "Grace à l'éléctronique"],
         "correctAnswer": 1,
         "explanation": "La carrosserie en métal agit comme une Cage de Faraday : elle guide l'électricité sur sa surface extérieure vers le sol sans toucher l'intérieur."
       },
       {
         "id": "q10",
         "question": "Pourquoi voit-on l'éclair avant d'entendre le tonnerre ?",
-        "options": ["Le tonnerre est timide", "La lumière va beaucoup plus vite que le son", "L'éclair prévient le tonnerre", "Le son ne voyage pas dans l'air"],
+        "options": ["Ce n'est pas le tonnerre qui fait du son", "La lumière va beaucoup plus vite que le son", "L'éclair prévient le tonnerre", "Le son ne voyage pas dans l'air"],
         "correctAnswer": 1,
         "explanation": "La lumière voyage à 300 000 km/s alors que le son ne fait que 340 mètres par seconde. C'est pour cela qu'il y a un décalage."
       }

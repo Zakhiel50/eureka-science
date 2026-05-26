@@ -87,7 +87,7 @@ export const atom: Course = {
       "Seulement dans les laboratoires",
       "Uniquement dans l’air",
       "Dans tout ce qui existe",
-      "Seulement dans le corps humain"
+      "Seulement dans les objets"
     ],
     "correctAnswer": 2,
     "explanation": "Les atomes sont partout : dans l’air, l’eau, les objets, les plantes, les animaux et même les étoiles."
@@ -99,7 +99,7 @@ export const atom: Course = {
       "De cellules",
       "De protons, neutrons et électrons",
       "De molécules",
-      "De gaz uniquement"
+      "De gaz"
     ],
     "correctAnswer": 1,
     "explanation": "Un atome est composé de protons (positifs), neutrons (neutres) et électrons (négatifs)."
@@ -111,7 +111,7 @@ export const atom: Course = {
       "Dans les électrons",
       "Dans le noyau",
       "Autour de l’atome",
-      "Dans l’air"
+      "Autour des électrons"
     ],
     "correctAnswer": 1,
     "explanation": "Les protons et neutrons se trouvent dans le noyau, au centre de l’atome."
@@ -135,7 +135,7 @@ export const atom: Course = {
       "Leur couleur",
       "Le nombre de protons",
       "Leur taille",
-      "Leur poids uniquement"
+      "Leur poids"
     ],
     "correctAnswer": 1,
     "explanation": "Chaque élément est défini par son nombre de protons. Par exemple, 1 proton = hydrogène, 8 protons = oxygène."
@@ -171,7 +171,7 @@ export const atom: Course = {
       "Un mouvement des électrons uniquement",
       "Un changement de température",
       "Une réorganisation des atomes",
-      "Une explosion obligatoire"
+      "Une explosion"
     ],
     "correctAnswer": 2,
     "explanation": "Lors d’une réaction chimique, les atomes se séparent et se recombinent pour former de nouvelles substances."

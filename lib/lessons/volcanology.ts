@@ -127,7 +127,7 @@ export const volcanologyCourse: Course = {
     {
       id: "q9",
       question: "Qu'est-ce qui provoque la montée du magma juste avant une éruption ?",
-      options: ["L'augmentation de la pression dans la chambre magmatique", "Le refroidissement de la terre", "Le mouvement de la Lune", "Le bruit des voitures"],
+      options: ["L'augmentation de la pression dans la chambre magmatique", "Le refroidissement de la terre", "Le mouvement de la Lune", "La chaleur"],
       correctAnswer: 0,
       explanation: "L'arrivée de nouveau magma frais en provenance du manteau fait grimper la pression dans la chambre magmatique, forçant le passage vers la surface."
     },

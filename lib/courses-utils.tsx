@@ -9,6 +9,7 @@ import { waterCycleCourse } from "./lessons/water-cycle";
 import { chemistry } from "./lessons/chemistry";
 import { physics } from "./lessons/physics";
 import { universe } from "./lessons/universe";
+import { electricity } from "./lessons/electricity";
 
 export const coursesList: Course[] = [
   waterCycleCourse, 
@@ -21,4 +22,5 @@ export const coursesList: Course[] = [
   chemistry,
   physics,
   universe,
+  electricity
 ];

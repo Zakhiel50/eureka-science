@@ -78,14 +78,14 @@ export const gravity: Course = {
     {
       id: "q_grav2",
       question: "Vers où la Terre attire-t-elle tout ce qui nous entoure ?",
-      options: ["Vers le ciel", "Vers la droite", "Vers son centre", "Vers la Lune"],
+      options: ["Vers le ciel", "Vers l'avant", "Vers son centre", "Vers la Lune"],
       correctAnswer: 2,
       explanation: "La gravité terrestre tire tout vers le centre de la planète, ce qui nous permet de rester au sol partout sur le globe."
     },
     {
       id: "q_grav3",
       question: "Qui a compris la gravité grâce à une pomme ?",
-      options: ["Albert Einstein", "Isaac Newton", "Spiderman", "Un astronaute"],
+      options: ["Albert Einstein", "Isaac Newton", "Chuck Norris", "Un astronaute"],
       correctAnswer: 1,
       explanation: "Isaac Newton a publié la loi de la gravitation universelle en 1687 après avoir médité sur la chute des corps."
     },
@@ -113,7 +113,7 @@ export const gravity: Course = {
     {
       id: "q_grav7",
       question: "Grâce à quoi l'air et l'atmosphère reste-t-ils autour de la Terre ?",
-      options: ["Grâce aux arbres", "Grâce à la gravité", "Grâce aux nuages", "Grâce au vent"],
+      options: ["Grâce à la taille de la Lune", "Grâce à la gravité", "Grâce aux nuages", "Grâce au vent"],
       correctAnswer: 1,
       explanation: "La gravité retient les gaz de l'atmosphère près de la surface, nous permettant ainsi de respirer."
     },
@@ -127,14 +127,14 @@ export const gravity: Course = {
     {
       id: "q_grav9",
       question: "Comment appelle-t-on le fait de flotter dans l'espace ?",
-      options: ["La légèreté", "L'impesanteur", "La natation", "Le vol libre"],
+      options: ["La légèreté", "L'impesanteur", "L'imposteur", "Le vol libre"],
       correctAnswer: 1,
       explanation: "L'impesanteur est l'état d'un corps qui ne ressent plus l'effet de la pesanteur, comme les astronautes en orbite."
     },
     {
       id: "q_grav10",
       question: "Pourquoi la mer monte et descend (les marées) ?",
-      options: ["À cause des poissons", "À cause de la gravité de la Lune", "À cause de la pluie", "À cause des bateaux"],
+      options: ["À cause des vagues", "À cause de la gravité de la Lune", "À cause de la pluie", "À cause des bateaux"],
       correctAnswer: 1,
       explanation: "La Lune attire l'eau des océans vers elle en passant au-dessus d'eux, ce qui crée le mouvement des marées."
     }

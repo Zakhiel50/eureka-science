@@ -94,7 +94,7 @@ export const microscopic: Course = {
   },
   {
     "id": "q3",
-    "question": "Jusqu'à combien de fois un microscope optique peut-il agrandir une image ?",
+    "question": "Jusqu'à combien de fois un microscope optique classique peut-il agrandir une image ?",
     "options": [
       "10 fois",
       "100 fois",
@@ -108,7 +108,7 @@ export const microscopic: Course = {
     "id": "q4",
     "question": "Quelle est la 'brique' de base de tous les êtres vivants ?",
     "options": [
-      "Le grain de sable",
+      "La peau",
       "La cellule",
       "La bactérie",
       "La fibre"
@@ -146,7 +146,7 @@ export const microscopic: Course = {
     "options": [
       "Comme une ligne droite parfaite",
       "Comme un paysage de montagnes et de cratères",
-      "Elle devient invisible",
+      "Elle devient floue",
       "Elle ressemble à du liquide"
     ],
     "correctAnswer": 1,

@@ -68,7 +68,7 @@ export const universe: Course = {
       id: "space-tools",
       title: "9. Les Outils pour Explorer l'Univers",
       content:
-        "Pour observer l'espace, les scientifiques utilisent des télescopes géants, des satellites, des sondes spatiales et même des robots envoyés sur d'autres mondes. Par exemple, le rover Curiosity explore actuellement Mars pour mieux comprendre cette planète. Ces outils permettent de prendre des photos, mesurer des distances, analyser des signaux venus de l'espace et découvrir de nouveaux objets célestes.",
+        "Pour observer l'espace, les scientifiques utilisent des télescopes géants, des satellites, des sondes spatiales et même des robots envoyés sur d'autres mondes. Par exemple, le rover Curiosity envoyé le 26 novembre 2011 et qui à atterit le 6 août 2012 sur Mars, l'explore actuellement pour mieux comprendre cette planète. Ces outils permettent de prendre des photos, mesurer des distances, analyser des signaux venus de l'espace et découvrir de nouveaux objets célestes.",
       imageUrl: "/images/universe/step9.webp"
     },
     {
@@ -127,7 +127,7 @@ export const universe: Course = {
         "Parce qu'elles sont en feu",
         "Parce que la glace chauffe près du Soleil",
         "Parce qu'elles produisent de l'électricité",
-        "Parce qu'elles brillent comme des lampes"
+        "Parce qu'elles brillent"
       ],
       correctAnswer: 1,
       explanation:
@@ -150,8 +150,8 @@ export const universe: Course = {
       id: "q6",
       question: "Pourquoi un trou noir est-il spécial ?",
       options: [
-        "Parce qu'il produit du chocolat",
-        "Parce que même la lumière ne peut pas s'en échapper",
+        "Parce qu'il produit de la lumière",
+        "Parce qu'il aspire la matière, même la lumière ne peut s'en échapper",
         "Parce qu'il éclaire l'espace",
         "Parce qu'il transforme les planètes en étoiles"
       ],
@@ -163,9 +163,9 @@ export const universe: Course = {
       id: "q7",
       question: "Que sait-on aujourd'hui des trous de ver ?",
       options: [
-        "Ils sont utilisés pour voyager",
+        "Ils sont utilisés pour creer de l'energie",
         "Ils existent près de la Terre",
-        "Ce sont des idées scientifiques encore non observées",
+        "C'est une théorie scientifiques encore jamais observées",
         "Ils remplacent les fusées"
       ],
       correctAnswer: 2,
@@ -179,20 +179,20 @@ export const universe: Course = {
         "Curiosity",
         "Wall-E",
         "R2-D2",
-        "Optimus"
+        "Optimus Prime"
       ],
       correctAnswer: 0,
       explanation:
-        "Curiosity est un rover envoyé sur Mars pour explorer sa surface et étudier son environnement."
+        "Curiosity est un rover envoyé sur Mars le 26 novembre 2011 et qui à atterit le 6 août 2012 pour explorer sa surface et étudier son environnement."
     },
     {
       id: "q9",
       question: "Pourquoi les humains explorent-ils l'espace ?",
       options: [
         "Pour comprendre l'Univers et découvrir de nouvelles choses",
-        "Pour éteindre le Soleil",
+        "Pour trouver un nouveau Soleil",
         "Pour déplacer la Terre",
-        "Pour rendre l'espace plus chaud"
+        "Pour rendre l'espace plus agréable"
       ],
       correctAnswer: 0,
       explanation:

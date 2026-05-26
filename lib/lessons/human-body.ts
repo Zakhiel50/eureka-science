@@ -86,7 +86,7 @@ quiz: [
     options: [
       "Nettoyer le sang",
       "Contrôler tout le corps",
-      "Faire circuler l'air",
+      "Faire circuler le sang",
       "Fabriquer des os"
     ],
     correctAnswer: 1,
@@ -132,7 +132,7 @@ quiz: [
     id: "q_muscle",
     question: "Comment les muscles font-ils bouger ton corps ?",
     options: [
-      "En criant très fort",
+      "En bougeant très fort",
       "En travaillant avec les os",
       "En restant immobiles",
       "En fabriquant du sang"
@@ -182,7 +182,7 @@ quiz: [
     options: [
       "Les globules rouges",
       "Les globules blancs",
-      "Les poils du nez",
+      "Les bactéries",
       "Les battements du cœur"
     ],
     correctAnswer: 1,

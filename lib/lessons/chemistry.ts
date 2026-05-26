@@ -94,7 +94,7 @@ export const chemistry: Course = {
     },
     {
       id: "q2",
-      question: "Quel exemple montre une réaction chimique ?",
+      question: "Quel exemple montre une réaction chimique et la transformation des éléments?",
       options: [
         "Une pierre posée sur le sol",
         "Un verre vide",
@@ -125,7 +125,7 @@ export const chemistry: Course = {
         "Du métal",
         "Du sable",
         "Du gaz et de la mousse",
-        "De la glace"
+        "Rien"
       ],
       correctAnswer: 2,
       explanation:
@@ -163,7 +163,7 @@ export const chemistry: Course = {
       options: [
         "Car cela change leur couleur",
         "Car cela peut créer des gaz dangereux",
-        "Car cela produit du chocolat",
+        "Car cela produit de l'alcool",
         "Car cela refroidit la maison"
       ],
       correctAnswer: 1,
@@ -177,7 +177,7 @@ export const chemistry: Course = {
         "Fabriquer uniquement des objets verts",
         "Créer plus de pollution",
         "Respecter davantage la planète",
-        "Supprimer toute la chimie"
+        "Créer des plantes"
       ],
       correctAnswer: 2,
       explanation:
@@ -188,7 +188,7 @@ export const chemistry: Course = {
       question: "Lors d'une transformation chimique, que font les atomes ?",
       options: [
         "Ils disparaissent",
-        "Ils explosent toujours",
+        "Ils explosent",
         "Ils se rassemblent ou se séparent différemment",
         "Ils deviennent invisibles"
       ],
@@ -200,7 +200,7 @@ export const chemistry: Course = {
       id: "q10",
       question: "Quel est le rôle des laborantins en chimie médicale ?",
       options: [
-        "Créer des tempêtes",
+        "Créer de l'eau en poudre",
         "Fabriquer des montagnes",
         "Chercher des molécules pour créer des médicaments",
         "Construire des voitures"

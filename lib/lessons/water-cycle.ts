@@ -134,7 +134,7 @@ export const waterCycleCourse: Course = {
     {
       id: "q10",
       question: "Que peut-on dire de la quantité totale d'eau sur Terre au fil du temps ?",
-      options: ["Elle diminue car l'eau s'évapore dans l'espace", "Elle augmente grâce aux comètes", "Elle reste quasiment identique car l'eau se recycle à l'infini", "Elle change selon les saisons"],
+      options: ["Elle diminue car l'eau s'évapore dans l'espace", "Elle augmente grâce à la pluie", "Elle reste quasiment identique car l'eau se recycle à l'infini", "Elle change selon les saisons"],
       correctAnswer: 2,
       explanation: "Rien ne se perd, tout se transforme ! L'eau sur Terre voyage en boucle fermée depuis des milliards d'années. Tu bois peut-être la même eau qu'un diplodocus autrefois !"
     }
