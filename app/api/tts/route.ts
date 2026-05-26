@@ -48,7 +48,7 @@ function isRateLimited(ip: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown';
+  const ip = req.headers.get('x-forwarded-for') || 'unknown';
   const requestId = Math.random().toString(36).substring(7);
   const tempPath = join(tmpdir(), `tts-${Date.now()}-${requestId}.mp3`);
 

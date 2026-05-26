@@ -1,9 +1,19 @@
 "use client";
-"use cache";
+
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Float, useGLTF, Sphere, Cylinder, MeshDistortMaterial, Center } from '@react-three/drei';
 import * as THREE from 'three';
+
+// Bypassing JSX intrinsic element type check for Three.js elements
+const Primitive = 'primitive' as any;
+const Group = 'group' as any;
+const Mesh = 'mesh' as any;
+const CylinderGeometry = 'cylinderGeometry' as any;
+const TorusGeometry = 'torusGeometry' as any;
+const SphereGeometry = 'sphereGeometry' as any;
+const BoxGeometry = 'boxGeometry' as any;
+const MeshStandardMaterial = 'meshStandardMaterial' as any;
 
 function cloneScene(scene: THREE.Group) {
   const clone = scene.clone(true);
@@ -30,23 +40,34 @@ export function Flask({ color, position }: { color: string, position: [number, n
         child.receiveShadow = true;
         
         if (child.material) {
-          child.material = (child.material as THREE.Material).clone();
           const name = child.name.toLowerCase();
+          const isGlass = name.includes('glass') || name.includes('bottle') || name.includes('flask');
           
-          // Apply color to liquid or accents
-          if (name.includes('liquid') || name.includes('fluid') || name.includes('accent') || name.includes('content') || name.includes('water')) {
-             (child.material as any).color.set(color);
-             (child.material as any).emissive = new THREE.Color(color);
-             (child.material as any).emissiveIntensity = 0.8;
-          }
-          
-          // Make glass parts transparent
-          if (name.includes('glass') || name.includes('bottle') || name.includes('flask')) {
-            (child.material as any).transparent = true;
-            (child.material as any).opacity = 0.6;
-            (child.material as any).transmission = 1;
-            (child.material as any).thickness = 0.5;
-            (child.material as any).roughness = 0;
+          if (isGlass) {
+            // Convert to MeshPhysicalMaterial for transmission support
+            const oldMat = child.material as THREE.MeshStandardMaterial;
+            const newMat = new THREE.MeshPhysicalMaterial({
+              color: oldMat.color,
+              map: oldMat.map,
+              roughness: 0,
+              metalness: oldMat.metalness,
+              transparent: true,
+              opacity: 0.6,
+              transmission: 1,
+              thickness: 0.5,
+              ior: 1.5,
+            });
+            child.material = newMat;
+          } else {
+            child.material = (child.material as THREE.Material).clone();
+            const mat = child.material as any;
+            
+            // Apply color to liquid or accents
+            if (name.includes('liquid') || name.includes('fluid') || name.includes('accent') || name.includes('content') || name.includes('water')) {
+               mat.color.set(color);
+               mat.emissive = new THREE.Color(color);
+               mat.emissiveIntensity = 0.8;
+            }
           }
         }
       }
@@ -56,7 +77,7 @@ export function Flask({ color, position }: { color: string, position: [number, n
 
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5} position={position}>
-      <primitive object={clonedScene} scale={0.8} />
+      <Primitive object={clonedScene} scale={0.8} />
     </Float>
   );
 }
@@ -72,21 +93,32 @@ export function Distillator({ color, position }: { color: string, position: [num
         child.receiveShadow = true;
         
         if (child.material) {
-          child.material = (child.material as THREE.Material).clone();
           const name = child.name.toLowerCase();
+          const isTransparent = name.includes('glass') || name.includes('tube') || name.includes('tank');
           
-          // Apply color to liquid or glowing parts
-          if (name.includes('liquid') || name.includes('glow') || name.includes('accent') || name.includes('energy')) {
-             (child.material as any).color.set(color);
-             (child.material as any).emissive = new THREE.Color(color);
-             (child.material as any).emissiveIntensity = 1;
-          }
-          
-          // Transparent parts
-          if (name.includes('glass') || name.includes('tube') || name.includes('tank')) {
-            (child.material as any).transparent = true;
-            (child.material as any).opacity = 0.5;
-            (child.material as any).transmission = 1;
+          if (isTransparent) {
+            const oldMat = child.material as THREE.MeshStandardMaterial;
+            const newMat = new THREE.MeshPhysicalMaterial({
+              color: oldMat.color,
+              map: oldMat.map,
+              roughness: oldMat.roughness,
+              metalness: oldMat.metalness,
+              transparent: true,
+              opacity: 0.5,
+              transmission: 1,
+              ior: 1.5,
+            });
+            child.material = newMat;
+          } else {
+            child.material = (child.material as THREE.Material).clone();
+            const mat = child.material as any;
+            
+            // Apply color to liquid or glowing parts
+            if (name.includes('liquid') || name.includes('glow') || name.includes('accent') || name.includes('energy')) {
+               mat.color.set(color);
+               mat.emissive = new THREE.Color(color);
+               mat.emissiveIntensity = 1;
+            }
           }
         }
       }
@@ -96,7 +128,7 @@ export function Distillator({ color, position }: { color: string, position: [num
 
   return (
     <Float speed={1} rotationIntensity={0.2} floatIntensity={0.2} position={position}>
-      <primitive object={clonedScene} scale={0.7} rotation={[0, Math.PI / 4, 0]} />
+      <Primitive object={clonedScene} scale={0.7} rotation={[0, Math.PI / 4, 0]} />
     </Float>
   );
 }
@@ -126,7 +158,7 @@ export function Microscope({ color, position }: { color: string, position: [numb
 
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3} position={position}>
-      <primitive object={clonedScene} scale={0.6} rotation={[0, -Math.PI / 2, 0]} />
+      <Primitive object={clonedScene} scale={0.6} rotation={[0, -Math.PI / 2, 0]} />
     </Float>
   );
 }
@@ -134,16 +166,16 @@ export function Microscope({ color, position }: { color: string, position: [numb
 export function Telescope({ color, position }: { color: string, position: [number, number, number] }) {
   return (
     <Float speed={1} rotationIntensity={0.5} floatIntensity={0.5} position={position}>
-      <group rotation={[0, 0, 0.5]}>
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.3, 0.4, 1.5, 32]} />
-          <meshStandardMaterial color={color} metalness={0.8} roughness={0.2} />
-        </mesh>
-        <mesh position={[0, -0.5, 0]}>
-          <cylinderGeometry args={[0.1, 0.1, 1, 32]} />
-          <meshStandardMaterial color="#222" />
-        </mesh>
-      </group>
+      <Group rotation={[0, 0, 0.5]}>
+        <Mesh rotation={[Math.PI / 2, 0, 0]}>
+          <CylinderGeometry args={[0.3, 0.4, 1.5, 32]} />
+          <MeshStandardMaterial color={color} metalness={0.8} roughness={0.2} />
+        </Mesh>
+        <Mesh position={[0, -0.5, 0]}>
+          <CylinderGeometry args={[0.1, 0.1, 1, 32]} />
+          <MeshStandardMaterial color="#222" />
+        </Mesh>
+      </Group>
     </Float>
   );
 }
@@ -179,13 +211,13 @@ export function AtomModel({ color, position }: { color: string, position: [numbe
   });
 
   return (
-    <group position={position}>
+    <Group position={position}>
       <Float speed={3} floatIntensity={1}>
         <Center top>
-          <primitive ref={ref} object={model} scale={2} />
+          <Primitive ref={ref} object={model} scale={2} />
         </Center>
       </Float>
-    </group>
+    </Group>
   );
 }
 
@@ -217,11 +249,11 @@ export function Virus({ color, position }: { color: string, position: [number, n
   });
 
   return (
-    <group position={position}>
+    <Group position={position}>
       <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-        <primitive ref={ref} object={model} scale={0.5} />
+        <Primitive ref={ref} object={model} scale={0.5} />
       </Float>
-    </group>
+    </Group>
   );
 }
 
@@ -251,11 +283,11 @@ export function Hearth({ color, position }: { color: string, position: [number, 
   });
 
   return (
-    <group position={position}>
+    <Group position={position}>
       <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-        <primitive ref={ref} object={model} />
+        <Primitive ref={ref} object={model} />
       </Float>
-    </group>
+    </Group>
   );
 }
 
@@ -285,11 +317,11 @@ export function Moon({ color, position }: { color: string, position: [number, nu
   });
 
   return (
-    <group position={position}>
+    <Group position={position}>
       <Float speed={1} rotationIntensity={0.2} floatIntensity={0.5}>
-        <primitive ref={ref} object={model} scale={1.5} />
+        <Primitive ref={ref} object={model} scale={1.5} />
       </Float>
-    </group>
+    </Group>
   );
 }
 
@@ -304,62 +336,62 @@ export function EinsteinBotModel({ position }: { position: [number, number, numb
   });
 
   return (
-    <group position={position}>
+    <Group position={position}>
       {/* Platform/Pedestal */}
-      <mesh position={[0, -0.05, 0]}>
-        <cylinderGeometry args={[0.8, 1, 0.1, 32]} />
-        <meshStandardMaterial color="#94a3b8" />
-      </mesh>
+      <Mesh position={[0, -0.05, 0]}>
+        <CylinderGeometry args={[0.8, 1, 0.1, 32]} />
+        <MeshStandardMaterial color="#94a3b8" />
+      </Mesh>
 
       <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
         {/* Base / Body */}
-        <mesh position={[0, 0.4, 0]}>
-          <cylinderGeometry args={[0.4, 0.6, 0.8, 32]} />
-          <meshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
-        </mesh>
+        <Mesh position={[0, 0.4, 0]}>
+          <CylinderGeometry args={[0.4, 0.6, 0.8, 32]} />
+          <MeshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
+        </Mesh>
         
         {/* Glowing ring at base */}
-        <mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.5, 0.05, 16, 100]} />
-          <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
-        </mesh>
+        <Mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <TorusGeometry args={[0.5, 0.05, 16, 100]} />
+          <MeshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+        </Mesh>
 
         {/* Floating Head */}
-        <group ref={headRef}>
+        <Group ref={headRef}>
           {/* Head Sphere */}
-          <mesh>
-            <sphereGeometry args={[0.45, 32, 32]} />
-            <meshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
-          </mesh>
+          <Mesh>
+            <SphereGeometry args={[0.45, 32, 32]} />
+            <MeshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
+          </Mesh>
           
           {/* Eyes / Visor */}
-          <mesh position={[0, 0.05, 0.35]}>
-            <boxGeometry args={[0.6, 0.15, 0.1]} />
-            <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
-          </mesh>
+          <Mesh position={[0, 0.05, 0.35]}>
+            <BoxGeometry args={[0.6, 0.15, 0.1]} />
+            <MeshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+          </Mesh>
 
           {/* Antennas */}
-          <mesh position={[0.3, 0.4, 0]} rotation={[0, 0, -0.5]}>
-            <cylinderGeometry args={[0.02, 0.02, 0.3]} />
-            <meshStandardMaterial color="#555" />
-          </mesh>
-          <mesh position={[-0.3, 0.4, 0]} rotation={[0, 0, 0.5]}>
-            <cylinderGeometry args={[0.02, 0.02, 0.3]} />
-            <meshStandardMaterial color="#555" />
-          </mesh>
+          <Mesh position={[0.3, 0.4, 0]} rotation={[0, 0, -0.5]}>
+            <CylinderGeometry args={[0.02, 0.02, 0.3]} />
+            <MeshStandardMaterial color="#555" />
+          </Mesh>
+          <Mesh position={[-0.3, 0.4, 0]} rotation={[0, 0, 0.5]}>
+            <CylinderGeometry args={[0.02, 0.02, 0.3]} />
+            <MeshStandardMaterial color="#555" />
+          </Mesh>
           
           {/* Little glowing balls on antennas */}
-          <mesh position={[0.38, 0.55, 0]}>
-            <sphereGeometry args={[0.05]} />
-            <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
-          </mesh>
-          <mesh position={[-0.38, 0.55, 0]}>
-            <sphereGeometry args={[0.05]} />
-            <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
-          </mesh>
-        </group>
+          <Mesh position={[0.38, 0.55, 0]}>
+            <SphereGeometry args={[0.05]} />
+            <MeshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+          </Mesh>
+          <Mesh position={[-0.38, 0.55, 0]}>
+            <SphereGeometry args={[0.05]} />
+            <MeshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={2} />
+          </Mesh>
+        </Group>
       </Float>
-    </group>
+    </Group>
   );
 }
 
@@ -399,11 +431,11 @@ export function Rocket({ color, position }: { color: string, position: [number, 
   });
 
   return (
-    <group position={position}>
+    <Group position={position}>
       <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-        <primitive ref={ref} object={model} scale={0.5} />
+        <Primitive ref={ref} object={model} scale={0.5} />
       </Float>
-    </group>
+    </Group>
   );
 }
 
