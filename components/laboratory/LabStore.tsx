@@ -11,13 +11,13 @@ export default function LabStore() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-black text-white flex items-center gap-3">
+        <h2 className="text-3xl font-black text-slate-900 dark:text-white flex items-center gap-3">
           <ShoppingCart className="w-8 h-8 text-purple-500" />
           Boutique du Labo
         </h2>
-        <div className="bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 flex items-center gap-2">
+        <div className="bg-white dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center gap-2">
           <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-          <span className="font-bold text-xl text-white">{xp} XP</span>
+          <span className="font-bold text-xl text-slate-900 dark:text-white">{xp} XP</span>
         </div>
       </div>
 
@@ -31,8 +31,8 @@ export default function LabStore() {
               key={item.id}
               className={`p-6 rounded-2xl border transition-all duration-500 group relative overflow-hidden ${
                 isOwned 
-                ? "bg-slate-900/40 border-green-500/30 opacity-80" 
-                : "bg-slate-900/60 border-slate-800 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10"
+                ? "bg-white/40 dark:bg-slate-900/40 border-green-500/30 opacity-80" 
+                : "bg-white/80 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10"
               }`}
             >
               {/* Background Glow */}
@@ -60,17 +60,17 @@ export default function LabStore() {
                     <div className="w-10 h-10 rounded-full blur-sm animate-pulse" style={{ backgroundColor: item.color }} />
                   )}
                 </div>
-                <div className="flex items-center gap-1.5 bg-slate-950/80 px-3 py-1.5 rounded-full border border-white/5 backdrop-blur-md">
+                <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-950/80 px-3 py-1.5 rounded-full border border-slate-200 dark:border-white/5 backdrop-blur-md">
                   <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                  <span className="text-sm font-black text-white">{item.price}</span>
+                  <span className="text-sm font-black text-slate-900 dark:text-white">{item.price}</span>
                 </div>
               </div>
 
-              <h3 className="text-xl font-black text-white mb-2 group-hover:text-purple-400 transition-colors">{item.name}</h3>
-              <p className="text-slate-400 text-sm mb-6 leading-relaxed">Ajoute cet objet unique à ta collection pour personnaliser ton laboratoire spatial.</p>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2 group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors">{item.name}</h3>
+              <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">Ajoute cet objet unique à ta collection pour personnaliser ton laboratoire spatial.</p>
 
               {isOwned ? (
-                <div className="w-full py-3 rounded-xl bg-green-500/10 text-green-400 font-bold flex items-center justify-center gap-2 border border-green-500/20">
+                <div className="w-full py-3 rounded-xl bg-green-500/10 text-green-600 dark:text-green-400 font-bold flex items-center justify-center gap-2 border border-green-500/20">
                   <CheckCircle className="w-4 h-4" /> Déjà possédé
                 </div>
               ) : (
@@ -80,7 +80,7 @@ export default function LabStore() {
                   className={`w-full py-3 rounded-xl font-black transition-all ${
                     canAfford
                     ? "bg-purple-600 text-white hover:bg-purple-500 shadow-lg shadow-purple-900/20 active:scale-95"
-                    : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border border-slate-200 dark:border-slate-700"
                   }`}
                 >
                   {canAfford ? "Acquérir" : "XP Insuffisant"}

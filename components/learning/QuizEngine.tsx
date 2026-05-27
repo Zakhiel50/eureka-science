@@ -15,7 +15,6 @@ interface QuizEngineProps {
 }
 
 export default function QuizEngine({ questions, onSuccess, onNextCourse, onScoreUpdate }: QuizEngineProps) {
-  const router = useRouter
   const { say, clear } = useEinstein();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -76,7 +75,7 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-2xl mx-auto p-12 bg-slate-900/50 backdrop-blur-md rounded-3xl border border-slate-700 text-center space-y-8"
+        className="max-w-2xl mx-auto p-12 glass-panel rounded-3xl text-center space-y-8"
       >
         <div className="flex justify-center">
           {isPassed ? (
@@ -96,10 +95,10 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-4xl font-bold text-white">
+          <h2 className="text-4xl font-bold text-slate-900 dark:text-white">
             {isPassed ? "Félicitations !" : "Pas mal du tout !"}
           </h2>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-600 dark:text-slate-400 text-lg">
             Tu as obtenu un score de
           </p>
           <div className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
@@ -107,7 +106,7 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
           </div>
         </div>
 
-        <p className="text-slate-300">
+        <p className="text-slate-700 dark:text-slate-300">
           {isPassed
             ? "Tu as brillamment réussi ce quiz. Tu es prêt pour l'aventure suivante !"
             : "Il te faut au moins 80% pour débloquer la suite. Relis bien le cours et réessaie !"}
@@ -116,13 +115,13 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
         <div className="flex flex-wrap gap-4 justify-center">
           <button
             onClick={() => { clear(); onSuccess(Math.round(successRate)); }}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 transition-all"
+            className="flex items-center gap-2 px-6 py-3 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-all"
           >
             Quitter
           </button>
           <button
             onClick={resetQuiz}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-700/50 text-white rounded-xl font-bold hover:bg-slate-700 transition-all border border-slate-600"
+            className="flex items-center gap-2 px-6 py-3 bg-white/50 dark:bg-slate-700/50 text-slate-900 dark:text-white rounded-xl font-bold hover:bg-white dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-600"
           >
             <RefreshCcw className="w-5 h-5" />
             Réessayer
@@ -144,32 +143,32 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
   const q = questions[currentQuestion];
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-slate-900/50 backdrop-blur-md rounded-3xl border border-slate-700 shadow-2xl">
+    <div className="max-w-3xl mx-auto p-8 glass-panel rounded-3xl">
       <div className="flex justify-between items-center mb-8">
-        <span className="px-4 py-1 bg-slate-800 rounded-full text-cyan-400 font-mono text-sm border border-cyan-500/30">
+        <span className="px-4 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-cyan-600 dark:text-cyan-400 font-mono text-sm border border-cyan-500/30">
           Question {currentQuestion + 1} / {questions.length}
         </span>
-        <div className="text-slate-400 font-bold">Score: {score}</div>
+        <div className="text-slate-600 dark:text-slate-400 font-bold">Score: {score}</div>
       </div>
 
-      <h2 className="text-2xl font-bold text-white mb-8 leading-tight">
+      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 leading-tight">
         {q.question}
       </h2>
 
       <div className="grid gap-4">
         {q.options.map((option, idx) => {
-          let styles = "bg-slate-800/50 border-slate-700 text-slate-300 hover:border-cyan-500/50";
+          let styles = "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50";
           
           if (isValidated) {
             if (idx === q.correctAnswer) {
-              styles = "bg-green-500/20 border-green-500 text-green-400";
+              styles = "bg-green-500/10 dark:bg-green-500/20 border-green-500 text-green-700 dark:text-green-400";
             } else if (idx === selectedOption) {
-              styles = "bg-red-500/20 border-red-500 text-red-400";
+              styles = "bg-red-500/10 dark:bg-red-500/20 border-red-500 text-red-700 dark:text-red-400";
             } else {
-              styles = "bg-slate-800/50 border-slate-700 opacity-50";
+              styles = "bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 opacity-50";
             }
           } else if (selectedOption === idx) {
-            styles = "border-cyan-500 bg-cyan-500/10 text-cyan-400";
+            styles = "border-cyan-500 bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400";
           }
 
           return (
@@ -195,7 +194,7 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
             className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all ${
               selectedOption !== null
                 ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5"
-                : "bg-slate-800 text-slate-500 cursor-not-allowed"
+                : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
             }`}
           >
             Valider

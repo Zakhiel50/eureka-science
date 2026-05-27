@@ -58,24 +58,24 @@ export default function CoursePage() {
         <div className="md:flex-row flex flex-col justify-between items-between">
           <Link
             href="/"
-            className="mb-6 md:mb-0 flex items-center gap-2 text-slate-400 hover:text-white transition-colors font-bold"
+            className="mb-6 md:mb-0 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors font-bold"
           >
             <ChevronLeft className="w-5 h-5" />
             Retour au menu
           </Link>
-          <div className="bg-slate-900/60 px-4 py-2 rounded-xl border border-slate-800">
+          <div className="bg-white/70 dark:bg-slate-900/60 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 backdrop-blur-sm">
             <span className="text-slate-500 text-sm font-mono mr-2">Cours:</span>
-            <span className="text-white font-bold">{course.title}</span>
+            <span className="text-slate-900 dark:text-white font-bold">{course.title}</span>
           </div>
         </div>
 
         {mode === "lesson" ? (
           <div className="space-y-12">
             <div className="text-center space-y-2">
-              <h1 className="text-5xl font-black text-white tracking-tight">
+              <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-900 to-indigo-900 dark:from-cyan-400 dark:to-blue-500">
                 {course.title}
               </h1>
-              <p className="text-slate-400 text-xl max-w-2xl mx-auto italic">
+              <p className="text-slate-600 dark:text-slate-400 text-xl max-w-2xl mx-auto italic">
                 {course.description}
               </p>
             </div>
@@ -87,10 +87,10 @@ export default function CoursePage() {
         ) : (
           <div className="space-y-12">
              <div className="text-center space-y-2">
-              <h1 className="text-4xl font-black text-white tracking-tight">
+              <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
                 Mission : Validation des acquis !
               </h1>
-              <p className="text-slate-400 text-lg">
+              <p className="text-slate-600 dark:text-slate-400 text-lg">
                 Réponds correctement aux questions pour débloquer le prochain cours.
               </p>
             </div>

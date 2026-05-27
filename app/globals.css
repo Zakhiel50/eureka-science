@@ -4,15 +4,24 @@
 
 @layer base {
   :root {
+    --background: 215 60% 94%; /* Plus bleuté et doux */
+    --foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 85%;
+    --radius: 1rem;
+  }
+
+  .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-    --radius: 1rem;
   }
 }
 
 body {
-  @apply antialiased bg-[#020617] text-slate-200;
+  @apply antialiased transition-colors duration-300 bg-background text-foreground min-h-screen;
+}
+
+/* Fix for cards and sections that should adapt */
+.glass-panel {
+  @apply bg-white/70 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 shadow-xl backdrop-blur-sm;
 }

@@ -169,7 +169,7 @@ export default function LabScene() {
   }, []);
 
   return (
-    <div className="w-full h-[500px] md:h-[600px] bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-800 shadow-2xl relative">
+    <div className="w-full h-[500px] md:h-[600px] bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl relative">
       <Canvas shadows={{ type: THREE.PCFShadowMap }}>
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 6, 12]} fov={45} />
@@ -222,15 +222,15 @@ export default function LabScene() {
         animate={{ opacity: 1, x: 0 }}
         className="absolute top-6 left-6 pointer-events-none"
       >
-        <div className="bg-slate-900/90 backdrop-blur-xl border-l-4 border-l-cyan-500 border border-white/5 p-4 rounded-2xl shadow-2xl">
+        <div className="glass-panel border-l-4 border-l-cyan-500 p-4 rounded-2xl shadow-2xl">
            <div className="flex items-center gap-2 mb-1">
              <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" />
-             <p className="text-cyan-400 text-xs font-black uppercase tracking-[0.2em]">Lab Interface v1.0</p>
+             <p className="text-cyan-600 dark:text-cyan-400 text-xs font-black uppercase tracking-[0.2em]">Lab Interface v1.0</p>
            </div>
-           <p className="text-white font-bold text-lg">
+           <p className="text-slate-900 dark:text-white font-bold text-lg">
              {ownedItems.length} <span className="text-slate-500 text-sm font-medium">/ {SLOT_COUNT}</span> Objets activés
            </p>
-           <div className="mt-2 w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+           <div className="mt-2 w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
              <motion.div 
                className="h-full bg-gradient-to-r from-cyan-500 to-purple-500"
                initial={{ width: 0 }}
@@ -247,7 +247,7 @@ export default function LabScene() {
           animate={{ opacity: 1, scale: 1 }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          <p className="text-cyan-400/80 font-bold bg-slate-900/60 backdrop-blur-md px-8 py-4 rounded-3xl border border-cyan-500/30 shadow-[0_0_30px_rgba(14,165,233,0.1)]">
+          <p className="text-cyan-600 dark:text-cyan-400/80 font-bold bg-white/60 dark:bg-slate-900/60 backdrop-blur-md px-8 py-4 rounded-3xl border border-cyan-500/30 shadow-[0_0_30px_rgba(14,165,233,0.1)]">
             SYSTÈME EN ATTENTE : AJOUTE DES ÉCHANTILLONS 🧪
           </p>
         </motion.div>

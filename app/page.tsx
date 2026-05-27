@@ -111,14 +111,14 @@ export default function Home() {
         )}
       </div>
 
-      <header className="flex justify-between flex-col items-center bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm md:flex-row">
+      <header className="flex justify-between flex-col items-center glass-panel p-8 rounded-3xl md:flex-row">
         <div>
-          <h1 className="text-4xl font-black text-white flex items-center gap-3">
-            <GraduationCap className="w-10 h-10 text-cyan-400" />
+          <h1 className="text-4xl font-black text-slate-900 dark:text-white flex items-center gap-3">
+            <GraduationCap className="w-10 h-10 text-cyan-600 dark:text-cyan-400" />
             EUREKA
-            <span className="text-[24px] text-green-400 font-black mt-2 gap-1">Science</span>
+            <span className="text-[24px] text-green-600 dark:text-green-400 font-black mt-2 gap-1">Science</span>
           </h1>
-          <p className="text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici avec Einstein-bot!</p>
+          <p className="text-slate-600 dark:text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici avec Einstein-bot!</p>
         </div>
         <div className="flex flex-col md:flex-row gap-4 items-center">
           <Link 
@@ -128,9 +128,9 @@ export default function Home() {
             <FlaskConical className="w-6 h-6 text-white group-hover:rotate-12 transition-transform" />
             <span className="font-bold text-white uppercase tracking-wider">Laboratoire</span>
           </Link>
-          <div className="mt-4 md:mt-0 bg-slate-800 px-6 py-3 rounded-2xl border border-slate-700 flex items-center gap-3 shadow-inner">
-            <Star className="w-6 h-6 text-yellow-400 fill-yellow-400 animate-pulse" />
-            <span className="font-bold text-2xl text-white">{xp} XP</span>
+          <div className="mt-4 md:mt-0 bg-white dark:bg-slate-800 px-6 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-3 shadow-inner">
+            <Star className="w-6 h-6 text-yellow-500 dark:text-yellow-400 fill-yellow-500 dark:fill-yellow-400 animate-pulse" />
+            <span className="font-bold text-2xl text-slate-900 dark:text-white">{xp} XP</span>
           </div>
         </div>
       </header>
@@ -148,8 +148,8 @@ export default function Home() {
               key={course.id}
               className={`group relative overflow-hidden rounded-3xl border transition-all duration-500 ${
                 isLocked
-                  ? "bg-slate-900/20 border-slate-800 opacity-60 grayscale"
-                  : "bg-slate-900/60 border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
+                  ? "bg-slate-100 dark:bg-slate-900/20 border-slate-200 dark:border-slate-800 opacity-60 grayscale"
+                  : "bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
               }`}
             >
               <div className="h-48 relative overflow-hidden bg-gradient-to-br">
@@ -167,11 +167,11 @@ export default function Home() {
                   />
                 )}
                 {isLocked ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm">
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-sm">
                     <Lock className="w-12 h-12 text-slate-400" />
                   </div>
                 ) : (
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/5 dark:bg-black/20 group-hover:bg-transparent transition-all flex items-center justify-center">
                     {isCompleted && (
                       <div className="bg-green-500/90 text-white px-4 py-2 rounded-full flex items-center gap-2 font-bold shadow-lg">
                         <CheckCircle className="w-5 h-5" /> Terminé
@@ -181,32 +181,32 @@ export default function Home() {
                 )}
                 
                 {score !== undefined && !isLocked && (
-                  <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 flex items-center gap-2 shadow-xl">
-                    <Target className="w-4 h-4 text-cyan-400" />
-                    <span className="text-white font-black text-sm">{score}%</span>
+                  <div className="absolute top-4 right-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/20 flex items-center gap-2 shadow-xl">
+                    <Target className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                    <span className="text-slate-900 dark:text-white font-black text-sm">{score}%</span>
                   </div>
                 )}
               </div>
 
               <div className="p-6 space-y-4">
                 <div className="flex justify-between items-start">
-                  <h2 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                     {course.title}
                   </h2>
                 </div>
-                <p className="text-slate-400 leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                   {course.description}
                 </p>
 
                 {score !== undefined && (
                   <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       <span>Maîtrise</span>
-                      <span className={score === 100 ? "text-green-400" : "text-cyan-400"}>
+                      <span className={score === 100 ? "text-green-600 dark:text-green-400" : "text-cyan-600 dark:text-cyan-400"}>
                         {score}%
                       </span>
                     </div>
-                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                    <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-300 dark:border-slate-700/50">
                       <div 
                         className={`h-full transition-all duration-1000 ${
                           score === 100 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" : "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
@@ -222,8 +222,8 @@ export default function Home() {
                     href={`/cours/${course.id}`}
                     className={`mt-4 flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-black transition-all shadow-lg ${
                       isCompleted 
-                        ? "bg-slate-800 text-cyan-400 border border-cyan-500/30 hover:bg-slate-700" 
-                        : "bg-white text-slate-900 hover:bg-cyan-400 hover:text-white"
+                        ? "bg-slate-100 dark:bg-slate-800 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-500/30 hover:bg-slate-200 dark:hover:bg-slate-700" 
+                        : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-cyan-600 dark:hover:bg-cyan-400 hover:text-white"
                     }`}
                   >
                     <span className="sr-only">{course.title} - </span>
@@ -231,7 +231,7 @@ export default function Home() {
                     <Play className="w-4 h-4 fill-current" />
                   </Link>
                 ) : (
-                  <div className="mt-4 py-4 text-center text-slate-500 font-bold bg-slate-800/30 rounded-2xl border border-slate-800/50 italic">
+                  <div className="mt-4 py-4 text-center text-slate-500 font-bold bg-slate-100 dark:bg-slate-800/30 rounded-2xl border border-slate-200 dark:border-slate-800/50 italic">
                      Cours Verrouillé
                   </div>
                 )}
@@ -242,15 +242,15 @@ export default function Home() {
       </section>
 
       {/* Paramètres Section */}
-      <section id="settings-section" className="bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm space-y-8">
+      <section id="settings-section" className="glass-panel p-8 rounded-3xl space-y-8">
         <div className="flex items-center gap-3">
-          <Settings className="w-8 h-8 text-slate-400" />
-          <h2 className="text-3xl font-black text-white uppercase tracking-tight">Paramètres</h2>
+          <Settings className="w-8 h-8 text-slate-500 dark:text-slate-400" />
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Paramètres</h2>
         </div>
 
         <div className="space-y-6 max-w-2xl mx-auto w-full">
-          <label className="text-slate-400 font-bold flex items-center gap-2 text-lg">
-            <Volume2 className="w-6 h-6 text-cyan-400" />
+          <label className="text-slate-600 dark:text-slate-400 font-bold flex items-center gap-2 text-lg">
+            <Volume2 className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
             Voix d&apos;Einstein-bot
           </label>
           
@@ -261,20 +261,20 @@ export default function Home() {
                 className={`group flex items-center gap-2 p-1 rounded-2xl border transition-all ${
                   preferredVoice === voice.id
                     ? "bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
-                    : "bg-slate-800/40 border-slate-700 hover:border-slate-600"
+                    : "bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
                 }`}
               >
                 <button
                   onClick={() => setPreferredVoice(voice.id)}
                   className={`flex-1 flex items-center justify-between p-4 rounded-xl transition-all font-bold text-left ${
-                    preferredVoice === voice.id ? "text-cyan-400" : "text-slate-400"
+                    preferredVoice === voice.id ? "text-cyan-600 dark:text-cyan-400" : "text-slate-500 dark:text-slate-400"
                   }`}
                 >
                   {voice.name}
                   {preferredVoice === voice.id && (
                     <div className="flex items-center gap-4">
                       <p className="opacity-50 text-xs">Voix séléctionnée</p>
-                      <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                      <div className="w-2 h-2 rounded-full bg-cyan-600 dark:bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)]" />
                     </div>
                   )}
                 </button>
@@ -283,8 +283,8 @@ export default function Home() {
                   onClick={() => testVoice(voice.id)}
                   className={`p-4 rounded-xl transition-all ${
                     playingVoiceId === voice.id
-                      ? "bg-cyan-500 text-white"
-                      : "bg-slate-700/50 text-slate-400 hover:bg-slate-700 hover:text-cyan-400"
+                      ? "bg-cyan-600 dark:bg-cyan-500 text-white"
+                      : "bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-cyan-600 dark:hover:text-cyan-400"
                   }`}
                   title="Tester la voix"
                 >
