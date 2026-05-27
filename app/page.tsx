@@ -2,24 +2,25 @@
 
 import { useUser } from "@/app/context/UserContext";
 import { coursesList } from "@/lib/courses-utils";
-import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, Waves, ArrowUp } from "lucide-react";
+import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, ArrowUp, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { div } from "framer-motion/client";
 
 const VOICES = [
-  { id: 'fr-FR-DeniseNeural', name: 'Denise (Standard)' },
-  { id: 'fr-FR-HenriNeural', name: 'Henri (Standard)' },
-  { id: 'fr-FR-EloiseNeural', name: 'Eloïse (Standard)' },
-  { id: 'fr-CH-ArianeNeural', name: 'Ariane (Suisse)' },
-  { id: 'fr-CH-FabriceNeural', name: 'Fabrice (Suisse)' },
-  { id: 'fr-FR-RemyMultilingualNeural', name: 'Rémy (Multilingue)' },
-  { id: 'fr-FR-VivienneMultilingualNeural', name: 'Vivienne (Multilingue)' },
+  { id: 'fr-FR-DeniseNeural', name: 'Denise' },
+  { id: 'fr-FR-HenriNeural', name: 'Henri' },
+  { id: 'fr-FR-EloiseNeural', name: 'Eloïse' },
+  { id: 'fr-CH-ArianeNeural', name: 'Ariane' },
+  { id: 'fr-CH-FabriceNeural', name: 'Fabrice' },
+  { id: 'fr-FR-RemyMultilingualNeural', name: 'Rémy' },
+  { id: 'fr-FR-VivienneMultilingualNeural', name: 'Vivienne' },
 ];
 
 export default function Home() {
   const { xp, completedCourses, scores, preferredVoice, setPreferredVoice } = useUser();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -37,16 +38,26 @@ export default function Home() {
     };
   }, []);
 
-  const testVoice = async () => {
-    if (isPlaying) return;
-    setIsPlaying(true);
+  const testVoice = async (voiceId: string) => {
+    if (playingVoiceId) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      if (playingVoiceId === voiceId) {
+        setPlayingVoiceId(null);
+        return;
+      }
+    }
+
+    setPlayingVoiceId(voiceId);
     try {
       const response = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: "Bienvenue sur Eureka-sciences. Je serais ravi de pouvoir t'apprendre les bases de la science.",
-          voice: preferredVoice
+          voice: voiceId
         })
       });
 
@@ -57,14 +68,14 @@ export default function Home() {
       const audio = new Audio(url);
       audioRef.current = audio;
       audio.onended = () => {
-        setIsPlaying(false);
+        setPlayingVoiceId(null);
         URL.revokeObjectURL(url);
         audioRef.current = null;
       };
       await audio.play();
     } catch (error) {
       console.error(error);
-      setIsPlaying(false);
+      setPlayingVoiceId(null);
     }
   };
 
@@ -231,74 +242,65 @@ export default function Home() {
       </section>
 
       {/* Paramètres Section */}
-      <section id="settings-section" className="bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm space-y-6">
+      <section id="settings-section" className="bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm space-y-8">
         <div className="flex items-center gap-3">
           <Settings className="w-8 h-8 text-slate-400" />
           <h2 className="text-3xl font-black text-white uppercase tracking-tight">Paramètres</h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          <div className="space-y-4">
-            <label className="text-slate-400 font-bold flex items-center gap-2">
-              <Volume2 className="w-5 h-5 text-cyan-400" />
-              Voix d&apos;Einstein-bot
-            </label>
-            <div className="grid grid-cols-1 gap-2">
-              {VOICES.map((voice) => (
+        <div className="space-y-6 max-w-2xl mx-auto w-full">
+          <label className="text-slate-400 font-bold flex items-center gap-2 text-lg">
+            <Volume2 className="w-6 h-6 text-cyan-400" />
+            Voix d&apos;Einstein-bot
+          </label>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {VOICES.map((voice) => (
+              <div 
+                key={voice.id}
+                className={`group flex items-center gap-2 p-1 rounded-2xl border transition-all ${
+                  preferredVoice === voice.id
+                    ? "bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
+                    : "bg-slate-800/40 border-slate-700 hover:border-slate-600"
+                }`}
+              >
                 <button
-                  key={voice.id}
                   onClick={() => setPreferredVoice(voice.id)}
-                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all font-medium ${
-                    preferredVoice === voice.id
-                      ? "bg-cyan-500/10 border-cyan-500 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.1)]"
-                      : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600"
+                  className={`flex-1 flex items-center justify-between p-4 rounded-xl transition-all font-bold text-left ${
+                    preferredVoice === voice.id ? "text-cyan-400" : "text-slate-400"
                   }`}
                 >
                   {voice.name}
                   {preferredVoice === voice.id && (
-                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                    <div className="flex items-center gap-4">
+                      <p className="opacity-50 text-xs">Voix séléctionnée</p>
+                      <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                    </div>
                   )}
                 </button>
-              ))}
-            </div>
+                
+                <button
+                  onClick={() => testVoice(voice.id)}
+                  className={`p-4 rounded-xl transition-all ${
+                    playingVoiceId === voice.id
+                      ? "bg-cyan-500 text-white"
+                      : "bg-slate-700/50 text-slate-400 hover:bg-slate-700 hover:text-cyan-400"
+                  }`}
+                  title="Tester la voix"
+                >
+                  {playingVoiceId === voice.id ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Play className="w-5 h-5 fill-current" />
+                  )}
+                </button>
+              </div>
+            ))}
           </div>
-
-          <div className="bg-slate-800/40 p-6 rounded-3xl border border-slate-700 space-y-6">
-            <div className="flex items-center gap-3">
-              <Waves className="w-6 h-6 text-green-400" />
-              <h3 className="text-xl font-bold text-white">Tester la voix</h3>
-            </div>
-            
-            <p className="text-slate-300 italic bg-slate-900/60 p-4 rounded-2xl border border-slate-700 leading-relaxed">
-              &quot;Bienvenue sur Eureka-sciences. Je serais ravi de pouvoir t&apos;apprendre les bases de la science.&quot;
-            </p>
-
-            <button
-              onClick={testVoice}
-              disabled={isPlaying}
-              className={`w-full py-4 rounded-2xl font-black flex items-center justify-center gap-3 transition-all ${
-                isPlaying
-                  ? "bg-slate-700 text-slate-500 cursor-not-allowed"
-                  : "bg-white text-slate-900 hover:bg-cyan-400 hover:text-white shadow-lg active:scale-95"
-              }`}
-            >
-              {isPlaying ? (
-                <>
-                  <div className="flex gap-1">
-                    <span className="w-1.5 h-4 bg-cyan-400 animate-bounce" />
-                    <span className="w-1.5 h-6 bg-cyan-400 animate-bounce [animation-delay:0.2s]" />
-                    <span className="w-1.5 h-4 bg-cyan-400 animate-bounce [animation-delay:0.4s]" />
-                  </div>
-                  Lecture en cours...
-                </>
-              ) : (
-                <>
-                  <Play className="w-5 h-5 fill-current" />
-                  Écouter l&apos;aperçu
-                </>
-              )}
-            </button>
-          </div>
+          
+          <p className="text-center text-slate-500 italic text-sm">
+            Clique sur une voix pour la sélectionner, ou sur le bouton de lecture pour l&apos;écouter.
+          </p>
         </div>
       </section>
     </div>
