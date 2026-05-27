@@ -96,9 +96,10 @@ export default function EinsteinBot() {
                     e.stopPropagation();
                     message ? clear() : setIsFactVisible(false);
                   }}
-                  className="absolute -top-2 -left-2 bg-slate-800 text-white rounded-full p-1 hover:bg-slate-700 transition-colors border border-slate-700 shadow-lg"
+                  className="absolute -top-3 -left-3 bg-slate-800 text-white rounded-full p-2 hover:bg-slate-700 transition-colors border border-slate-700 shadow-lg"
+                  aria-label="Fermer le message"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-4 h-4" />
                 </button>
                 <p className="text-sm font-medium leading-relaxed">
                   {activeMessageText}
@@ -114,13 +115,16 @@ export default function EinsteinBot() {
             <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-xl group-hover:bg-cyan-500/30 transition-all duration-500 animate-pulse" />
             
             <Image
-              src="/images/einstein-bot.png"
+              src="/images/einstein-bot.webp"
               alt="Einstein Bot Mascot"
               width={120}
               height={120}
+              quality={40}
+              sizes="120px"
               style={{ width: "120px", height: "120px" }}
               className="relative drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
               priority
+              fetchPriority="high"
             />
             
             {message && (

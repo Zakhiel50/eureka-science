@@ -34,7 +34,7 @@ export default function LaboratoryPage() {
                <span className="w-2 h-8 bg-purple-500 rounded-full" />
                Vue 3D du Laboratoire
             </h2>
-            <span className="text-slate-500 text-sm font-medium italic">Fais glisser pour faire pivoter la vue</span>
+            <span className="text-slate-400 text-sm font-medium italic">Fais glisser pour faire pivoter la vue</span>
           </div>
           <LabScene />
         </section>
@@ -44,7 +44,7 @@ export default function LaboratoryPage() {
         </section>
       </main>
 
-      <footer className="text-center py-8 text-slate-500 text-sm font-medium italic">
+      <footer className="text-center py-8 text-slate-400 text-sm font-medium italic">
         Plus tu apprends, plus ton laboratoire grandira ! 🚀
       </footer>
     </div>

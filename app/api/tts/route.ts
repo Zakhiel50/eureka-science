@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
 
 // --- Security Configuration ---
-const ALLOWED_VOICES = ['fr-FR-DeniseNeural', 'fr-FR-HenriNeural', 'fr-FR-EloiseNeural'] as const;
+const ALLOWED_VOICES = ['fr-FR-DeniseNeural', 'fr-FR-HenriNeural', 'fr-FR-EloiseNeural, fr-CH-ArianeNeural, fr-CH-FabriceNeural, fr-FR-RemyMultilingualNeural, fr-FR-VivienneMultilingualNeural'] as const;
 const MAX_TEXT_LENGTH = 1500;
 const REQUESTS_PER_MINUTE = 10;
 
@@ -79,9 +79,6 @@ export async function POST(req: NextRequest) {
     }
 
     const { text, voice } = result.data;
-
-    // 4. Processing
-    console.log(`[TTS ${requestId}] Generating for IP ${ip}...`);
     
     const tts = new EdgeTTS({
       voice: voice,

@@ -16,7 +16,7 @@ export default function Home() {
           <h1 className="text-4xl font-black text-white flex items-center gap-3">
             <GraduationCap className="w-10 h-10 text-cyan-400" />
             EUREKA
-            <p className="text-[24px] text-green-400 font-black mt-2 gap-1">Science</p>
+            <span className="text-[24px] text-green-400 font-black mt-2 gap-1">Science</span>
           </h1>
           <p className="text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici avec Einstein-bot!</p>
         </div>
@@ -54,14 +54,17 @@ export default function Home() {
                   : "bg-slate-900/60 border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
               }`}
             >
-              <div className={"h-48 relative overflow-hidden bg-gradient-to-br"}>
+              <div className="h-48 relative overflow-hidden bg-gradient-to-br">
                 {course.thumbnailUrl && !isLocked && (
                   <Image 
                     src={course.thumbnailUrl} 
                     alt={course.title}
                     fill
-                    sizes="{width: auto, heigth: auto}"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-60"
+                    priority={index === 0}
+                    fetchPriority={index === 0 ? "high" : "auto"}
+                    quality={50}
                     loading="eager"
                   />
                 )}
@@ -89,9 +92,9 @@ export default function Home() {
 
               <div className="p-6 space-y-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                  <h2 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
                     {course.title}
-                  </h3>
+                  </h2>
                 </div>
                 <p className="text-slate-400 leading-relaxed">
                   {course.description}
@@ -99,7 +102,7 @@ export default function Home() {
 
                 {score !== undefined && (
                   <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
+                    <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-400">
                       <span>Maîtrise</span>
                       <span className={score === 100 ? "text-green-400" : "text-cyan-400"}>
                         {score}%
@@ -125,6 +128,7 @@ export default function Home() {
                         : "bg-white text-slate-900 hover:bg-cyan-400 hover:text-white"
                     }`}
                   >
+                    <span className="sr-only">{course.title} - </span>
                     {isCompleted ? "Revoir le cours" : "Démarrer l'aventure"}
                     <Play className="w-4 h-4 fill-current" />
                   </Link>

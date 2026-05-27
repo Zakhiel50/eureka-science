@@ -30,14 +30,12 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
 
   const toggleAudio = async () => {
     if (isPlaying && audioRef.current) {
-      console.log('Stopping audio...');
       audioRef.current.pause();
       setIsPlaying(false);
       return;
     }
 
     try {
-      console.log('Requesting TTS for step:', currentStep + 1);
       setIsLoading(true);
       const response = await fetch('/api/tts', {
         method: 'POST',
@@ -45,16 +43,12 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
         body: JSON.stringify({ text: steps[currentStep].content }),
       });
 
-      console.log('API Response status:', response.status);
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.details || 'Failed to fetch audio');
       }
 
-      console.log('Fetching audio blob...');
       const blob = await response.blob();
-      console.log('Blob received, size:', blob.size);
       
       const url = URL.createObjectURL(blob);
       
@@ -65,11 +59,9 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
       }
       
       audioRef.current.onended = () => {
-        console.log('Audio ended');
         setIsPlaying(false);
       };
 
-      console.log('Playing audio...');
       await audioRef.current.play();
       setIsPlaying(true);
     } catch (error: any) {
@@ -137,6 +129,7 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
               priority
+              quality={50}
             />
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 to-slate-900/10 pointer-events-none" />
             
