@@ -2,15 +2,104 @@
 
 import { useUser } from "@/app/context/UserContext";
 import { coursesList } from "@/lib/courses-utils";
-import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical } from "lucide-react";
+import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, Waves, ArrowUp } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
+
+const VOICES = [
+  { id: 'fr-FR-DeniseNeural', name: 'Denise (Standard)' },
+  { id: 'fr-FR-HenriNeural', name: 'Henri (Standard)' },
+  { id: 'fr-FR-EloiseNeural', name: 'Eloïse (Standard)' },
+  { id: 'fr-CH-ArianeNeural', name: 'Ariane (Suisse)' },
+  { id: 'fr-CH-FabriceNeural', name: 'Fabrice (Suisse)' },
+  { id: 'fr-FR-RemyMultilingualNeural', name: 'Rémy (Multilingue)' },
+  { id: 'fr-FR-VivienneMultilingualNeural', name: 'Vivienne (Multilingue)' },
+];
 
 export default function Home() {
-  const { xp, completedCourses, scores } = useUser();
+  const { xp, completedCourses, scores, preferredVoice, setPreferredVoice } = useUser();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const testVoice = async () => {
+    if (isPlaying) return;
+    setIsPlaying(true);
+    try {
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: "Bienvenue sur Eureka-sciences. Je serais ravi de pouvoir t'apprendre les bases de la science.",
+          voice: preferredVoice
+        })
+      });
+
+      if (!response.ok) throw new Error('Erreur lors de la lecture');
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audio.onended = () => {
+        setIsPlaying(false);
+        URL.revokeObjectURL(url);
+        audioRef.current = null;
+      };
+      await audio.play();
+    } catch (error) {
+      console.error(error);
+      setIsPlaying(false);
+    }
+  };
+
+  const scrollToSettings = () => {
+    const element = document.getElementById('settings-section');
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12">
+    <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12 relative">
+      {/* Floating Shortcut Buttons */}
+      <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-50">
+        <button
+          onClick={scrollToSettings}
+          className="p-4 bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-full text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all shadow-xl group"
+          title="Paramètres"
+        >
+          <Settings className="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" />
+        </button>
+        
+        {showBackToTop && (
+          <button
+            onClick={scrollToTop}
+            className="p-4 bg-cyan-600/80 backdrop-blur-md border border-cyan-400/50 rounded-full text-white hover:bg-cyan-500 transition-all shadow-xl animate-in fade-in slide-in-from-bottom-4"
+            title="Retour en haut"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </button>
+        )}
+      </div>
+
       <header className="flex justify-between flex-col items-center bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm md:flex-row">
         <div>
           <h1 className="text-4xl font-black text-white flex items-center gap-3">
@@ -41,8 +130,6 @@ export default function Home() {
           const rawScore = scores[course.id];
           const score = rawScore !== undefined ? rawScore : (isCompleted ? 100 : undefined);
           
-          // Logic for locking: first course is always unlocked, 
-          // others are unlocked if the previous course is completed.
           const isLocked = index === 0 ? false : !completedCourses.includes(coursesList[index - 1].id);
           
           return (
@@ -141,6 +228,78 @@ export default function Home() {
             </div>
           );
         })}
+      </section>
+
+      {/* Paramètres Section */}
+      <section id="settings-section" className="bg-slate-900/40 p-8 rounded-3xl border border-slate-800 shadow-xl backdrop-blur-sm space-y-6">
+        <div className="flex items-center gap-3">
+          <Settings className="w-8 h-8 text-slate-400" />
+          <h2 className="text-3xl font-black text-white uppercase tracking-tight">Paramètres</h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div className="space-y-4">
+            <label className="text-slate-400 font-bold flex items-center gap-2">
+              <Volume2 className="w-5 h-5 text-cyan-400" />
+              Voix d&apos;Einstein-bot
+            </label>
+            <div className="grid grid-cols-1 gap-2">
+              {VOICES.map((voice) => (
+                <button
+                  key={voice.id}
+                  onClick={() => setPreferredVoice(voice.id)}
+                  className={`flex items-center justify-between p-4 rounded-2xl border transition-all font-medium ${
+                    preferredVoice === voice.id
+                      ? "bg-cyan-500/10 border-cyan-500 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.1)]"
+                      : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600"
+                  }`}
+                >
+                  {voice.name}
+                  {preferredVoice === voice.id && (
+                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-slate-800/40 p-6 rounded-3xl border border-slate-700 space-y-6">
+            <div className="flex items-center gap-3">
+              <Waves className="w-6 h-6 text-green-400" />
+              <h3 className="text-xl font-bold text-white">Tester la voix</h3>
+            </div>
+            
+            <p className="text-slate-300 italic bg-slate-900/60 p-4 rounded-2xl border border-slate-700 leading-relaxed">
+              &quot;Bienvenue sur Eureka-sciences. Je serais ravi de pouvoir t&apos;apprendre les bases de la science.&quot;
+            </p>
+
+            <button
+              onClick={testVoice}
+              disabled={isPlaying}
+              className={`w-full py-4 rounded-2xl font-black flex items-center justify-center gap-3 transition-all ${
+                isPlaying
+                  ? "bg-slate-700 text-slate-500 cursor-not-allowed"
+                  : "bg-white text-slate-900 hover:bg-cyan-400 hover:text-white shadow-lg active:scale-95"
+              }`}
+            >
+              {isPlaying ? (
+                <>
+                  <div className="flex gap-1">
+                    <span className="w-1.5 h-4 bg-cyan-400 animate-bounce" />
+                    <span className="w-1.5 h-6 bg-cyan-400 animate-bounce [animation-delay:0.2s]" />
+                    <span className="w-1.5 h-4 bg-cyan-400 animate-bounce [animation-delay:0.4s]" />
+                  </div>
+                  Lecture en cours...
+                </>
+              ) : (
+                <>
+                  <Play className="w-5 h-5 fill-current" />
+                  Écouter l&apos;aperçu
+                </>
+              )}
+            </button>
+          </div>
+        </div>
       </section>
     </div>
   );

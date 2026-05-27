@@ -27,9 +27,11 @@ interface UserContextType {
   completedCourses: string[];
   scores: Record<string, number>;
   inventory: string[]; // IDs of bought items
+  preferredVoice: string;
   addXP: (amount: number) => void;
   saveCourseProgress: (courseId: string, score: number) => void;
   buyItem: (itemId: string) => boolean;
+  setPreferredVoice: (voice: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -40,6 +42,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [scores, setScores] = useState<Record<string, number>>({});
   const [inventory, setInventory] = useState<string[]>([]);
+  const [preferredVoice, setPreferredVoice] = useState('fr-FR-DeniseNeural');
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -51,6 +54,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setCompletedCourses(data.completed || []);
         setScores(data.scores || {});
         setInventory(data.inventory || []);
+        setPreferredVoice(data.preferredVoice || 'fr-FR-DeniseNeural');
       } catch (e) {
         console.error("Failed to parse progress", e);
       }
@@ -60,10 +64,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isLoaded) {
-      const data = { xp, completed: completedCourses, scores, inventory };
+      const data = { xp, completed: completedCourses, scores, inventory, preferredVoice };
       localStorage.setItem("eureka_progress", JSON.stringify(data));
     }
-  }, [xp, completedCourses, scores, inventory, isLoaded]);
+  }, [xp, completedCourses, scores, inventory, preferredVoice, isLoaded]);
 
   const addXP = (amount: number) => {
     setXp(prev => prev + amount);
@@ -104,7 +108,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <UserContext.Provider value={{ xp, completedCourses, scores, inventory, addXP, saveCourseProgress, buyItem }}>
+    <UserContext.Provider value={{ xp, completedCourses, scores, inventory, preferredVoice, addXP, saveCourseProgress, buyItem, setPreferredVoice }}>
       {children}
     </UserContext.Provider>
   );

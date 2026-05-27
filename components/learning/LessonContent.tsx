@@ -5,6 +5,7 @@ import { LessonStep } from "@/app/types/types";
 import { ChevronRight, ChevronLeft, GraduationCap, X, Maximize2, Volume2, Square, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useUser } from "@/app/context/UserContext";
 
 interface LessonContentProps {
   steps: LessonStep[];
@@ -12,6 +13,7 @@ interface LessonContentProps {
 }
 
 export default function LessonContent({ steps, onComplete }: LessonContentProps) {
+  const { preferredVoice } = useUser();
   const [currentStep, setCurrentStep] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -40,7 +42,10 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
       const response = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: steps[currentStep].content }),
+        body: JSON.stringify({ 
+          text: steps[currentStep].content,
+          voice: preferredVoice
+        }),
       });
 
       if (!response.ok) {
