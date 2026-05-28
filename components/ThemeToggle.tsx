@@ -27,13 +27,13 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-6 left-8 z-[100] p-3 rounded-2xl bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-lg backdrop-blur-md text-slate-600 dark:text-slate-300 hover:scale-110 transition-all active:scale-95 group"
+      className="fixed top-4 right-4 md:top-6 md:right-6 z-[100] p-3 rounded-xl md:rounded-2xl bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-lg backdrop-blur-md text-slate-600 dark:text-slate-300 hover:scale-110 transition-all active:scale-95 group"
       title={theme === "light" ? "Passer au mode sombre" : "Passer au mode clair"}
     >
       {theme === "light" ? (
-        <Moon className="w-6 h-6 group-hover:text-blue-600 transition-colors" />
+        <Moon className="w-5 h-5 group-hover:text-blue-600 transition-colors" />
       ) : (
-        <Sun className="w-6 h-6 group-hover:text-yellow-400 transition-colors" />
+        <Sun className="w-5 h-5 group-hover:text-yellow-400 transition-colors" />
       )}
     </button>
   );

@@ -159,7 +159,7 @@ export default function Home() {
                     alt={course.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-60"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                     priority={index === 0}
                     fetchPriority={index === 0 ? "high" : "auto"}
                     quality={50}
