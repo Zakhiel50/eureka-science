@@ -38,7 +38,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   // TODO: TEMPORAIRE POUR TESTS - REMETTRE À 0 ET UTILISER LA DATA RÉELLE PLUS TARD
-  const [xp, setXp] = useState(100000);
+  const [xp, setXp] = useState(0);
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [scores, setScores] = useState<Record<string, number>>({});
   const [inventory, setInventory] = useState<string[]>([]);
