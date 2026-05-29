@@ -11,12 +11,15 @@ interface EinsteinContextType {
   message: EinsteinMessage | null;
   say: (text: string, type?: EinsteinMessage['type']) => void;
   clear: () => void;
+  isCoolingDown: boolean;
+  setIsCoolingDown: (val: boolean) => void;
 }
 
 const EinsteinContext = createContext<EinsteinContextType | undefined>(undefined);
 
 export function EinsteinProvider({ children }: { children: ReactNode }) {
   const [message, setMessage] = useState<EinsteinMessage | null>(null);
+  const [isCoolingDown, setIsCoolingDown] = useState(false);
 
   const say = useCallback((text: string, type: EinsteinMessage['type'] = 'info') => {
     setMessage({ text, type });
@@ -24,10 +27,11 @@ export function EinsteinProvider({ children }: { children: ReactNode }) {
 
   const clear = useCallback(() => {
     setMessage(null);
+    setIsCoolingDown(false);
   }, []);
 
   return (
-    <EinsteinContext.Provider value={{ message, say, clear }}>
+    <EinsteinContext.Provider value={{ message, say, clear, isCoolingDown, setIsCoolingDown }}>
       {children}
     </EinsteinContext.Provider>
   );

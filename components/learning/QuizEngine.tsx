@@ -15,7 +15,7 @@ interface QuizEngineProps {
 }
 
 export default function QuizEngine({ questions, onSuccess, onNextCourse, onScoreUpdate }: QuizEngineProps) {
-  const { say, clear } = useEinstein();
+  const { say, clear, isCoolingDown } = useEinstein();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isValidated, setIsValidated] = useState(false);
@@ -201,13 +201,15 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
             <Check className="w-5 h-5" />
           </button>
         ) : (
-          <button
-            onClick={nextQuestion}
-            className="flex items-center gap-2 px-8 py-3 bg-cyan-500 text-white rounded-xl font-bold shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5 transition-all"
-          >
-            {currentQuestion === questions.length - 1 ? "Terminer" : "Suivant"}
-            <ArrowRight className="w-5 h-5" />
-          </button>
+          !isCoolingDown && (
+            <button
+              onClick={nextQuestion}
+              className="flex items-center gap-2 px-8 py-3 bg-cyan-500 text-white rounded-xl font-bold shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5 transition-all"
+            >
+              {currentQuestion === questions.length - 1 ? "Terminer" : "Suivant"}
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          )
         )}
       </div>
     </div>

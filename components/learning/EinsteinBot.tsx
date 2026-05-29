@@ -11,9 +11,10 @@ import { X } from "lucide-react";
 export default function EinsteinBot() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const { message, clear } = useEinstein();
+  const { message, clear, setIsCoolingDown } = useEinstein();
   const [currentFact, setCurrentFact] = useState("");
   const [isFactVisible, setIsFactVisible] = useState(false);
+  const [canClose, setCanClose] = useState(true);
 
   // Gestion des faits aléatoires (uniquement sur l'accueil)
   useEffect(() => {
@@ -42,12 +43,39 @@ export default function EinsteinBot() {
     }
   }, [isHomePage, message]);
 
+  // Gestion du cooldown et de la fermeture automatique pour les explications (réponses fausses)
+  useEffect(() => {
+    if (message?.type === 'explanation') {
+      setCanClose(false);
+      setIsCoolingDown(true);
+      
+      // Cooldown de 4 secondes avant de pouvoir fermer manuellement
+      const cooldownTimer = setTimeout(() => {
+        setCanClose(true);
+        setIsCoolingDown(false);
+      }, 4000);
+
+      // Fermeture automatique après 10 secondes
+      const autoCloseTimer = setTimeout(() => {
+        clear();
+      }, 10000);
+
+      return () => {
+        clearTimeout(cooldownTimer);
+        clearTimeout(autoCloseTimer);
+      };
+    } else {
+      setCanClose(true);
+      setIsCoolingDown(false);
+    }
+  }, [message, clear, setIsCoolingDown]);
+
   // Fermeture au clic n'importe où (uniquement hors page d'accueil ou quand il y a un message)
   const handleGlobalClick = useCallback(() => {
-    if (message) {
+    if (message && canClose) {
       clear();
     }
-  }, [message, clear]);
+  }, [message, clear, canClose]);
 
   useEffect(() => {
     if (message) {
@@ -77,7 +105,7 @@ export default function EinsteinBot() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.5, type: "spring" }}
-          className="fixed bottom-4 right-4 z-50 pointer-events-none select-none flex flex-col items-end gap-2"
+          className="fixed bottom-2 left-2 md:bottom-4 md:left-4 z-50 pointer-events-none select-none flex flex-col items-start gap-2"
         >
           <AnimatePresence>
             {activeMessageText && (
@@ -85,26 +113,46 @@ export default function EinsteinBot() {
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                className={`p-4 rounded-2xl rounded-br-none shadow-2xl border-2 max-w-[280px] pointer-events-auto relative mb-2 ${
+                className={`p-4 rounded-2xl rounded-bl-none shadow-2xl border-2 max-w-[240px] md:max-w-[280px] pointer-events-auto relative mb-2 overflow-visible ${
                   isExplanation 
                     ? 'bg-slate-900 text-white border-cyan-500 shadow-cyan-500/20' 
                     : 'bg-white text-slate-900 border-cyan-400'
                 }`}
               >
+                {/* 
+                  Bouton de fermeture : 
+                  - Caché (display: none) si c'est une explication ET que le cooldown est actif
+                  - Visible si le cooldown est terminé OU si ce n'est pas une explication (bonne réponse/fact)
+                  - Positionné à droite puisque Einstein est à gauche
+                */}
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
+                    if (!canClose) return;
                     message ? clear() : setIsFactVisible(false);
                   }}
-                  className="absolute -top-3 -left-3 bg-slate-800 text-white rounded-full p-2 hover:bg-slate-700 transition-colors border border-slate-700 shadow-lg"
+                  className={`absolute -top-3 -right-3 bg-slate-800 text-white rounded-full p-2 hover:bg-slate-700 transition-all border border-slate-700 shadow-lg ${
+                    isExplanation && !canClose ? 'hidden' : 'flex'
+                  }`}
                   aria-label="Fermer le message"
+                  disabled={!canClose}
                 >
                   <X className="w-4 h-4" />
                 </button>
                 <p className="text-sm font-medium leading-relaxed">
                   {activeMessageText}
                 </p>
-                <div className={`absolute -bottom-2 right-0 w-4 h-4 border-r-2 border-b-2 transform rotate-45 ${
+
+                {isExplanation && !canClose && (
+                  <motion.div 
+                    initial={{ width: "100%" }}
+                    animate={{ width: "0%" }}
+                    transition={{ duration: 4, ease: "linear" }}
+                    className="absolute bottom-0 left-0 h-1 bg-cyan-500 rounded-br-2xl"
+                  />
+                )}
+
+                <div className={`absolute -bottom-2 left-0 w-4 h-4 border-l-2 border-b-2 transform rotate-45 ${
                   isExplanation ? 'bg-slate-900 border-cyan-500' : 'bg-white border-cyan-400'
                 }`} />
               </motion.div>
@@ -114,21 +162,20 @@ export default function EinsteinBot() {
           <div className="relative group pointer-events-auto cursor-pointer" onClick={(e) => e.stopPropagation()}>
             <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-xl group-hover:bg-cyan-500/30 transition-all duration-500 animate-pulse" />
             
-            <Image
-              src="/images/einstein-bot.webp"
-              alt="Einstein Bot Mascot"
-              width={120}
-              height={120}
-              quality={40}
-              sizes="120px"
-              style={{ width: "120px", height: "120px" }}
-              className="relative drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
-              priority
-              fetchPriority="high"
-            />
+            <div className="relative w-[80px] h-[80px] md:w-[120px] md:h-[120px]">
+              <Image
+                src="/images/einstein-bot.webp"
+                alt="Einstein Bot Mascot"
+                fill
+                quality={40}
+                className="object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
+                priority
+                fetchPriority="high"
+              />
+            </div>
             
             {message && (
-              <div className="absolute top-0 right-0 w-4 h-4 bg-cyan-400 rounded-full border-2 border-[#020617] shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-bounce" />
+              <div className="absolute top-0 left-0 w-3 h-3 md:w-4 md:h-4 bg-cyan-400 rounded-full border-2 border-[#020617] shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-bounce" />
             )}
           </div>
         </motion.div>

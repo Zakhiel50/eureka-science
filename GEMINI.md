@@ -196,3 +196,11 @@ Toujours utiliser :
 Client → API Route Next.js → edge-tts → audio mp3
 
 *Dernière mise à jour : 14 mai 2026*
+
+### 🧱 EinsteinBot
+
+## EinsteinBot doit expliqué la bonne réponse si celle ci est fausse.
+
+## Régles de EinsteinBot
+Si la réponse est fausse, un cooldown de 3 secondes dois se lancer avant que l'utilisateur puisse fermer la bulle de conversation et le button X dois être none et le bouton suivant doit être hidden pendant le cooldown.
+Si la réponse est correcte, le bouton X doit s'afficher et il n'y à pas de cooldown et le bouton suivant est cliquable et visbile
