@@ -152,7 +152,7 @@ export default function EinsteinBot() {
                   />
                 )}
 
-                <div className={`absolute -bottom-2 left-0 w-4 h-4 border-l-2 border-b-2 transform rotate-45 ${
+                <div className={`absolute -bottom-2 left-[0.8px] w-4 h-4 border-b-2 transform rotate-45 ${
                   isExplanation ? 'bg-slate-900 border-cyan-500' : 'bg-white border-cyan-400'
                 }`} />
               </motion.div>

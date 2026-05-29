@@ -91,7 +91,7 @@ export default function Home() {
   return (
     <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12 relative">
       {/* Floating Shortcut Buttons */}
-      <div className="fixed bottom-8 left-8 flex flex-col gap-4 z-50">
+      <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
         <button
           onClick={scrollToSettings}
           className="p-4 bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-full text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all shadow-xl group"
