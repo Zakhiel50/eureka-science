@@ -18,7 +18,7 @@ const ALLOWED_VOICES = [
   'fr-FR-RemyMultilingualNeural', 
   'fr-FR-VivienneMultilingualNeural'
 ] as const;
-const MAX_TEXT_LENGTH = 500;
+const MAX_TEXT_LENGTH = 750;
 const REQUESTS_PER_MINUTE = 10;
 
 const ttsSchema = z.object({

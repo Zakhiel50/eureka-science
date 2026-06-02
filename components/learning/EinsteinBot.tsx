@@ -164,7 +164,7 @@ export default function EinsteinBot() {
             
             <div className="relative w-[80px] h-[80px] md:w-[120px] md:h-[120px]">
               <Image
-                src="/images/einstein-bot.webp"
+                src="/images/einstein-bot.avif"
                 alt="Einstein Bot Mascot"
                 fill
                 quality={40}

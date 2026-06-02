@@ -12,14 +12,14 @@ export type LabItem = {
 };
 
 export const AVAILABLE_ITEMS: LabItem[] = [
-  { id: '1', name: 'Fiole de Chimie', price: 50, modelType: 'flask', color: '#ff3366', image: '/images/shop-labs/flask.webp' },
-  { id: '2', name: 'Microscope Optique', price: 150, modelType: 'microscope', color: '#00ffcc', image: '/images/shop-labs/microscope.webp' },
-  { id: '3', name: 'Distillateur Chimique', price: 250, modelType: 'distillator', color: '#8b5cf6', image: '/images/shop-labs/table.webp' },
+  { id: '1', name: 'Fiole de Chimie', price: 50, modelType: 'flask', color: '#ff3366', image: '/images/shop-labs/flask.avif' },
+  { id: '2', name: 'Microscope Optique', price: 150, modelType: 'microscope', color: '#00ffcc', image: '/images/shop-labs/microscope.avif' },
+  { id: '3', name: 'Distillateur Chimique', price: 250, modelType: 'distillator', color: '#8b5cf6', image: '/images/shop-labs/table.avif' },
   { id: '4', name: 'Modèle Atomique', price: 100, modelType: 'atom', color: '#ffff00' },
-  { id: '5', name: 'Échantillon Viral', price: 300, modelType: 'virus', color: '#ff0055', image: '/images/shop-labs/virus.webp' },
-  { id: '6', name: 'Cœur Anatomique', price: 400, modelType: 'hearth', color: '#ff4d4d', image: '/images/shop-labs/hearth.webp' },
-  { id: '7', name: 'Modèle Lunaire', price: 200, modelType: 'moon', color: '#e2e8f0', image: '/images/shop-labs/moon.webp' },
-  { id: '8', name: 'Fusée d\'Exploration', price: 500, modelType: 'rocket', color: '#38bdf8', image: '/images/shop-labs/rocket.webp' },
+  { id: '5', name: 'Échantillon Viral', price: 300, modelType: 'virus', color: '#ff0055', image: '/images/shop-labs/virus.avif' },
+  { id: '6', name: 'Cœur Anatomique', price: 400, modelType: 'hearth', color: '#ff4d4d', image: '/images/shop-labs/hearth.avif' },
+  { id: '7', name: 'Modèle Lunaire', price: 200, modelType: 'moon', color: '#e2e8f0', image: '/images/shop-labs/moon.avif' },
+  { id: '8', name: 'Fusée d\'Exploration', price: 500, modelType: 'rocket', color: '#38bdf8', image: '/images/shop-labs/rocket.avif' },
 ];
 
 interface UserContextType {

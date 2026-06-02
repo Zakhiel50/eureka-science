@@ -26,5 +26,5 @@ export const coursesList: Course[] = [
   universe,
   electricity,
   solarSystem,
-  sunCourse
+  sunCourse,
 ];
