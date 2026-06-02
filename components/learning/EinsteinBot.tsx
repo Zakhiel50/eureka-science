@@ -119,12 +119,6 @@ export default function EinsteinBot() {
                     : 'bg-white text-slate-900 border-cyan-400'
                 }`}
               >
-                {/* 
-                  Bouton de fermeture : 
-                  - Caché (display: none) si c'est une explication ET que le cooldown est actif
-                  - Visible si le cooldown est terminé OU si ce n'est pas une explication (bonne réponse/fact)
-                  - Positionné à droite puisque Einstein est à gauche
-                */}
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
