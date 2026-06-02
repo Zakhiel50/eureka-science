@@ -5,6 +5,7 @@ import ClientEinsteinBot from "@/components/learning/ClientEinsteinBot";
 import { EinsteinProvider } from "./context/EinsteinContext";
 import { UserProvider } from "./context/UserContext";
 import ThemeToggle from "@/components/ThemeToggle";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -42,8 +43,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} min-h-screen selection:bg-cyan-500/30`}>
-        <div className="fixed inset-0 bg-[url('/images/stardust.png')] opacity-[0.03] dark:opacity-20 pointer-events-none transition-opacity duration-300" />
-        <div className="fixed inset-0 bg-gradient-to-tr from-cyan-950/5 via-transparent to-blue-950/5 dark:from-cyan-950/20 dark:to-blue-950/20 pointer-events-none transition-opacity duration-300" />
+        <AnimatedBackground />
 
         <UserProvider>
           <ThemeToggle />
@@ -58,3 +58,4 @@ export default function RootLayout({
     </html>
   );
 }
+

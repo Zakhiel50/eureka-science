@@ -115,27 +115,43 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
         </div>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          className="space-y-8"
-        >
-          <div 
-            onClick={() => setIsExpanded(true)}
-            className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-800 mt-6 cursor-zoom-in group"
+      <div className="relative min-h-[400px]">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20, position: "absolute", width: "100%" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="space-y-8"
           >
-            <Image
-              src={step.imageUrl}
-              alt={step.title}
-              fill
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-              priority
-              quality={50}
-            />
+            <div 
+              onClick={() => setIsExpanded(true)}
+              className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-800 mt-6 cursor-zoom-in group"
+            >
+              <Image
+                src={step.imageUrl}
+                alt={step.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                priority
+                quality={75}
+              />
+
+              {/* Prefetching des images suivantes pour une fluidité totale */}
+              {currentStep < steps.length - 1 && (
+                <div className="hidden" aria-hidden="true">
+                  <Image
+                    src={steps[currentStep + 1].imageUrl}
+                    alt=""
+                    width={1024}
+                    height={576}
+                    quality={75}
+                  />
+                </div>
+              )}
+
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/5 to-slate-900/5 dark:from-cyan-900/10 dark:to-slate-900/10 pointer-events-none" />
             
             <div className="absolute top-4 right-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-2 rounded-full border border-slate-200 dark:border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -250,5 +266,6 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
         </button>
       </div>
     </div>
+  </div>
   );
 }

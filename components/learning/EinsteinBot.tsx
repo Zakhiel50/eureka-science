@@ -167,6 +167,7 @@ export default function EinsteinBot() {
                 src="/images/einstein-bot.avif"
                 alt="Einstein Bot Mascot"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 quality={40}
                 className="object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
                 priority
