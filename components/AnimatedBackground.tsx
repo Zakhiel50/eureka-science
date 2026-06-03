@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 
@@ -14,50 +14,55 @@ export default function AnimatedBackground() {
     setMounted(true);
   }, []);
 
+  // Mémorisation des astéroïdes pour éviter le rechargement au re-rendu
+  const allAsteroids = useMemo(() => {
+    // Astéroïdes lointains
+    const backgroundAsteroids = Array.from({ length: 8 }).map((_, i) => ({
+      id: `bg-${i}`,
+      size: Math.random() * 40 + 10,
+      duration: `${Math.random() * 60 + 60}s`,
+      delay: `${Math.random() * -120}s`,
+      startY: Math.random() * 100,
+      fillClass: "fill-slate-100 dark:fill-[#0f172a]",
+      craterClass: "fill-slate-300 dark:fill-[#020617]",
+      blur: "blur-0",
+      zIndex: 10,
+    }));
+
+    // Astéroïdes proches
+    const foregroundAsteroids = Array.from({ length: 4 }).map((_, i) => ({
+      id: `fg-${i}`,
+      size: Math.random() * 120 + 80,
+      duration: `${Math.random() * 20 + 25}s`,
+      delay: `${Math.random() * -40}s`,
+      startY: Math.random() * 100,
+      fillClass: "fill-slate-200 dark:fill-[#1e293b]",
+      craterClass: "fill-slate-400 dark:fill-[#0f172a]",
+      blur: "blur-[1px]",
+      zIndex: 20,
+    }));
+
+    return [...backgroundAsteroids, ...foregroundAsteroids];
+  }, []);
+
+  // Mémorisation des étoiles pour éviter le rechargement au re-rendu
+  const stars = useMemo(() => {
+    return Array.from({ length: 150 }).map((_, i) => {
+      const isLarge = Math.random() > 0.9;
+      return {
+        id: i,
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        size: isLarge ? Math.random() * 2 + 2 : Math.random() * 1 + 1,
+        duration: `${Math.random() * 3 + 3}s`,
+        delay: `${Math.random() * 5}s`,
+        opacity: isLarge ? 0.3 : 0.15,
+      };
+    });
+  }, []);
+
   // Désactiver le fond animé sur la page Labo ou si l'utilisateur l'a désactivé
   if (!mounted || isLab || !showBackground) return null;
-
-  // Astéroïdes lointains
-  const backgroundAsteroids = Array.from({ length: 8 }).map((_, i) => ({
-    id: `bg-${i}`,
-    size: Math.random() * 40 + 10,
-    duration: `${Math.random() * 60 + 60}s`,
-    delay: `${Math.random() * -120}s`,
-    startY: Math.random() * 100,
-    fillClass: "fill-slate-100 dark:fill-[#0f172a]",
-    craterClass: "fill-slate-300 dark:fill-[#020617]",
-    blur: "blur-0",
-    zIndex: 10,
-  }));
-
-  // Astéroïdes proches
-  const foregroundAsteroids = Array.from({ length: 4 }).map((_, i) => ({
-    id: `fg-${i}`,
-    size: Math.random() * 120 + 80,
-    duration: `${Math.random() * 20 + 25}s`,
-    delay: `${Math.random() * -40}s`,
-    startY: Math.random() * 100,
-    fillClass: "fill-slate-200 dark:fill-[#1e293b]",
-    craterClass: "fill-slate-400 dark:fill-[#0f172a]",
-    blur: "blur-[1px]",
-    zIndex: 20,
-  }));
-
-  const allAsteroids = [...backgroundAsteroids, ...foregroundAsteroids];
-
-  // Génération optimisée d'étoiles
-  const stars = Array.from({ length: 150 }).map((_, i) => {
-    const isLarge = Math.random() > 0.9;
-    return {
-      id: i,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      size: isLarge ? Math.random() * 2 + 2 : Math.random() * 1 + 1,
-      duration: `${Math.random() * 3 + 3}s`,
-      delay: `${Math.random() * 5}s`,
-      opacity: isLarge ? 0.3 : 0.15,
-    };
-  });
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

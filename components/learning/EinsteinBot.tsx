@@ -6,19 +6,21 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 import infoFacts from "@/lib/info-bot.json";
 import { useEinstein } from "@/app/context/EinsteinContext";
-import { X } from "lucide-react";
+import { X, Volume2, VolumeX } from "lucide-react";
+import { useUser } from "@/app/context/UserContext";
 
 export default function EinsteinBot() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const { message, clear, setIsCoolingDown } = useEinstein();
+  const { isMuted, setIsMuted } = useUser();
   const [currentFact, setCurrentFact] = useState("");
   const [isFactVisible, setIsFactVisible] = useState(false);
   const [canClose, setCanClose] = useState(true);
 
-  // Gestion des faits aléatoires (uniquement sur l'accueil)
+  // Gestion des faits aléatoires (uniquement sur l'accueil et si non muté)
   useEffect(() => {
-    if (isHomePage && !message) {
+    if (isHomePage && !message && !isMuted) {
       const initialTimer = setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * infoFacts.length);
         setCurrentFact(infoFacts[randomIndex]);
@@ -28,9 +30,11 @@ export default function EinsteinBot() {
       const interval = setInterval(() => {
         setIsFactVisible(false);
         setTimeout(() => {
-          const randomIndex = Math.floor(Math.random() * infoFacts.length);
-          setCurrentFact(infoFacts[randomIndex]);
-          setIsFactVisible(true);
+          if (!isMuted) {
+            const randomIndex = Math.floor(Math.random() * infoFacts.length);
+            setCurrentFact(infoFacts[randomIndex]);
+            setIsFactVisible(true);
+          }
         }, 500);
       }, 15000);
 
@@ -41,7 +45,7 @@ export default function EinsteinBot() {
     } else {
       setIsFactVisible(false);
     }
-  }, [isHomePage, message]);
+  }, [isHomePage, message, isMuted]);
 
   // Gestion du cooldown et de la fermeture automatique pour les explications (réponses fausses)
   useEffect(() => {
@@ -162,7 +166,18 @@ export default function EinsteinBot() {
             )}
           </AnimatePresence>
 
-          <div className="relative group pointer-events-auto cursor-pointer" onClick={(e) => e.stopPropagation()}>
+          <div 
+            className="relative group pointer-events-auto cursor-pointer" 
+            onClick={(e) => {
+              e.stopPropagation();
+              // Si un message est visible, on le ferme au lieu de juste muter
+              if (activeMessageText && canClose) {
+                message ? clear() : setIsFactVisible(false);
+              }
+              setIsMuted(!isMuted);
+            }}
+            title={isMuted ? "Réactiver Einstein" : "Mettre Einstein en sourdine"}
+          >
             <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-xl group-hover:bg-cyan-500/30 transition-all duration-500 animate-pulse" />
             
             <div className="relative w-[80px] h-[80px] md:w-[120px] md:h-[120px]">
@@ -172,13 +187,23 @@ export default function EinsteinBot() {
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 quality={40}
-                className="object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
+                className={`object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
+                  isMuted ? "grayscale opacity-80" : ""
+                }`}
                 priority
                 fetchPriority="high"
               />
+              
+              <div className="absolute -bottom-2 -right-2 bg-slate-900/80 backdrop-blur-md p-2 rounded-full border border-white/10 shadow-lg">
+                {isMuted ? (
+                  <VolumeX className="w-4 h-4 md:w-5 md:h-5 text-red-400" />
+                ) : (
+                  <Volume2 className="w-4 h-4 md:w-5 md:h-5 text-cyan-400" />
+                )}
+              </div>
             </div>
             
-            {message && (
+            {message && !isMuted && (
               <div className="absolute top-0 left-0 w-3 h-3 md:w-4 md:h-4 bg-cyan-400 rounded-full border-2 border-[#020617] shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-bounce" aria-hidden="true" />
             )}
           </div>

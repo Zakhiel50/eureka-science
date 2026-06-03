@@ -28,12 +28,14 @@ interface UserContextType {
   scores: Record<string, number>;
   inventory: string[]; // IDs of bought items
   preferredVoice: string;
+  isMuted: boolean;
   showBackground: boolean;
   isLoaded: boolean;
   addXP: (amount: number) => void;
   saveCourseProgress: (courseId: string, score: number) => void;
   buyItem: (itemId: string) => boolean;
   setPreferredVoice: (voice: string) => void;
+  setIsMuted: (muted: boolean) => void;
   setShowBackground: (show: boolean) => void;
 }
 
@@ -45,6 +47,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [scores, setScores] = useState<Record<string, number>>({});
   const [inventory, setInventory] = useState<string[]>([]);
   const [preferredVoice, setPreferredVoice] = useState('fr-FR-DeniseNeural');
+  const [isMuted, setIsMuted] = useState(false);
   const [showBackground, setShowBackground] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -58,6 +61,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setScores(data.scores || {});
         setInventory(data.inventory || []);
         setPreferredVoice(data.preferredVoice || 'fr-FR-DeniseNeural');
+        setIsMuted(data.isMuted || false);
         setShowBackground(data.showBackground !== undefined ? data.showBackground : true);
       } catch (e) {
         console.error("Failed to parse progress", e);
@@ -68,10 +72,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isLoaded) {
-      const data = { xp, completed: completedCourses, scores, inventory, preferredVoice, showBackground };
+      const data = { xp, completed: completedCourses, scores, inventory, preferredVoice, isMuted, showBackground };
       localStorage.setItem("eureka_progress", JSON.stringify(data));
     }
-  }, [xp, completedCourses, scores, inventory, preferredVoice, showBackground, isLoaded]);
+  }, [xp, completedCourses, scores, inventory, preferredVoice, isMuted, showBackground, isLoaded]);
 
   const addXP = (amount: number) => {
     setXp(prev => prev + amount);
@@ -118,12 +122,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
       scores, 
       inventory, 
       preferredVoice, 
+      isMuted,
       showBackground,
       isLoaded,
       addXP, 
       saveCourseProgress, 
       buyItem, 
       setPreferredVoice,
+      setIsMuted,
       setShowBackground
     }}>
       {children}
