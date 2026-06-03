@@ -1,12 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { EdgeTTS } from 'node-edge-tts';
-import { readFileSync, unlinkSync, existsSync, statSync } from 'node:fs';
+import { readFileSync, unlinkSync, existsSync, statSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
+
+/**
+ * Nettoie les fichiers temporaires "zombies" qui n'auraient pas été supprimés
+ * lors de précédentes exécutions (crash, timeout, etc.)
+ */
+function cleanupOldFiles() {
+  try {
+    const tempDir = tmpdir();
+    const now = Date.now();
+    const files = readdirSync(tempDir);
+
+    for (const file of files) {
+      if (file.startsWith('tts-') && file.endsWith('.mp3')) {
+        const filePath = join(tempDir, file);
+        try {
+          const stats = statSync(filePath);
+          if (now - stats.mtimeMs > 5 * 60 * 1000) {
+            unlinkSync(filePath);
+          }
+        } catch (e) { }
+      }
+    }
+  } catch (error) {
+    console.error('[GC] Erreur nettoyage:', error);
+  }
+}
 
 // --- Security Configuration ---
 const ALLOWED_VOICES = [
@@ -55,6 +81,7 @@ function isRateLimited(ip: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
+  cleanupOldFiles();
   const ip = (req as NextRequest & { ip?: string }).ip 
     || req.headers.get('x-forwarded-for')?.split(',')[0] 
     || 'unknown';
