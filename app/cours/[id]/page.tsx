@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LessonContent from "@/components/learning/LessonContent";
 import QuizEngine from "@/components/learning/QuizEngine";
@@ -13,11 +13,22 @@ export default function CoursePage() {
   const params = useParams();
   const router = useRouter();
   const [mode, setMode] = useState<"lesson" | "quiz">("lesson");
-  const { saveCourseProgress } = useUser();
+  const { saveCourseProgress, completedCourses, isLoaded } = useUser();
 
   // Sélection du cours en fonction de l'ID dans l'URL
   const allCourses = coursesList;
   const course = allCourses.find(c => c.id === params.id);
+  const currentIndex = allCourses.findIndex(c => c.id === params.id);
+
+  // Sécurité : Vérifier si le cours précédent est terminé
+  useEffect(() => {
+    if (isLoaded && currentIndex > 0) {
+      const previousCourse = allCourses[currentIndex - 1];
+      if (!completedCourses.includes(previousCourse.id)) {
+        router.push("/");
+      }
+    }
+  }, [isLoaded, currentIndex, completedCourses, router, allCourses]);
 
   const handleSuccess = (score: number) => {
     if (course) saveCourseProgress(course.id, score);
@@ -27,7 +38,6 @@ export default function CoursePage() {
 
   const handleNextCourse = (score: number) => {
     if (course) saveCourseProgress(course.id, score);
-    const currentIndex = allCourses.findIndex(c => c.id === params.id);
     if (currentIndex !== -1 && currentIndex < allCourses.length - 1) {
       const nextCourse = allCourses[currentIndex + 1];
       setMode("lesson");
@@ -40,6 +50,14 @@ export default function CoursePage() {
   const handleScoreUpdate = (score: number) => {
     if (course) saveCourseProgress(course.id, score);
   };
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    );
+  }
 
   if (!course) {
     return (

@@ -55,7 +55,10 @@ function isRateLimited(ip: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for') || 'unknown';
+  const ip = (req as NextRequest & { ip?: string }).ip 
+    || req.headers.get('x-forwarded-for')?.split(',')[0] 
+    || 'unknown';
+
   const requestId = Math.random().toString(36).substring(7);
   const tempPath = join(tmpdir(), `tts-${Date.now()}-${requestId}.mp3`);
 
@@ -111,9 +114,6 @@ export async function POST(req: NextRequest) {
 
     const audioBuffer = readFileSync(tempPath);
     
-    // Cleanup
-    try { unlinkSync(tempPath); } catch (e) {}
-
     return new NextResponse(audioBuffer, {
       headers: {
         'Content-Type': 'audio/mpeg',
@@ -125,13 +125,16 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error(`[TTS ${requestId}] Error:`, error.message || error);
     
-    if (existsSync(tempPath)) {
-      try { unlinkSync(tempPath); } catch (e) {}
-    }
-
     return NextResponse.json({ 
       error: 'Erreur lors de la génération',
       details: process.env.NODE_ENV === 'development' ? error.message : undefined
     }, { status: 500 });
+  } finally {
+    // Robust cleanup: Always attempt to delete the temp file
+    if (existsSync(tempPath)) {
+      try { unlinkSync(tempPath); } catch (e) {
+        console.error(`[TTS ${requestId}] Failed to delete temp file:`, e);
+      }
+    }
   }
 }

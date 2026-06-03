@@ -9,13 +9,13 @@ export const waterCycleCourse: Course = {
     {
       id: "evaporation",
       title: "1. L'Évaporation",
-      content: "Sous l'action de l'énergie solaire, l'eau liquide des océans et des lacs gagne de l'énergie et se transforme en vapeur d'eau (gaz). Ce processus permet à l'eau de s'élever dans l'atmosphère.",
+      content: "Sous l'action de l'énergie solaire, l'eau liquide des océans et des lacs gagne de l'énergie et se transforme en vapeur d'eau. C'est l'état gazeux. Ce processus permet à l'eau de s'élever dans l'atmosphère.",
       imageUrl: "/images/cycle-water/step1.avif"
     },
     {
       id: "evapotranspiration",
       title: "2. L'Évapotranspiration",
-      content: "Les plantes aussi participent ! Elles puisent l'eau du sol et la rejettent sous forme de vapeur par leurs feuilles (transpiration). C'est un moteur essentiel du cycle en milieu terrestre.",
+      content: "Les plantes aussi participent ! Elles puisent l'eau du sol et la rejettent sous forme de vapeur par leurs feuilles, c'est la transpiration des plantes que l'on appelle l'évapotranspiration. C'est un moteur essentiel du cycle en milieu terrestre.",
       imageUrl: "/images/cycle-water/step2.avif"
     },
     {
@@ -51,7 +51,7 @@ export const waterCycleCourse: Course = {
     {
       id: "ecoulement-souterrain",
       title: "8. L'Écoulement Souterrain",
-      content: "Une fois sous terre, l'eau continue de bouger ! Elle circule lentement à travers les roches poreuses pour former des nappes phréatiques (réserves d'eau douce).",
+      content: "Une fois sous terre, l'eau continue de bouger ! Elle circule lentement à travers les roches poreuses pour former des nappes phréatiques. Ce sont des réserves d'eau douce.",
       imageUrl: "/images/cycle-water/step8.avif"
     },
     {
@@ -63,7 +63,7 @@ export const waterCycleCourse: Course = {
     {
       id: "boucle",
       title: "10. La Boucle Éternelle",
-      content: "Sais-tu que l'eau que tu bois aujourd'hui est la même que celle que buvaient les dinosaures il y a 150 millions d'années ? L'eau sur Terre ne disparaît jamais : elle voyage, change d'état (glace, liquide ou gaz) et se recycle à l'infini depuis des milliards d'années. C'est une boucle fermée parfaite qui permet à la vie de continuer sur notre planète ! Sache qu'en physique et chimie, rien ne se perd, tout se transforme. Par exemple, si tu à 100 grammes de sable et que tu le chauffe, tu aura 90 grammes de verre et 10 grammes d'eau qui se seront évaporé, ce qui donne une transformation de 100 grammes",
+      content: "Sais-tu que l'eau que tu bois aujourd'hui est la même que celle que buvaient les dinosaures il y a 150 millions d'années ? L'eau sur Terre ne disparaît jamais : elle voyage, change d'état sous état solide, liquide ou gazeux et se recycle à l'infini depuis des milliards d'années. C'est une boucle fermée parfaite qui permet à la vie de continuer sur notre planète ! Sache qu'en physique et chimie, rien ne se perd, tout se transforme. Par exemple, si tu à 100 grammes de sable et que tu le chauffe, tu aura 90 grammes de verre et 10 grammes d'eau qui se seront évaporé, ce qui donne une transformation de 100 grammes",
       imageUrl: "/images/cycle-water/step10.avif"
     }
   ],

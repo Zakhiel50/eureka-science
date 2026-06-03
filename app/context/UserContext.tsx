@@ -29,6 +29,7 @@ interface UserContextType {
   inventory: string[]; // IDs of bought items
   preferredVoice: string;
   showBackground: boolean;
+  isLoaded: boolean;
   addXP: (amount: number) => void;
   saveCourseProgress: (courseId: string, score: number) => void;
   buyItem: (itemId: string) => boolean;
@@ -39,7 +40,6 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  // TODO: TEMPORAIRE POUR TESTS - REMETTRE À 0 ET UTILISER LA DATA RÉELLE PLUS TARD
   const [xp, setXp] = useState(0);
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [scores, setScores] = useState<Record<string, number>>({});
@@ -119,6 +119,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       inventory, 
       preferredVoice, 
       showBackground,
+      isLoaded,
       addXP, 
       saveCourseProgress, 
       buyItem, 
