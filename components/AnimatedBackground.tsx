@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/app/context/UserContext";
 
 export default function AnimatedBackground() {
+  const { showBackground } = useUser();
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isLab = pathname === "/laboratoire";
@@ -12,8 +14,8 @@ export default function AnimatedBackground() {
     setMounted(true);
   }, []);
 
-  // Désactiver le fond animé sur la page Labo
-  if (!mounted || isLab) return null;
+  // Désactiver le fond animé sur la page Labo ou si l'utilisateur l'a désactivé
+  if (!mounted || isLab || !showBackground) return null;
 
   // Astéroïdes lointains
   const backgroundAsteroids = Array.from({ length: 8 }).map((_, i) => ({

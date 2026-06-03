@@ -53,7 +53,7 @@ export default function CoursePage() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8 mt-20">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="md:flex-row flex flex-col justify-between items-between">
           <Link

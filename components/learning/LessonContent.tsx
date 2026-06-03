@@ -97,18 +97,25 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
 
   return (
     <div className="max-w-4xl mx-auto p-6 glass-panel rounded-3xl">
-      <div className="md:mb-8 flex-col justify-between items-center">
-        <div className="flex gap-2">
+      <div className="md:mb-8 flex flex-col justify-between items-start">
+        <div 
+          className="flex gap-2 mb-4" 
+          role="progressbar" 
+          aria-valuenow={currentStep + 1} 
+          aria-valuemin={1} 
+          aria-valuemax={steps.length}
+          aria-label={`Progression du cours : étape ${currentStep + 1} sur ${steps.length}`}
+        >
           {steps.map((_, idx) => (
             <div
               key={idx}
-              className={`mb-4 h-2 w-4 md:h-2 md:w-4 rounded-full transition-all duration-300 ${
+              className={`h-2 w-4 md:h-2 md:w-4 rounded-full transition-all duration-300 ${
                 idx <= currentStep ? "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" : "bg-slate-200 dark:bg-slate-700"
               }`}
             />
           ))}
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center w-full">
           <span className="text-slate-500 dark:text-slate-400 font-mono text-sm">
             Étape {currentStep + 1} / {steps.length}
           </span>
@@ -127,7 +134,16 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
           >
             <div 
               onClick={() => setIsExpanded(true)}
-              className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-800 mt-6 cursor-zoom-in group"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setIsExpanded(true);
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              aria-label={`Agrandir l'image : ${step.title}`}
+              className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-800 mt-6 cursor-zoom-in group focus:outline-none focus:ring-4 focus:ring-cyan-500/50"
             >
               <Image
                 src={step.imageUrl}
@@ -155,7 +171,7 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/5 to-slate-900/5 dark:from-cyan-900/10 dark:to-slate-900/10 pointer-events-none" />
             
             <div className="absolute top-4 right-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-2 rounded-full border border-slate-200 dark:border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Maximize2 className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+              <Maximize2 className="w-5 h-5 text-cyan-600 dark:text-cyan-400" aria-hidden="true" />
             </div>
             
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity border border-slate-200 dark:border-slate-700">
@@ -171,7 +187,7 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
               <button
                 onClick={toggleAudio}
                 disabled={isLoading}
-                className={`p-3 rounded-full border transition-all transform active:scale-95 ${
+                className={`p-3 rounded-full border transition-all transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-cyan-500/50 ${
                   isPlaying 
                     ? "bg-red-500/20 border-red-500/50 text-red-600 dark:text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.3)]" 
                     : "bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/50 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/20 dark:hover:bg-cyan-500/30"
@@ -179,11 +195,11 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
                 title={isPlaying ? "Arrêter la lecture" : "Lire le texte"}
               >
                 {isLoading ? (
-                  <Loader2 className="w-6 h-6 animate-spin" />
+                  <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" />
                 ) : isPlaying ? (
-                  <Square className="w-6 h-6 fill-current" />
+                  <Square className="w-6 h-6 fill-current" aria-hidden="true" />
                 ) : (
-                  <Volume2 className="w-6 h-6" />
+                  <Volume2 className="w-6 h-6" aria-hidden="true" />
                 )}
               </button>
             </div>
@@ -221,9 +237,10 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
               
               <button
                 onClick={() => setIsExpanded(false)}
-                className="absolute top-0 right-0 md:-top-2 md:-right-2 p-3 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all shadow-xl z-[101] transform hover:scale-110 active:scale-90"
+                className="absolute top-0 right-0 md:-top-2 md:-right-2 p-3 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all shadow-xl z-[101] transform hover:scale-110 active:scale-90 focus:outline-none focus:ring-4 focus:ring-white/50"
+                aria-label="Fermer l'image agrandie"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6" aria-hidden="true" />
               </button>
               
               <div className="w-full text-center pb-4">
@@ -238,29 +255,31 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
         <button
           onClick={prevStep}
           disabled={currentStep === 0}
-          className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
+          className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all focus:outline-none focus:ring-4 focus:ring-cyan-500/50 ${
             currentStep === 0
               ? "text-slate-400 dark:text-slate-600 cursor-not-allowed"
               : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
           }`}
+          aria-label="Étape précédente"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-5 h-5" aria-hidden="true" />
           Précédent
         </button>
 
         <button
           onClick={nextStep}
-          className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-700 dark:from-cyan-500 dark:to-blue-600 rounded-xl font-bold text-white shadow-lg hover:shadow-cyan-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+          className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-700 dark:from-cyan-500 dark:to-blue-600 rounded-xl font-bold text-white shadow-lg hover:shadow-cyan-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-cyan-500/50"
+          aria-label={currentStep === steps.length - 1 ? "Lancer le Quiz" : "Étape suivante"}
         >
           {currentStep === steps.length - 1 ? (
             <>
               Lancer le Quiz !
-              <GraduationCap className="w-5 h-5" />
+              <GraduationCap className="w-5 h-5" aria-hidden="true" />
             </>
           ) : (
             <>
               Suivant
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-5 h-5" aria-hidden="true" />
             </>
           )}
         </button>

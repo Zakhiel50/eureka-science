@@ -169,7 +169,12 @@ export default function LabScene() {
   }, []);
 
   return (
-    <div className="w-full h-[500px] md:h-[600px] bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl relative">
+    <div 
+      className="w-full h-[500px] md:h-[600px] bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl relative focus:outline-none focus:ring-4 focus:ring-cyan-500/50"
+      tabIndex={0}
+      role="application"
+      aria-label="Laboratoire virtuel 3D. Utilisez la souris pour naviguer."
+    >
       <Canvas shadows={{ type: THREE.PCFShadowMap }}>
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 6, 12]} fov={45} />

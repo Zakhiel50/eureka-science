@@ -5,6 +5,7 @@ import ClientEinsteinBot from "@/components/learning/ClientEinsteinBot";
 import { EinsteinProvider } from "./context/EinsteinContext";
 import { UserProvider } from "./context/UserContext";
 import ThemeToggle from "@/components/ThemeToggle";
+import BackgroundToggle from "@/components/BackgroundToggle";
 import AnimatedBackground from "@/components/AnimatedBackground";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -43,12 +44,18 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} min-h-screen selection:bg-cyan-500/30`}>
-        <AnimatedBackground />
-
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:right-4 focus:z-[200] focus:px-6 focus:py-3 focus:bg-cyan-600 focus:text-white focus:rounded-xl focus:font-bold focus:shadow-2xl"
+        >
+          Passer au contenu principal
+        </a>
         <UserProvider>
+          <AnimatedBackground />
           <ThemeToggle />
+          <BackgroundToggle />
           <EinsteinProvider>
-            <main className="relative z-10">
+            <main id="main-content" className="relative z-10">
               {children}
             </main>
             <ClientEinsteinBot />

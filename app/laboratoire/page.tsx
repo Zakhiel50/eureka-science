@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 export default function LaboratoryPage() {
   return (
-    <div className="min-h-screen p-4 md:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="min-h-screen p-4 md:p-8 space-y-8 max-w-7xl mx-auto mt-20">
       <header className="flex flex-col md:flex-row justify-between items-center glass-panel p-6 rounded-3xl gap-4">
         <div className="flex items-center gap-4">
           <Link

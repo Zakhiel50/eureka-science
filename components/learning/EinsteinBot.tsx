@@ -113,6 +113,8 @@ export default function EinsteinBot() {
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                role={isExplanation ? "alert" : "status"}
+                aria-live="polite"
                 className={`p-4 rounded-2xl rounded-bl-none shadow-2xl border-2 max-w-[240px] md:max-w-[280px] pointer-events-auto relative mb-2 overflow-visible ${
                   isExplanation 
                     ? 'bg-slate-900 text-white border-cyan-500 shadow-cyan-500/20' 
@@ -125,30 +127,37 @@ export default function EinsteinBot() {
                     if (!canClose) return;
                     message ? clear() : setIsFactVisible(false);
                   }}
-                  className={`absolute -top-3 -right-3 bg-slate-800 text-white rounded-full p-2 hover:bg-slate-700 transition-all border border-slate-700 shadow-lg ${
+                  className={`absolute -top-3 -right-3 bg-slate-800 text-white rounded-full p-2 hover:bg-slate-700 transition-all border border-slate-700 shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
                     isExplanation && !canClose ? 'hidden' : 'flex'
                   }`}
                   aria-label="Fermer le message"
                   disabled={!canClose}
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4" aria-hidden="true" />
                 </button>
                 <p className="text-sm font-medium leading-relaxed">
                   {activeMessageText}
                 </p>
 
                 {isExplanation && !canClose && (
-                  <motion.div 
-                    initial={{ width: "100%" }}
-                    animate={{ width: "0%" }}
-                    transition={{ duration: 4, ease: "linear" }}
-                    className="absolute bottom-0 left-0 h-1 bg-cyan-500 rounded-br-2xl"
-                  />
+                  <div 
+                    role="progressbar" 
+                    aria-label="Attente avant de pouvoir fermer"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                  >
+                    <motion.div 
+                      initial={{ width: "100%" }}
+                      animate={{ width: "0%" }}
+                      transition={{ duration: 4, ease: "linear" }}
+                      className="absolute bottom-0 left-0 h-1 bg-cyan-500 rounded-br-2xl"
+                    />
+                  </div>
                 )}
 
                 <div className={`absolute -bottom-2 left-[0.8px] w-4 h-4 border-b-2 transform rotate-45 ${
                   isExplanation ? 'bg-slate-900 border-cyan-500' : 'bg-white border-cyan-400'
-                }`} />
+                }`} aria-hidden="true" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -170,7 +179,7 @@ export default function EinsteinBot() {
             </div>
             
             {message && (
-              <div className="absolute top-0 left-0 w-3 h-3 md:w-4 md:h-4 bg-cyan-400 rounded-full border-2 border-[#020617] shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-bounce" />
+              <div className="absolute top-0 left-0 w-3 h-3 md:w-4 md:h-4 bg-cyan-400 rounded-full border-2 border-[#020617] shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-bounce" aria-hidden="true" />
             )}
           </div>
         </motion.div>
