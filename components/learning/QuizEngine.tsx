@@ -14,60 +14,95 @@ interface QuizEngineProps {
   onNextCourse: (score: number) => void
 }
 
+/**
+ * Mélange aléatoirement les options d'un ensemble de questions tout en 
+ * conservant la validité de l'index de la réponse correcte.
+ */
+const shuffleQuestionsOptions = (originalQuestions: QuizQuestion[]) => {
+  return originalQuestions.map(questionData => {
+    // On crée une structure temporaire qui lie chaque option à son statut "correcte ou non"
+    const optionsWithCorrectness = questionData.options.map((optionText, index) => ({
+      text: optionText,
+      isCorrect: index === questionData.correctAnswer
+    }));
+    
+    const shuffledOptions = [...optionsWithCorrectness];
+    for (let currentIndex = shuffledOptions.length - 1; currentIndex > 0; currentIndex--) {
+      const randomIndex = Math.floor(Math.random() * (currentIndex + 1));
+      [shuffledOptions[currentIndex], shuffledOptions[randomIndex]] = [shuffledOptions[randomIndex], shuffledOptions[currentIndex]];
+    }
+    
+    // Reconstruit l'objet de la question avec le nouvel index correct
+    return {
+      ...questionData,
+      options: shuffledOptions.map(option => option.text),
+      correctAnswer: shuffledOptions.findIndex(option => option.isCorrect)
+    };
+  });
+};
+
 export default function QuizEngine({ questions, onSuccess, onNextCourse, onScoreUpdate }: QuizEngineProps) {
   const { say, clear, isCoolingDown } = useEinstein();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  
+  const [shuffledQuestions, setShuffledQuestions] = useState<QuizQuestion[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
   const [isValidated, setIsValidated] = useState(false);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
-  // Nettoyer les messages d'Einstein quand on quitte le quiz
+  useEffect(() => {
+    setShuffledQuestions(shuffleQuestionsOptions(questions));
+  }, [questions]);
+
+  // Nettoyage des messages d'Einstein lors de la fermeture du composant
   useEffect(() => {
     return () => clear();
   }, [clear]);
 
   const handleOptionClick = (index: number) => {
     if (isValidated) return;
-    setSelectedOption(index);
+    setSelectedOptionIndex(index);
   };
 
   const handleValidate = () => {
-    if (selectedOption === null || isValidated) return;
+    if (selectedOptionIndex === null || isValidated) return;
     
     setIsValidated(true);
-    const q = questions[currentQuestion];
-    if (selectedOption === q.correctAnswer) {
+    const currentQuestionData = shuffledQuestions[currentQuestionIndex];
+    
+    if (selectedOptionIndex === currentQuestionData.correctAnswer) {
       setScore(score + 1);
       say("Excellent ! C'est la bonne réponse.", "congrats");
     } else {
-      say(q.explanation, "explanation");
+      say(currentQuestionData.explanation, "explanation");
     }
   };
 
   const nextQuestion = () => {
-    clear(); // Enlever l'explication d'Einstein
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedOption(null);
+    clear(); 
+    if (currentQuestionIndex < shuffledQuestions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setSelectedOptionIndex(null);
       setIsValidated(false);
     } else {
-      const finalScore = Math.round((score / questions.length) * 100);
-      onScoreUpdate?.(finalScore);
+      const finalScorePercentage = Math.round((score / shuffledQuestions.length) * 100);
+      onScoreUpdate?.(finalScorePercentage);
       setShowResult(true);
     }
   };
 
   const resetQuiz = () => {
     clear();
-    setCurrentQuestion(0);
-    setSelectedOption(null);
+    setShuffledQuestions(shuffleQuestionsOptions(questions));
+    setCurrentQuestionIndex(0);
+    setSelectedOptionIndex(null);
     setIsValidated(false);
     setScore(0);
     setShowResult(false);
   };
 
-  const successRate = (score / questions.length) * 100;
+  const successRate = shuffledQuestions.length > 0 ? (score / shuffledQuestions.length) * 100 : 0;
   const isPassed = successRate >= 80;
 
   if (showResult) {
@@ -140,47 +175,48 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
     );
   }
 
-  const q = questions[currentQuestion];
+  const currentQuestionData = shuffledQuestions[currentQuestionIndex];
+  if (!currentQuestionData) return null;
 
   return (
     <div className="max-w-3xl mx-auto p-8 glass-panel rounded-3xl">
       <div className="flex justify-between items-center mb-8">
         <span className="px-4 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-cyan-600 dark:text-cyan-400 font-mono text-sm border border-cyan-500/30">
-          Question {currentQuestion + 1} / {questions.length}
+          Question {currentQuestionIndex + 1} / {shuffledQuestions.length}
         </span>
         <div className="text-slate-600 dark:text-slate-400 font-bold">Score: {score}</div>
       </div>
 
       <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 leading-tight">
-        {q.question}
+        {currentQuestionData.question}
       </h2>
 
       <div className="grid gap-4">
-        {q.options.map((option, idx) => {
-          let styles = "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50";
+        {currentQuestionData.options.map((optionText, optionIndex) => {
+          let buttonStyles = "bg-white dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50";
           
           if (isValidated) {
-            if (idx === q.correctAnswer) {
-              styles = "bg-green-500/10 dark:bg-green-500/20 border-green-500 text-green-700 dark:text-green-400";
-            } else if (idx === selectedOption) {
-              styles = "bg-red-500/10 dark:bg-red-500/20 border-red-500 text-red-700 dark:text-red-400";
+            if (optionIndex === currentQuestionData.correctAnswer) {
+              buttonStyles = "bg-green-500/10 dark:bg-green-500/20 border-green-500 text-green-700 dark:text-green-400";
+            } else if (optionIndex === selectedOptionIndex) {
+              buttonStyles = "bg-red-500/10 dark:bg-red-500/20 border-red-500 text-red-700 dark:text-red-400";
             } else {
-              styles = "bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 opacity-50";
+              buttonStyles = "bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 opacity-50";
             }
-          } else if (selectedOption === idx) {
-            styles = "border-cyan-500 bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400";
+          } else if (selectedOptionIndex === optionIndex) {
+            buttonStyles = "border-cyan-500 bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400";
           }
 
           return (
             <button
-              key={idx}
-              onClick={() => handleOptionClick(idx)}
+              key={optionIndex}
+              onClick={() => handleOptionClick(optionIndex)}
               disabled={isValidated}
-              className={`w-full p-5 text-left rounded-2xl border-2 font-medium transition-all flex justify-between items-center ${styles}`}
+              className={`w-full p-5 text-left rounded-2xl border-2 font-medium transition-all flex justify-between items-center ${buttonStyles}`}
             >
-              {option}
-              {isValidated && idx === q.correctAnswer && <CheckCircle2 className="w-6 h-6" />}
-              {isValidated && idx === selectedOption && idx !== q.correctAnswer && <XCircle className="w-6 h-6" />}
+              {optionText}
+              {isValidated && optionIndex === currentQuestionData.correctAnswer && <CheckCircle2 className="w-6 h-6" />}
+              {isValidated && optionIndex === selectedOptionIndex && optionIndex !== currentQuestionData.correctAnswer && <XCircle className="w-6 h-6" />}
             </button>
           );
         })}
@@ -190,9 +226,9 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
         {!isValidated ? (
           <button
             onClick={handleValidate}
-            disabled={selectedOption === null}
+            disabled={selectedOptionIndex === null}
             className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all ${
-              selectedOption !== null
+              selectedOptionIndex !== null
                 ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5"
                 : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
             }`}
@@ -206,7 +242,7 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
               onClick={nextQuestion}
               className="flex items-center gap-2 px-8 py-3 bg-cyan-500 text-white rounded-xl font-bold shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5 transition-all"
             >
-              {currentQuestion === questions.length - 1 ? "Terminer" : "Suivant"}
+              {currentQuestionIndex === shuffledQuestions.length - 1 ? "Terminer" : "Suivant"}
               <ArrowRight className="w-5 h-5" />
             </button>
           )
