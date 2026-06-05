@@ -4,6 +4,7 @@ export const physics: Course = {
   id: "physics",
   title: "À la découverte de la Physique",
   thumbnailUrl: "/images/physics/cover.avif",
+  mobileThumbnailUrl: "/images/physics/m-cover.avif",
   description:
     "Découvre la science qui explique comment le monde fonctionne ! Pourquoi les objets tombent ? Comment la lumière voyage-t-elle ? Pourquoi entend-on des sons ? La physique est partout autour de nous.",
   steps: [
@@ -12,70 +13,80 @@ export const physics: Course = {
       title: "1. Qu'est-ce que la physique ?",
       content:
         "La physique est la science qui cherche à comprendre comment fonctionne notre univers. Elle explique pourquoi les objets tombent, bougent, roulent, brillent ou produisent du son. Quand tu lances un ballon, allumes une lampe ou écoutes de la musique, la physique est déjà là !",
-      imageUrl: "/images/physics/step1.avif"
+      imageUrl: "/images/physics/step1.avif",
+      mobileImageUrl: "/images/physics/m-step1.avif"
     },
     {
       id: "movement",
       title: "2. Le Mouvement",
       content:
         "Un objet est en mouvement lorsqu'il change de position. Une voiture qui roule, un ballon qui vole ou une personne qui court sont des exemples de mouvement. Certains objets vont vite, d'autres lentement, mais tous suivent des lois physiques.",
-      imageUrl: "/images/physics/step2.avif"
+      imageUrl: "/images/physics/step2.avif",
+      mobileImageUrl: "/images/physics/m-step2.avif"
     },
     {
       id: "forces",
       title: "3. Les Forces",
       content:
         "Une force est une action qui pousse ou tire un objet. Quand tu pousses une balançoire ou tires une porte, tu utilises une force. Les frottements sont aussi une force : ils ralentissent les objets lorsqu'ils glissent sur une surface. Il faut savoir que même l'air exerce des frottements sur les objets. C'est pour celà qu'un ballon ne roule pas indéfiniment.",
-      imageUrl: "/images/physics/step3.avif"
+      imageUrl: "/images/physics/step3.avif",
+      mobileImageUrl: "/images/physics/m-step3.avif"
     },
     {
       id: "gravity",
       title: "4. La Gravité",
       content:
         "Pourquoi ne flotte-t-on pas dans le ciel ? Grâce à la gravité, nous l'avons vu dans un cours précédent! La gravité est une force invisible qui attire les objets vers le centre de la Terre. C'est elle qui fait tomber les pommes, la pluie ou un ballon quand tu le lâches.",
-      imageUrl: "/images/physics/step4.avif"
+      imageUrl: "/images/physics/step4.avif",
+      mobileImageUrl: "/images/physics/m-step4.avif"
     },
     {
       id: "energy",
       title: "5. L'Énergie",
       content:
         "L'énergie permet aux choses de fonctionner ou de bouger. Ton corps utilise l'énergie que ton corps extrait des aliments pour courir, les piles donnent de l'énergie aux jouets et le Soleil fournit de la chaleur et de la lumière à notre planète.",
-      imageUrl: "/images/physics/step5.avif"
+      imageUrl: "/images/physics/step5.avif",
+      mobileImageUrl: "/images/physics/m-step5.avif"
     },
     {
       id: "speed",
       title: "6. La Vitesse",
       content:
         "La vitesse indique si quelque chose va rapidement ou lentement. Une tortue se déplace lentement, alors qu'une fusée voyage très vite. Les scientifiques mesurent souvent la vitesse en kilomètres par heure (km/h).",
-      imageUrl: "/images/physics/step6.avif"
+      imageUrl: "/images/physics/step6.avif",
+      mobileImageUrl: "/images/physics/m-step6.avif"
     },
     {
       id: "light",
       title: "7. La Lumière",
       content:
         "La lumière nous permet de voir le monde. Le Soleil est une immense source de lumière naturelle. Quand la lumière touche un miroir, elle rebondit : on appelle cela la réflexion. Les arc-en-ciel apparaissent quand la lumière traverse des gouttes d'eau. Sans lumière, nous ne pourrions pas voir les couleurs",
-      imageUrl: "/images/physics/step7.avif"
+      imageUrl: "/images/physics/step7.avif",
+      mobileImageUrl: "/images/physics/m-step7.avif"
     },
     {
       id: "sound",
       title: "8. Le Son",
       content:
         "Le son est produit par des vibrations. Quand une guitare joue une note ou quand quelqu'un parle, l'air vibre et transporte le son jusqu'à nos oreilles. Sans vibrations et sans air, il n'y aurait aucun bruit. Par exemple, dans l'espace tu ne peux rien entendre rien.",
-      imageUrl: "/images/physics/step8.avif"
+      imageUrl: "/images/physics/step8.avif",
+      mobileImageUrl: "/images/physics/m-step8.avif"
     },
     {
       id: "electricity",
       title: "9. L'Électricité",
       content:
         "L'électricité alimente de nombreux objets : lampes, consoles, téléphones ou télévision. Elle peut venir de piles, batteries, des centrales électriques ou des éclairs. Attention : l'électricité est très utile mais peut aussi être dangereuse si on ne respecte pas les règles de sécurité.",
-      imageUrl: "/images/physics/step9.avif"
+      imageUrl: "/images/physics/step9.avif",
+      mobileImageUrl: "/images/physics/m-step9.avif"
     },
     {
       id: "physics-everyday-life",
       title: "10. La Physique dans la Vie Quotidienne",
       content:
         "La physique est partout ! Les voitures utilisent les forces et l'énergie, les médecins utilisent des machines basées sur la physique, les fusées voyagent dans l'espace grâce à elle et même les jeux vidéo utilisent des lois physiques pour rendre les mouvements réalistes.",
-      imageUrl: "/images/physics/step10.avif"
+      imageUrl: "/images/physics/step10.avif",
+      mobileImageUrl: "/images/physics/m-step10.avif"
     }
   ],
 

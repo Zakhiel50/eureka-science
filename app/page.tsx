@@ -4,9 +4,8 @@ import { useUser } from "@/app/context/UserContext";
 import { coursesList } from "@/lib/courses-utils";
 import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, ArrowUp, Loader2 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { div } from "framer-motion/client";
 
 const VOICES = [
   { id: 'fr-FR-DeniseNeural', name: 'Denise' },
@@ -139,25 +138,44 @@ export default function Home() {
                 aria-disabled={isLocked}
               >
                 <div className="h-48 relative overflow-hidden bg-gradient-to-br shrink-0">
-                  {course.thumbnailUrl && !isLocked && (
-                    <Image 
-                      src={course.thumbnailUrl} 
-                      alt="" // Decorative image if the title is enough, or provide alt if informative
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      priority={index === 0}
-                      fetchPriority={index === 0 ? "high" : "auto"}
-                      quality={50}
-                      loading="eager"
-                    />
-                  )}
+                  {course.thumbnailUrl && !isLocked && (() => {
+                    const common = { 
+                      alt: "", 
+                      fill: true, 
+                      priority: index === 0 
+                    };
+
+                    const { props: { srcSet: desktop } } = getImageProps({
+                      ...common,
+                      src: course.thumbnailUrl,
+                      quality: 75,
+                      sizes: "(max-width: 1024px) 50vw, 33vw",
+                    });
+
+                    const { props: { srcSet: mobile, ...rest } } = getImageProps({
+                      ...common,
+                      src: course.mobileThumbnailUrl || course.thumbnailUrl,
+                      quality: 75,
+                      sizes: "(max-width: 768px) calc(100vw - 64px), 100vw",
+                    });
+
+                    return (
+                      <picture>
+                        <source media="(min-width: 768px)" srcSet={desktop} />
+                        <source media="(max-width: 767px)" srcSet={mobile} />
+                        <img 
+                          {...rest} 
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" 
+                        />
+                      </picture>
+                    );
+                  })()}
                   {isLocked ? (
                     <div className="absolute inset-0 flex items-center justify-center bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-sm">
                       <Lock className="w-12 h-12 text-slate-400" aria-label="Cours verrouillé" />
                     </div>
                   ) : (
-                    <div className="absolute inset-0 bg-black/5 dark:bg-black/20 group-hover:bg-transparent transition-all flex items-center justify-center">
+                    <div className="absolute inset-0 group-hover:bg-transparent transition-all w-2/5">
                       {isCompleted && (
                         <div className="bg-green-500/90 text-white px-4 py-2 rounded-full flex items-center gap-2 font-bold shadow-lg">
                           <CheckCircle className="w-5 h-5" aria-hidden="true" /> Terminé

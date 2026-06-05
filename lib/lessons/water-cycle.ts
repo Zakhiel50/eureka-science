@@ -4,67 +4,78 @@ export const waterCycleCourse: Course = {
   id: "cycle-de-leau",
   title: "Le Cycle de l'eau",
   thumbnailUrl: "/images/cycle-water/cover.avif",
+  mobileThumbnailUrl: "/images/cycle-water/m-cover.avif",
   description: "Un voyage complexe et fascinant à travers les états de la matière et les profondeurs de la Terre.",
   steps: [
     {
       id: "evaporation",
       title: "1. L'Évaporation",
       content: "Sous l'action de l'énergie solaire, l'eau liquide des océans et des lacs gagne de l'énergie et se transforme en vapeur d'eau. C'est l'état gazeux. Ce processus permet à l'eau de s'élever dans l'atmosphère.",
-      imageUrl: "/images/cycle-water/step1.avif"
+      imageUrl: "/images/cycle-water/step1.avif",
+      mobileImageUrl: "/images/cycle-water/m-step1.avif"
     },
     {
       id: "evapotranspiration",
       title: "2. L'Évapotranspiration",
       content: "Les plantes aussi participent ! Elles puisent l'eau du sol et la rejettent sous forme de vapeur par leurs feuilles, c'est la transpiration des plantes que l'on appelle l'évapotranspiration. C'est un moteur essentiel du cycle en milieu terrestre.",
-      imageUrl: "/images/cycle-water/step2.avif"
+      imageUrl: "/images/cycle-water/step2.avif",
+      mobileImageUrl: "/images/cycle-water/m-step2.avif"
     },
     {
       id: "condensation",
       title: "3. La Condensation",
       content: "En montant, la vapeur d'eau se refroidit et se condense autour de minuscules poussières pour former des gouttelettes liquides ou des cristaux de glace : ce sont les nuages.",
-      imageUrl: "/images/cycle-water/step3.avif"
+      imageUrl: "/images/cycle-water/step3.avif",
+      mobileImageUrl: "/images/cycle-water/m-step3.avif"
     },
     {
       id: "precipitation",
       title: "4. Les Précipitations",
       content: "Lorsque les gouttelettes fusionnent et deviennent trop lourdes pour rester en suspension, la gravité les fait tomber. Selon la température, cela donne de la pluie, de la neige ou de la grêle.",
-      imageUrl: "/images/cycle-water/step4.avif"
+      imageUrl: "/images/cycle-water/step4.avif",
+      mobileImageUrl: "/images/cycle-water/m-step4.avif"
     },
     {
       id: "sublimation",
       title: "5. La Sublimation : Le Saut Invisible",
       content: "C'est le phénomène le plus surprenant ! Parfois, la neige ou la glace se transforme directement en vapeur d'eau sans jamais fondre (sans devenir liquide). C'est comme si la glace se 'téléportait' dans l'air ! Cela arrive sur les hauts sommets des montagnes où l'air est très sec et le soleil très fort : les molécules d'eau n'ont pas le temps de revenir liquide et sautent l'étape de la flaque d'eau pour s'envoler directement vers le ciel.",
-      imageUrl: "/images/cycle-water/step5.avif"
+      imageUrl: "/images/cycle-water/step5.avif",
+      mobileImageUrl: "/images/cycle-water/m-step5.avif"
     },
     {
       id: "ruissellement",
       title: "6. Le Ruissellement de Surface",
       content: "Une partie de l'eau s'écoule à la surface du sol, suivant la pente du terrain. Elle forme des rigoles, puis des ruisseaux qui alimentent les rivières.",
-      imageUrl: "/images/cycle-water/step6.avif"
+      imageUrl: "/images/cycle-water/step6.avif",
+      mobileImageUrl: "/images/cycle-water/m-step6.avif"
     },
     {
       id: "infiltration",
       title: "7. L'Infiltration",
       content: "Une autre partie de l'eau pénètre dans le sol à travers les pores de la terre et des roches. C'est ainsi que la terre reste humide et que les plantes peuvent boire.",
-      imageUrl: "/images/cycle-water/step7.avif"
+      imageUrl: "/images/cycle-water/step7.avif",
+      mobileImageUrl: "/images/cycle-water/m-step7.avif"
     },
     {
       id: "ecoulement-souterrain",
       title: "8. L'Écoulement Souterrain",
       content: "Une fois sous terre, l'eau continue de bouger ! Elle circule lentement à travers les roches poreuses pour former des nappes phréatiques. Ce sont des réserves d'eau douce.",
-      imageUrl: "/images/cycle-water/step8.avif"
+      imageUrl: "/images/cycle-water/step8.avif",
+      mobileImageUrl: "/images/cycle-water/m-step8.avif"
     },
     {
       id: "retour",
       title: "9. Le Retour au Cycle",
       content: "Finalement, que ce soit par les fleuves ou par des sources sous-marines, l'eau retrouve les océans. Le voyage est terminé... mais il est prêt à recommencer !",
-      imageUrl: "/images/cycle-water/step1.avif"
+      imageUrl: "/images/cycle-water/step1.avif",
+      mobileImageUrl: "/images/cycle-water/m-step1.avif"
     },
     {
       id: "boucle",
       title: "10. La Boucle Éternelle",
       content: "Sais-tu que l'eau que tu bois aujourd'hui est la même que celle que buvaient les dinosaures il y a 150 millions d'années ? L'eau sur Terre ne disparaît jamais : elle voyage, change d'état sous état solide, liquide ou gazeux et se recycle à l'infini depuis des milliards d'années. C'est une boucle fermée parfaite qui permet à la vie de continuer sur notre planète ! Sache qu'en physique et chimie, rien ne se perd, tout se transforme. Par exemple, si tu à 100 grammes de sable et que tu le chauffe, tu aura 90 grammes de verre et 10 grammes d'eau qui se seront évaporé, ce qui donne une transformation de 100 grammes",
-      imageUrl: "/images/cycle-water/step10.avif"
+      imageUrl: "/images/cycle-water/step10.avif",
+      mobileImageUrl: "/images/cycle-water/m-step10.avif"
     }
   ],
   quiz: [

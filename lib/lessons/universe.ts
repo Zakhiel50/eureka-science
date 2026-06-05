@@ -4,6 +4,7 @@ export const universe: Course = {
   id: "infinitely-large",
   title: "À la découverte de l'Infiniment Grand",
   thumbnailUrl: "/images/universe/cover.avif",
+  mobileThumbnailUrl: "/images/universe/m-cover.avif",
   description:
     "Pars pour un incroyable voyage dans l'Univers ! Découvre le Soleil, les planètes, les lunes, les comètes, les galaxies, les mystérieux trous noirs et comment les humains explorent l'espace.",
 
@@ -13,70 +14,80 @@ export const universe: Course = {
       title: "1. Qu'est-ce que l'Univers ?",
       content:
         "L'Univers est tout ce qui existe : les étoiles, les planètes, les galaxies, les nuages de gaz, les trous noirs… et même nous ! Il est gigantesque, tellement immense qu'il est difficile d'imaginer sa taille. L'espace paraît vide, mais il contient des milliards de mondes et d'objets fascinants.",
-      imageUrl: "/images/universe/step1.avif"
+      imageUrl: "/images/universe/step1.avif",
+      mobileImageUrl: "/images/universe/m-step1.avif"
     },
     {
       id: "sun",
       title: "2. Le Soleil : Notre Étoile",
       content:
         "Le Soleil n'est pas une planète : c'est une étoile, une immense boule de gaz extrêmement chaude ! Il produit lumière et chaleur grâce à des réactions très puissantes dans son cœur appelées fusion nucléaire. Sans lui, la Terre serait une planète glacée et sans vie. Sa gravité maintient aussi les planètes du système solaire autour de lui.",
-      imageUrl: "/images/universe/step2.avif"
+      imageUrl: "/images/universe/step2.avif",
+      mobileImageUrl: "/images/universe/m-step2.avif"
     },
     {
       id: "planets",
       title: "3. Les Planètes du Système Solaire",
       content:
         "Notre système solaire possède huit planètes qui tournent autour du Soleil : Mercure, Vénus, la Terre, Mars, Jupiter, Saturne, Uranus et Neptune. Autrefois considérée comme la neuvième planète, Pluton est aujourd'hui classée comme une planète naine. Certaines planètes sont rocheuses comme la Terre ou Mars, tandis que d'autres sont géantes et gazeuses comme Jupiter ou Saturne.",
-      imageUrl: "/images/universe/step3.avif"
+      imageUrl: "/images/universe/step3.avif",
+      mobileImageUrl: "/images/universe/m-step3.avif"
     },
     {
       id: "moons-comets-asteroids",
       title: "4. Lunes, Astéroïdes et Comètes",
       content:
         "Les lunes tournent autour des planètes, comme notre Lune autour de la Terre. Les astéroïdes sont souvent de gros morceaux de roche ou de métal qui voyagent dans l'espace. Les comètes, elles, contiennent beaucoup de glace et de poussière. Lorsqu'elles passent près du Soleil, leur glace chauffe et libère des gaz et de la poussière qui peuvent former une magnifique queue lumineuse.",
-      imageUrl: "/images/universe/step4.avif"
+      imageUrl: "/images/universe/step4.avif",
+      mobileImageUrl: "/images/universe/m-step4.avif"
     },
     {
       id: "stars",
       title: "5. Les Étoiles",
       content:
         "Le Soleil est une étoile parmi des milliards d'autres ! Certaines étoiles sont petites, d'autres immenses. Elles naissent dans de grands nuages de gaz, brillent parfois pendant des milliards d'années puis changent ou disparaissent lors d'événements spectaculaires. Comparé à d'autres étoiles, le Soleil est de taille moyenne, mais bien plus petit que certaines étoiles géantes.",
-      imageUrl: "/images/universe/step5.avif"
+      imageUrl: "/images/universe/step5.avif",
+      mobileImageUrl: "/images/universe/m-step5.avif"
     },
     {
       id: "galaxies",
       title: "6. Les Galaxies",
       content:
         "Une galaxie est un immense groupe d'étoiles, de gaz, de poussières et parfois de trous noirs. Notre planète se trouve dans une galaxie appelée la Voie lactée. Et sais-tu quoi ? Il existe probablement des milliards de galaxies dans l'Univers !",
-      imageUrl: "/images/universe/step6.avif"
+      imageUrl: "/images/universe/step6.avif",
+      mobileImageUrl: "/images/universe/m-step6.avif"
     },
     {
       id: "black-holes",
       title: "7. Les Trous Noirs",
       content:
         "Les trous noirs sont parmi les objets les plus mystérieux de l'Univers. Leur gravité est tellement forte que même la lumière ne peut pas s'en échapper. Si un objet s'approche trop près, il peut être attiré avec une force tellement intense qu'il pourrait être étiré comme un spaghetti : les scientifiques appellent cela la 'spaghettification'. Heureusement, aucun trou noir dangereux ne se trouve près de notre système solaire.",
-      imageUrl: "/images/universe/step7.avif"
+      imageUrl: "/images/universe/step7.avif",
+      mobileImageUrl: "/images/universe/m-step7.avif"
     },
     {
       id: "wormholes",
       title: "8. Les Trous de Ver (Ponts d'Einstein-Rosen)",
       content:
         "Les trous de ver sont une idée scientifique fascinante imaginée grâce à certaines théories physiques. Les scientifiques pensent qu'ils pourraient fonctionner comme des raccourcis à travers l'espace et le temps, un peu comme un tunnel reliant deux endroits très éloignés. Mais attention : aucun trou de ver n'a encore été découvert et nous ne savons pas s'ils existent réellement.",
-      imageUrl: "/images/universe/step8.avif"
+      imageUrl: "/images/universe/step8.avif",
+      mobileImageUrl: "/images/universe/m-step8.avif"
     },
     {
       id: "space-tools",
       title: "9. Les Outils pour Explorer l'Univers",
       content:
         "Pour observer l'espace, les scientifiques utilisent des télescopes géants, des satellites, des sondes spatiales et même des robots envoyés sur d'autres mondes. Par exemple, le rover Curiosity envoyé le 26 novembre 2011 et qui à atterit le 6 août 2012 sur Mars, l'explore actuellement pour mieux comprendre cette planète. Ces outils permettent de prendre des photos, mesurer des distances, analyser des signaux venus de l'espace et découvrir de nouveaux objets célestes.",
-      imageUrl: "/images/universe/step9.avif"
+      imageUrl: "/images/universe/step9.avif",
+      mobileImageUrl: "/images/universe/m-step9.avif"
     },
     {
       id: "space-exploration",
       title: "10. Pourquoi Explorer l'Univers ?",
       content:
         "Pourquoi les humains explorent-ils l'espace ? Pour mieux comprendre comment fonctionne l'Univers, chercher si la vie existe ailleurs, protéger la Terre des astéroïdes dangereux, inventer de nouvelles technologies et préparer peut-être un jour des voyages vers d'autres planètes. Explorer l'espace aide aussi les scientifiques à mieux comprendre notre planète et les lois de la physique.",
-      imageUrl: "/images/universe/step10.avif"
+      imageUrl: "/images/universe/step10.avif",
+      mobileImageUrl: "/images/universe/m-step10.avif"
     }
   ],
 

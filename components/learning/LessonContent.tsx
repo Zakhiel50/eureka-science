@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { LessonStep } from "@/app/types/types";
 import { ChevronRight, ChevronLeft, GraduationCap, X, Maximize2, Volume2, Square, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useUser } from "@/app/context/UserContext";
 
 interface LessonContentProps {
@@ -145,17 +145,34 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
               aria-label={`Agrandir l'image : ${step.title}`}
               className="relative aspect-video rounded-2xl overflow-hidden border-4 border-slate-200 dark:border-slate-800 shadow-inner bg-slate-100 dark:bg-slate-800 mt-6 cursor-zoom-in group focus:outline-none focus:ring-4 focus:ring-cyan-500/50"
             >
-              <Image
-                src={step.imageUrl}
-                alt={step.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                priority
-                quality={75}
-              />
+              {(() => {
+                const common = { alt: step.title, fill: true, priority: true, quality: 75 };
+                
+                const { props: { srcSet: desktop } } = getImageProps({
+                  ...common,
+                  src: step.imageUrl,
+                  sizes: "(max-width: 1024px) 100vw, 1024px",
+                });
 
-              {/* Prefetching des images suivantes pour une fluidité totale */}
+                const { props: { srcSet: mobile, ...rest } } = getImageProps({
+                  ...common,
+                  src: step.mobileImageUrl || step.imageUrl,
+                  sizes: "100vw",
+                });
+
+                return (
+                  <picture>
+                    <source media="(min-width: 1024px)" srcSet={desktop} />
+                    <source media="(max-width: 1023px)" srcSet={mobile} />
+                    <img 
+                      {...rest} 
+                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-105 w-full h-full" 
+                    />
+                  </picture>
+                );
+              })()}
+
+              {/* Prefetching des images suivantes */}
               {currentStep < steps.length - 1 && (
                 <div className="hidden" aria-hidden="true">
                   <Image
@@ -165,6 +182,15 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
                     height={576}
                     quality={75}
                   />
+                  {steps[currentStep + 1].mobileImageUrl && (
+                    <Image
+                      src={steps[currentStep + 1].mobileImageUrl!}
+                      alt=""
+                      width={1024}
+                      height={576}
+                      quality={75}
+                    />
+                  )}
                 </div>
               )}
 
@@ -226,13 +252,30 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
               className="relative w-full h-full max-w-7xl flex flex-col items-center justify-center gap-4"
             >
               <div className="relative w-full h-full flex-1">
-                <Image
-                  src={step.imageUrl}
-                  alt={step.title}
-                  fill
-                  className="object-contain"
-                  unoptimized
-                />
+                {(() => {
+                  const common = { alt: step.title, fill: true, unoptimized: true };
+                  
+                  const { props: { srcSet: desktop } } = getImageProps({
+                    ...common,
+                    src: step.imageUrl,
+                  });
+
+                  const { props: { srcSet: mobile, ...rest } } = getImageProps({
+                    ...common,
+                    src: step.mobileImageUrl || step.imageUrl,
+                  });
+
+                  return (
+                    <picture>
+                      <source media="(min-width: 1024px)" srcSet={desktop} />
+                      <source media="(max-width: 1023px)" srcSet={mobile} />
+                      <img 
+                        {...rest} 
+                        className="object-contain w-full h-full" 
+                      />
+                    </picture>
+                  );
+                })()}
               </div>
               
               <button

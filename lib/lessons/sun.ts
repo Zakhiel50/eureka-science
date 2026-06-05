@@ -4,6 +4,7 @@ export const sunCourse: Course = {
   id: "sun",
   title: "À la découverte du Soleil",
   thumbnailUrl: "/images/sun/cover.avif",
+  mobileThumbnailUrl: "/images/sun/m-cover.avif",
   description:
     "Découvre notre étoile géante ! Apprends pourquoi le Soleil brille, chauffe notre planète, provoque des phénomènes incroyables dans l'espace et rend la vie possible sur Terre.",
 
@@ -12,69 +13,79 @@ export const sunCourse: Course = {
       id: "sun-definition",
       title: "1. Qu'est-ce que le Soleil ?",
       content: "Le Soleil n'est pas une planète : c'est une étoile ! Comparé à certaines étoiles géantes de l'Univers, le Soleil est considéré comme une étoile de taille moyenne. Pourtant, il reste immense à notre échelle : on pourrait placer environ 1,3 million de Terres à l'intérieur ! Il est composé principalement d'hydrogène et d'hélium et se trouve au centre du système solaire. Sa gravité maintient les planètes autour de lui.",
-      imageUrl: "/images/sun/step1.avif"
+      imageUrl: "/images/sun/step1.avif",
+      mobileImageUrl: "/images/sun/m-step1.avif"
     },
     {
       id: "sun-energy",
       title: "2. Pourquoi le Soleil Brille-t-il ?",
       content:
         "Le Soleil produit sa lumière et sa chaleur grâce à un phénomène appelé fusion nucléaire. Dans son cœur, de minuscules particules d'hydrogène se mélangent pour créer de l'hélium et libérer une énorme quantité d'énergie. C'est cette énergie qui voyage dans l'espace sous forme de lumière et de chaleur jusqu'à la Terre.",
-      imageUrl: "/images/sun/step2.avif"
+      imageUrl: "/images/sun/step2.avif",
+      mobileImageUrl: "/images/sun/m-step2.avif"
     },
     {
       id: "sun-layers",
       title: "3. Les Couches du Soleil",
       content:
         "Le Soleil possède plusieurs couches. En son centre se trouve le noyau, l'endroit le plus chaud où se produit la fusion nucléaire. Plus loin se trouve la surface visible appelée photosphère, puis une immense atmosphère très chaude autour du Soleil. Chaque couche possède une température différente.",
-      imageUrl: "/images/sun/step3.avif"
+      imageUrl: "/images/sun/step3.avif",
+      mobileImageUrl: "/images/sun/m-step3.avif"
     },
     {
       id: "sun-temperature",
       title: "4. Quelle Température Fait-il sur le Soleil ?",
       content:
         "Le Soleil est incroyablement chaud ! À sa surface, il fait environ 5 500°C. Dans son cœur, la température atteint environ 15 millions de degrés Celsius. À cette chaleur extrême, aucun humain ni objet ne pourrait survivre.",
-      imageUrl: "/images/sun/step4.avif"
+      imageUrl: "/images/sun/step4.avif",
+      mobileImageUrl: "/images/sun/m-step4.avif"
     },
     {
       id: "solar-eruptions",
       title: "5. Les Taches Solaires et les Éruptions",
       content:
         "Le Soleil n'est pas calme ! Il possède parfois des taches solaires et peut produire d'immenses explosions appelées éruptions solaires. Ces explosions projettent de l'énergie et des particules dans l'espace. Elles peuvent parfois perturber des satellites, Internet, le GPS ou certaines communications sur Terre.",
-      imageUrl: "/images/sun/step5.avif"
+      imageUrl: "/images/sun/step5.avif",
+      mobileImageUrl: "/images/sun/m-step5.avif"
     },
     {
       id: "solar-wind",
       title: "6. Le Vent Solaire",
       content:
         "Le Soleil envoie aussi un étrange 'vent' dans l'espace appelé vent solaire. Ce n'est pas du vent comme sur Terre : ce sont des particules minuscules projetées à très grande vitesse dans toutes les directions. Ce vent peut voyager à des millions de kilomètres dans l'espace.",
-      imageUrl: "/images/sun/step6.avif"
+      imageUrl: "/images/sun/step6.avif",
+      mobileImageUrl: "/images/sun/m-step6.avif"
     },
     {
       id: "auroras",
       title: "7. Les Aurores Polaires",
       content:
         "Quand certaines particules du vent solaire rencontrent le champ magnétique de la Terre, elles peuvent créer de magnifiques lumières colorées dans le ciel : les aurores polaires. On peut surtout les observer près des pôles, comme en Islande, au Canada ou en Norvège.",
-      imageUrl: "/images/sun/step7.avif"
+      imageUrl: "/images/sun/step7.avif",
+      mobileImageUrl: "/images/sun/m-step7.avif"
     },
     {
       id: "sun-essential",
       title: "8. Pourquoi le Soleil est-il si Important ?",
       content:
         "Sans le Soleil, la Terre serait glacée, sombre et inhabitable. Le Soleil réchauffe notre planète, éclaire nos journées et aide les plantes à pousser grâce à la photosynthèse. Même les vents et la météo sont influencés par la chaleur du Soleil.",
-      imageUrl: "/images/sun/step8.avif"
+      imageUrl: "/images/sun/step8.avif",
+      mobileImageUrl: "/images/sun/m-step8.avif"
     },
     {
       id: "sun-future",
       title: "9. Le Futur du Soleil",
       content:
         "Le Soleil ne brillera pas toujours de la même façon. Dans plusieurs milliards d'années, il deviendra beaucoup plus grand et plus chaud : on appelle cela une géante rouge. Plus tard encore, il se refroidira lentement après avoir perdu une partie de sa matière.",
-      imageUrl: "/images/sun/step9.avif"
+      imageUrl: "/images/sun/step9.avif",
+      mobileImageUrl: "/images/sun/m-step9.avif"
     },
     {
       id: "sun-records",
       title: "10. Les Records du Soleil",
       content: "Le Soleil est âgé d'environ 4,6 milliards d'années ! Sa lumière met environ 8 minutes à atteindre la Terre. Même s'il est considéré comme une étoile de taille moyenne parmi les étoiles de l'Univers, il reste immense comparé aux planètes et représente plus de 99 % de la masse du système solaire.",
-      imageUrl: "/images/sun/step10.avif"
+      imageUrl: "/images/sun/step10.avif",
+      mobileImageUrl: "/images/sun/m-step10.avif"
     }
   ],
 

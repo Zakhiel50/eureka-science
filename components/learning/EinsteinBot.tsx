@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
@@ -53,11 +53,11 @@ export default function EinsteinBot() {
       setCanClose(false);
       setIsCoolingDown(true);
       
-      // Cooldown de 4 secondes avant de pouvoir fermer manuellement
+      // Cooldown de 3 secondes avant de pouvoir fermer manuellement
       const cooldownTimer = setTimeout(() => {
         setCanClose(true);
         setIsCoolingDown(false);
-      }, 4000);
+      }, 3000);
 
       // Fermeture automatique après 10 secondes
       const autoCloseTimer = setTimeout(() => {
@@ -153,7 +153,7 @@ export default function EinsteinBot() {
                     <motion.div 
                       initial={{ width: "100%" }}
                       animate={{ width: "0%" }}
-                      transition={{ duration: 4, ease: "linear" }}
+                      transition={{ duration: 3, ease: "linear" }}
                       className="absolute bottom-0 left-0 h-1 bg-cyan-500 rounded-br-2xl"
                     />
                   </div>
@@ -181,18 +181,39 @@ export default function EinsteinBot() {
             <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-xl group-hover:bg-cyan-500/30 transition-all duration-500 animate-pulse" />
             
             <div className="relative w-[80px] h-[80px] md:w-[120px] md:h-[120px]">
-              <Image
-                src="/images/einstein-bot.avif"
-                alt="Einstein Bot Mascot"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                quality={40}
-                className={`object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
-                  isMuted ? "grayscale opacity-80" : ""
-                }`}
-                priority
-                fetchPriority="high"
-              />
+              {(() => {
+                const common = { 
+                  alt: "Einstein Bot Mascot", 
+                  fill: true, 
+                  quality: 40, 
+                  priority: true 
+                };
+
+                const { props: { srcSet: desktop } } = getImageProps({
+                  ...common,
+                  src: "/images/einstein-bot.avif",
+                  sizes: "(max-width: 768px) 120px, 120px",
+                });
+
+                const { props: { srcSet: mobile, ...rest } } = getImageProps({
+                  ...common,
+                  src: "/images/m-einstein-bot.avif",
+                  sizes: "80px",
+                });
+
+                return (
+                  <picture>
+                    <source media="(min-width: 768px)" srcSet={desktop} />
+                    <source media="(max-width: 767px)" srcSet={mobile} />
+                    <img 
+                      {...rest} 
+                      className={`object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
+                        isMuted ? "grayscale opacity-80" : ""
+                      }`}
+                    />
+                  </picture>
+                );
+              })()}
               
               <div className="absolute -bottom-2 -right-2 bg-slate-900/80 backdrop-blur-md p-2 rounded-full border border-white/10 shadow-lg">
                 {isMuted ? (
