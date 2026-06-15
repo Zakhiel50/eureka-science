@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientEinsteinBot from "@/components/learning/ClientEinsteinBot";
@@ -10,9 +10,28 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
+export const viewport: Viewport = {
+  themeColor: "#0891b2",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   title: "EUREKA : L'Odyssée des Sciences",
   description: "Apprendre les sciences en s'amusant",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "EUREKA",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    apple: "/icon-192x192.png",
+  },
 };
 
 export default function RootLayout({
