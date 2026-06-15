@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "EUREKA : L'Odyssée des Sciences",
-    short_name: 'EUREKA',
+    short_name: 'EUREKA-1.0.0',
     description: "Apprendre les sciences en s'amusant",
     start_url: '/',
     display: 'standalone',
