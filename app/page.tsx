@@ -99,7 +99,8 @@ export default function Home() {
           <p className="text-slate-600 dark:text-slate-400 mt-2 font-medium">L&apos;aventure du savoir commence ici avec Einstein-bot!</p>
         </div>
         <div className="flex flex-col md:flex-row gap-4 items-center">
-          <Link 
+          <Link
+            id="lab-button"
             href="/laboratoire"
             className="mt-4 md:mt-0 bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-3 rounded-2xl border border-white/20 flex items-center gap-3 shadow-lg hover:scale-105 transition-transform group focus:outline-none focus:ring-4 focus:ring-purple-500/50"
             aria-label="Accéder au laboratoire virtuel"
@@ -107,7 +108,7 @@ export default function Home() {
             <FlaskConical className="w-6 h-6 text-white group-hover:rotate-12 transition-transform" aria-hidden="true" />
             <span className="font-bold text-white uppercase tracking-wider">Laboratoire</span>
           </Link>
-          <div className="mt-4 md:mt-0 bg-white dark:bg-slate-800 px-6 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-3 shadow-inner">
+          <div id="xp-counter" className="mt-4 md:mt-0 bg-white dark:bg-slate-800 px-6 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-3 shadow-inner">
             <Star className="w-6 h-6 text-yellow-500 dark:text-yellow-400 fill-yellow-500 dark:fill-yellow-400 animate-pulse" aria-hidden="true" />
             <span className="font-bold text-2xl text-slate-900 dark:text-white">
               <span className="sr-only">Votre score total est de </span>
@@ -119,22 +120,22 @@ export default function Home() {
 
       <section aria-labelledby="courses-title">
         <h2 id="courses-title" className="sr-only">Liste des cours disponibles</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div id="courses-grid" className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {coursesList.map((course, index) => {
             const isCompleted = completedCourses.includes(course.id);
             const rawScore = scores[course.id];
             const score = rawScore !== undefined ? rawScore : (isCompleted ? 100 : undefined);
-            
+
             const isLocked = index === 0 ? false : !completedCourses.includes(coursesList[index - 1].id);
-            
+
             return (
               <article
+                id={index === 0 ? "first-course-card" : undefined}
                 key={course.id}
-                className={`group relative overflow-hidden rounded-3xl border transition-all duration-500 flex flex-col ${
-                  isLocked
+                className={`group relative overflow-hidden rounded-3xl border transition-all duration-500 flex flex-col ${isLocked
                     ? "bg-slate-100 dark:bg-slate-900/20 border-slate-200 dark:border-slate-800 opacity-60 grayscale"
                     : "bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
-                }`}
+                  }`}
                 aria-disabled={isLocked}
               >
                 <div className="h-48 relative overflow-hidden bg-gradient-to-br shrink-0">
@@ -162,7 +163,7 @@ export default function Home() {
                       )}
                     </div>
                   )}
-                  
+
                   {score !== undefined && !isLocked && (
                     <div className="absolute top-4 right-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/20 flex items-center gap-2 shadow-xl">
                       <Target className="w-4 h-4 text-cyan-600 dark:text-cyan-400" aria-hidden="true" />
@@ -192,18 +193,17 @@ export default function Home() {
                           {score}%
                         </span>
                       </div>
-                      <div 
-                        className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-300 dark:border-slate-700/50" 
-                        role="progressbar" 
-                        aria-valuenow={score} 
-                        aria-valuemin={0} 
+                      <div
+                        className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-300 dark:border-slate-700/50"
+                        role="progressbar"
+                        aria-valuenow={score}
+                        aria-valuemin={0}
                         aria-valuemax={100}
                         aria-labelledby={`mastery-label-${course.id}`}
                       >
-                        <div 
-                          className={`h-full transition-all duration-1000 ${
-                            score === 100 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" : "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
-                          }`}
+                        <div
+                          className={`h-full transition-all duration-1000 ${score === 100 ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" : "bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+                            }`}
                           style={{ width: `${score}%` }}
                         />
                       </div>
@@ -214,11 +214,10 @@ export default function Home() {
                     {!isLocked ? (
                       <Link
                         href={`/cours/${course.id}`}
-                        className={`flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-black transition-all shadow-lg focus:outline-none focus:ring-4 focus:ring-cyan-500/50 ${
-                          isCompleted 
-                            ? "bg-slate-100 dark:bg-slate-800 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-500/30 hover:bg-slate-200 dark:hover:bg-slate-700" 
+                        className={`flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-black transition-all shadow-lg focus:outline-none focus:ring-4 focus:ring-cyan-500/50 ${isCompleted
+                            ? "bg-slate-100 dark:bg-slate-800 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-500/30 hover:bg-slate-200 dark:hover:bg-slate-700"
                             : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-cyan-600 dark:hover:bg-cyan-400 hover:text-white"
-                        }`}
+                          }`}
                         aria-label={isCompleted ? `Revoir le cours : ${course.title}` : `Démarrer le cours : ${course.title}`}
                       >
                         {isCompleted ? "Revoir le cours" : "Démarrer l'aventure"}
@@ -226,8 +225,8 @@ export default function Home() {
                       </Link>
                     ) : (
                       <div className="py-4 text-center text-slate-500 font-bold bg-slate-100 dark:bg-slate-800/30 rounded-2xl border border-slate-200 dark:border-slate-800/50 italic">
-                         <span className="sr-only">Ce cours est actuellement verrouillé. Terminez le cours précédent pour le débloquer.</span>
-                         Cours Verrouillé
+                        <span className="sr-only">Ce cours est actuellement verrouillé. Terminez le cours précédent pour le débloquer.</span>
+                        Cours Verrouillé
                       </div>
                     )}
                   </div>
@@ -250,22 +249,20 @@ export default function Home() {
             <Volume2 className="w-6 h-6 text-cyan-600 dark:text-cyan-400" aria-hidden="true" />
             Voix d&apos;Einstein-bot
           </label>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" role="radiogroup" aria-labelledby="voice-label">
             {VOICES.map((voice) => (
-              <div 
+              <div
                 key={voice.id}
-                className={`group flex items-center gap-2 p-1 rounded-2xl border transition-all ${
-                  preferredVoice === voice.id
+                className={`group flex items-center gap-2 p-1 rounded-2xl border transition-all ${preferredVoice === voice.id
                     ? "bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
                     : "bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
-                }`}
+                  }`}
               >
                 <button
                   onClick={() => setPreferredVoice(voice.id)}
-                  className={`flex-1 flex items-center justify-between p-4 rounded-xl transition-all font-bold text-left focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${
-                    preferredVoice === voice.id ? "text-cyan-600 dark:text-cyan-400" : "text-slate-500 dark:text-slate-400"
-                  }`}
+                  className={`flex-1 flex items-center justify-between p-4 rounded-xl transition-all font-bold text-left focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${preferredVoice === voice.id ? "text-cyan-600 dark:text-cyan-400" : "text-slate-500 dark:text-slate-400"
+                    }`}
                   role="radio"
                   aria-checked={preferredVoice === voice.id}
                 >
@@ -277,14 +274,13 @@ export default function Home() {
                     </div>
                   )}
                 </button>
-                
+
                 <button
                   onClick={() => testVoice(voice.id)}
-                  className={`p-4 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${
-                    playingVoiceId === voice.id
+                  className={`p-4 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${playingVoiceId === voice.id
                       ? "bg-cyan-600 dark:bg-cyan-500 text-white"
                       : "bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-cyan-600 dark:hover:text-cyan-400"
-                  }`}
+                    }`}
                   aria-label={`Écouter un aperçu de la voix de ${voice.name}`}
                 >
                   {playingVoiceId === voice.id ? (
@@ -296,7 +292,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          
+
           <p className="text-center text-slate-500 italic text-sm">
             Clique sur une voix pour la sélectionner, ou sur le bouton de lecture pour l&apos;écouter.
           </p>
@@ -313,7 +309,7 @@ export default function Home() {
         >
           <Settings className="w-6 h-6 group-hover:rotate-90 transition-transform duration-500" aria-hidden="true" />
         </button>
-        
+
         {showBackToTop && (
           <button
             onClick={scrollToTop}

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientEinsteinBot from "@/components/learning/ClientEinsteinBot";
+import ClientGuidedTour from "@/components/learning/ClientGuidedTour";
 import { EinsteinProvider } from "./context/EinsteinContext";
 import { UserProvider } from "./context/UserContext";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -76,6 +77,7 @@ export default function RootLayout({
               {children}
             </main>
             <ClientEinsteinBot />
+            <ClientGuidedTour />
           </EinsteinProvider>
         </UserProvider>
       </body>

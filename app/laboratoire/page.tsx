@@ -36,10 +36,12 @@ export default function LaboratoryPage() {
             </h2>
             <span className="text-slate-500 dark:text-slate-400 text-sm font-medium italic">Fais glisser pour faire pivoter la vue</span>
           </div>
-          <LabScene />
+          <div id="lab-scene-container">
+            <LabScene />
+          </div>
         </section>
 
-        <section className="bg-slate-900/5 dark:bg-slate-900/20 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800/50 shadow-inner">
+        <section id="lab-store-section" className="bg-slate-900/5 dark:bg-slate-900/20 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800/50 shadow-inner">
           <LabStore />
         </section>
       </main>

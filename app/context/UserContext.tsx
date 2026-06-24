@@ -31,6 +31,8 @@ interface UserContextType {
   isMuted: boolean;
   showBackground: boolean;
   isLoaded: boolean;
+  hasCompletedTutorial: boolean;
+  setHasCompletedTutorial: (completed: boolean) => void;
   addXP: (amount: number) => void;
   saveCourseProgress: (courseId: string, score: number) => void;
   buyItem: (itemId: string) => boolean;
@@ -50,6 +52,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [isMuted, setIsMuted] = useState(false);
   const [showBackground, setShowBackground] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasCompletedTutorial, setHasCompletedTutorial] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("eureka_progress");
@@ -63,6 +66,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setPreferredVoice(data.preferredVoice || 'fr-FR-DeniseNeural');
         setIsMuted(data.isMuted || false);
         setShowBackground(data.showBackground !== undefined ? data.showBackground : true);
+        setHasCompletedTutorial(data.hasCompletedTutorial || false);
       } catch (e) {
         console.error("Failed to parse progress", e);
       }
@@ -72,10 +76,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isLoaded) {
-      const data = { xp, completed: completedCourses, scores, inventory, preferredVoice, isMuted, showBackground };
+      const data = { xp, completed: completedCourses, scores, inventory, preferredVoice, isMuted, showBackground, hasCompletedTutorial };
       localStorage.setItem("eureka_progress", JSON.stringify(data));
     }
-  }, [xp, completedCourses, scores, inventory, preferredVoice, isMuted, showBackground, isLoaded]);
+  }, [xp, completedCourses, scores, inventory, preferredVoice, isMuted, showBackground, hasCompletedTutorial, isLoaded]);
 
   const addXP = (amount: number) => {
     setXp(prev => prev + amount);
@@ -125,6 +129,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       isMuted,
       showBackground,
       isLoaded,
+      hasCompletedTutorial,
+      setHasCompletedTutorial,
       addXP, 
       saveCourseProgress, 
       buyItem, 

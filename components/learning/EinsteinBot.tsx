@@ -13,14 +13,14 @@ export default function EinsteinBot() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const { message, clear, setIsCoolingDown } = useEinstein();
-  const { isMuted, setIsMuted } = useUser();
+  const { isMuted, setIsMuted, hasCompletedTutorial } = useUser();
   const [currentFact, setCurrentFact] = useState("");
   const [isFactVisible, setIsFactVisible] = useState(false);
   const [canClose, setCanClose] = useState(true);
 
   // Gestion des faits aléatoires (uniquement sur l'accueil et si non muté)
   useEffect(() => {
-    if (isHomePage && !message && !isMuted) {
+    if (isHomePage && !message && !isMuted && hasCompletedTutorial) {
       const initialTimer = setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * infoFacts.length);
         setCurrentFact(infoFacts[randomIndex]);
@@ -109,7 +109,9 @@ export default function EinsteinBot() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.5, type: "spring" }}
-          className="fixed bottom-2 left-2 md:bottom-4 md:left-4 z-50 pointer-events-none select-none flex flex-col items-start gap-2"
+          className={`fixed bottom-2 left-2 md:bottom-4 md:left-4 select-none flex flex-col items-start gap-2 transition-all duration-300 ${
+            !hasCompletedTutorial ? "z-[201] pointer-events-auto" : "z-50 pointer-events-none"
+          }`}
         >
           <AnimatePresence>
             {activeMessageText && (
