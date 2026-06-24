@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { LessonStep } from "@/app/types/types";
 import { ChevronRight, ChevronLeft, GraduationCap, X, Maximize2, Volume2, Square, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,6 +20,54 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const wasExpandedRef = useRef(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isExpanded) {
+      document.body.style.overflow = "hidden";
+      wasExpandedRef.current = true;
+    } else {
+      document.body.style.overflow = "";
+      
+      if (wasExpandedRef.current) {
+        wasExpandedRef.current = false;
+        // Reset browser pinch-to-zoom on mobile when modal closes
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        if (viewportMeta) {
+          const originalContent = viewportMeta.getAttribute('content');
+          // Force reset scale by temporarily disabling user scalability
+          viewportMeta.setAttribute(
+            'content',
+            'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'
+          );
+          // Restore native scale/zoom functionality after the browser recalculates layouts
+          setTimeout(() => {
+            viewportMeta.setAttribute('content', originalContent || 'width=device-width, initial-scale=1.0');
+          }, 150);
+        }
+      }
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isExpanded]);
+
+  const [showZoomToast, setShowZoomToast] = useState(false);
+
+  useEffect(() => {
+    if (isExpanded) {
+      setShowZoomToast(true);
+      const timer = setTimeout(() => {
+        setShowZoomToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isExpanded]);
 
   useEffect(() => {
     // Cleanup audio on step change or unmount
@@ -187,8 +236,8 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
                   onClick={toggleAudio}
                   disabled={isLoading}
                   className={`p-3 rounded-full border transition-all transform active:scale-95 focus:outline-none focus:ring-4 focus:ring-cyan-500/50 ${isPlaying
-                      ? "bg-red-500/20 border-red-500/50 text-red-600 dark:text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.3)]"
-                      : "bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/50 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/20 dark:hover:bg-cyan-500/30"
+                    ? "bg-red-500/20 border-red-500/50 text-red-600 dark:text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+                    : "bg-cyan-500/10 dark:bg-cyan-500/20 border-cyan-500/50 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/20 dark:hover:bg-cyan-500/30"
                     }`}
                   title={isPlaying ? "Arrêter la lecture" : "Lire le texte"}
                 >
@@ -208,57 +257,76 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
           </motion.div>
         </AnimatePresence>
 
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsExpanded(false)}
-              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-8 cursor-zoom-out"
-            >
+        {mounted && createPortal(
+          <AnimatePresence>
+            {isExpanded && (
               <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
-                className="relative w-full h-full max-w-7xl flex flex-col items-center justify-center gap-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsExpanded(false)}
+                className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md cursor-zoom-out zoom-backdrop"
               >
-                <div className="relative w-full h-full flex-1">
-                  <Image
-                    src={step.imageUrl}
-                    alt={step.title}
-                    fill
-                    quality={95}
-                    priority
-                    className="object-contain"
-                    sizes="100vw"
-                  />
-                </div>
-
-                <button
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
                   onClick={() => setIsExpanded(false)}
-                  className="absolute top-0 right-0 md:-top-2 md:-right-2 p-3 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all shadow-xl z-[101] transform hover:scale-110 active:scale-90 focus:outline-none focus:ring-4 focus:ring-white/50"
-                  aria-label="Fermer l'image agrandie"
+                  className="relative w-full h-full max-w-7xl flex flex-col items-center justify-center mobile-landscape-rotate zoom-container"
                 >
-                  <X className="w-6 h-6" aria-hidden="true" />
-                </button>
+                  <div className="relative w-full h-full flex-1">
+                    <Image
+                      src={step.imageUrl}
+                      alt={step.title}
+                      fill
+                      quality={95}
+                      priority
+                      className="object-contain"
+                      sizes="100vw"
+                    />
+                  </div>
 
-                <div className="w-full text-center pb-4">
-                  <h3 className="text-2xl font-bold text-white">{step.title}</h3>
-                </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsExpanded(false);
+                    }}
+                    className="p-3 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all shadow-xl z-[101] transform hover:scale-110 active:scale-90 focus:outline-none focus:ring-4 focus:ring-white/50 zoom-close-btn"
+                    aria-label="Fermer l'image agrandie"
+                  >
+                    <X className="w-6 h-6" aria-hidden="true" />
+                  </button>
+
+                  <div className="w-full text-center pb-4 zoom-title">
+                    <h3 className="text-2xl font-bold text-white">{step.title}</h3>
+                  </div>
+
+                  <AnimatePresence>
+                    {showZoomToast && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-950/80 backdrop-blur-md border border-white/10 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-2xl pointer-events-none z-[102] text-center whitespace-nowrap zoom-toast"
+                      >
+                        Cliquez sur l'image pour revenir au cours.
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
 
         <div className="mt-12 flex justify-between gap-4">
           <button
             onClick={prevStep}
             disabled={currentStep === 0}
             className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all focus:outline-none focus:ring-4 focus:ring-cyan-500/50 ${currentStep === 0
-                ? "text-slate-400 dark:text-slate-600 cursor-not-allowed"
-                : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
+              ? "text-slate-400 dark:text-slate-600 cursor-not-allowed"
+              : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
               }`}
             aria-label="Étape précédente"
           >

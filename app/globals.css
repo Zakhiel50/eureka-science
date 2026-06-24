@@ -57,3 +57,58 @@ body {
 .glass-panel {
   @apply bg-white/70 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 shadow-xl backdrop-blur-sm;
 }
+
+/* Simulation de rotation paysage sur mobile/tablette en mode portrait */
+@media (max-width: 1023px) and (orientation: portrait) {
+  .mobile-landscape-rotate {
+    width: 100vh !important;
+    width: 100dvh !important;
+    height: 100vw !important;
+    height: 100dvw !important;
+    transform: rotate(90deg) !important;
+    transform-origin: center !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+}
+
+/* Optimisation de la taille du modal de zoom sur tous les écrans mobiles/tablettes (portrait et paysage physique) */
+.zoom-backdrop {
+  padding: 0 !important;
+}
+.zoom-container {
+  gap: 0 !important;
+}
+.zoom-close-btn {
+  display: none !important; /* Masqué sur mobile par défaut */
+}
+.zoom-title {
+  display: none !important;
+}
+.zoom-toast {
+  display: block !important; /* Affiché sur mobile */
+}
+
+/* Comportement Desktop (grands écrans avec hauteur suffisante) */
+@media (min-width: 1024px) and (min-height: 600px) {
+  .zoom-backdrop {
+    padding: 2rem !important;
+  }
+  .zoom-container {
+    gap: 1rem !important;
+  }
+  .zoom-close-btn {
+    display: block !important; /* Rétabli sur desktop */
+    position: absolute !important;
+    top: -0.5rem !important;
+    right: -0.5rem !important;
+  }
+  .zoom-title {
+    display: block !important;
+  }
+  .zoom-toast {
+    display: none !important; /* Masqué sur desktop */
+  }
+}
+
+
