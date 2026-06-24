@@ -64,7 +64,7 @@ export default function CoursePage() {
       <div className="flex flex-col items-center justify-center min-h-screen text-white space-y-4">
         <h1 className="text-2xl font-bold">Oups ! Ce cours n&apos;existe pas encore.</h1>
         <Link href="/" className="text-cyan-400 flex items-center gap-2">
-           <Home className="w-5 h-5" /> Retour à l&apos;accueil
+          <Home className="w-5 h-5" /> Retour à l&apos;accueil
         </Link>
       </div>
     );
@@ -76,7 +76,7 @@ export default function CoursePage() {
         <div className="md:flex-row flex flex-col justify-between items-between">
           <Link
             href="/"
-            className="mb-6 md:mb-0 flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors font-bold"
+            className="mb-6 md:mb-0 flex items-center gap-2 text-white-500 hover:text-slate-900 dark:text-white-400 dark:hover:text-white transition-colors font-bold"
           >
             <ChevronLeft className="w-5 h-5" />
             Retour au menu
@@ -93,7 +93,7 @@ export default function CoursePage() {
               <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-900 to-indigo-900 dark:from-cyan-400 dark:to-blue-500">
                 {course.title}
               </h1>
-              <p className="text-slate-600 dark:text-slate-400 text-xl max-w-2xl mx-auto italic">
+              <p className="text-slate-white dark:text-white-400 text-xl max-w-2xl mx-auto italic">
                 {course.description}
               </p>
             </div>
@@ -104,7 +104,7 @@ export default function CoursePage() {
           </div>
         ) : (
           <div className="space-y-12">
-             <div className="text-center space-y-2">
+            <div className="text-center space-y-2">
               <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
                 Mission : Validation des acquis !
               </h1>
