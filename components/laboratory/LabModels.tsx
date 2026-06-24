@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, useGLTF, Sphere, Cylinder, MeshDistortMaterial, Center } from '@react-three/drei';
+import { Float, useGLTF, Sphere, Cylinder, MeshDistortMaterial, Center, useAnimations } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Bypassing JSX intrinsic element type check for Three.js elements
@@ -31,18 +31,18 @@ function cloneScene(scene: THREE.Group) {
 
 export function Flask({ color, position }: { color: string, position: [number, number, number] }) {
   const { scene } = useGLTF('/objects/flask.glb');
-  
+
   const clonedScene = useMemo(() => {
     const clone = scene.clone();
     clone.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
         child.receiveShadow = true;
-        
+
         if (child.material) {
           const name = child.name.toLowerCase();
           const isGlass = name.includes('glass') || name.includes('bottle') || name.includes('flask');
-          
+
           if (isGlass) {
             // Convert to MeshPhysicalMaterial for transmission support
             const oldMat = child.material as THREE.MeshStandardMaterial;
@@ -61,12 +61,12 @@ export function Flask({ color, position }: { color: string, position: [number, n
           } else {
             child.material = (child.material as THREE.Material).clone();
             const mat = child.material as any;
-            
+
             // Apply color to liquid or accents
             if (name.includes('liquid') || name.includes('fluid') || name.includes('accent') || name.includes('content') || name.includes('water')) {
-               mat.color.set(color);
-               mat.emissive = new THREE.Color(color);
-               mat.emissiveIntensity = 0.8;
+              mat.color.set(color);
+              mat.emissive = new THREE.Color(color);
+              mat.emissiveIntensity = 0.8;
             }
           }
         }
@@ -84,18 +84,18 @@ export function Flask({ color, position }: { color: string, position: [number, n
 
 export function Distillator({ color, position }: { color: string, position: [number, number, number] }) {
   const { scene } = useGLTF('/objects/distillator.glb');
-  
+
   const clonedScene = useMemo(() => {
     const clone = scene.clone();
     clone.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
         child.receiveShadow = true;
-        
+
         if (child.material) {
           const name = child.name.toLowerCase();
           const isTransparent = name.includes('glass') || name.includes('tube') || name.includes('tank');
-          
+
           if (isTransparent) {
             const oldMat = child.material as THREE.MeshStandardMaterial;
             const newMat = new THREE.MeshPhysicalMaterial({
@@ -112,12 +112,12 @@ export function Distillator({ color, position }: { color: string, position: [num
           } else {
             child.material = (child.material as THREE.Material).clone();
             const mat = child.material as any;
-            
+
             // Apply color to liquid or glowing parts
             if (name.includes('liquid') || name.includes('glow') || name.includes('accent') || name.includes('energy')) {
-               mat.color.set(color);
-               mat.emissive = new THREE.Color(color);
-               mat.emissiveIntensity = 1;
+              mat.color.set(color);
+              mat.emissive = new THREE.Color(color);
+              mat.emissiveIntensity = 1;
             }
           }
         }
@@ -135,20 +135,20 @@ export function Distillator({ color, position }: { color: string, position: [num
 
 export function Microscope({ color, position }: { color: string, position: [number, number, number] }) {
   const { scene } = useGLTF('/objects/microscope.glb');
-  
+
   const clonedScene = useMemo(() => {
     const clone = scene.clone();
     clone.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
         child.receiveShadow = true;
-        
+
         if (child.material) {
           child.material = (child.material as THREE.Material).clone();
           if (child.name.toLowerCase().includes('glass') || child.name.toLowerCase().includes('lens') || child.name.toLowerCase().includes('accent')) {
-             (child.material as any).color.set(color);
-             (child.material as any).emissive = new THREE.Color(color);
-             (child.material as any).emissiveIntensity = 0.5;
+            (child.material as any).color.set(color);
+            (child.material as any).emissive = new THREE.Color(color);
+            (child.material as any).emissiveIntensity = 0.5;
           }
         }
       }
@@ -181,8 +181,9 @@ export function Telescope({ color, position }: { color: string, position: [numbe
 }
 
 export function AtomModel({ color, position }: { color: string, position: [number, number, number] }) {
-  const { scene } = useGLTF('/objects/atom.glb');
+  const { scene, animations } = useGLTF('/objects/atom.glb');
   const ref = useRef<THREE.Group>(null);
+  const mixerRef = useRef<THREE.AnimationMixer | null>(null);
 
   const model = useMemo(() => {
     const clone = cloneScene(scene);
@@ -195,7 +196,6 @@ export function AtomModel({ color, position }: { color: string, position: [numbe
           if (child.material) {
             child.material.color.set(color);
             child.material.emissive = new THREE.Color(color);
-            child.material.emissiveIntensity = 1;
           }
         }
       }
@@ -204,19 +204,32 @@ export function AtomModel({ color, position }: { color: string, position: [numbe
     return clone;
   }, [scene, color]);
 
-  useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.y += 0.01;
+  useEffect(() => {
+    if (model && animations && animations.length > 0) {
+      const mixer = new THREE.AnimationMixer(model);
+      animations.forEach((clip) => {
+        mixer.clipAction(clip).play();
+      });
+      mixerRef.current = mixer;
+      return () => {
+        mixer.stopAllAction();
+        mixer.uncacheRoot(model);
+      };
+    }
+  }, [model, animations]);
+
+  useFrame((state, delta) => {
+    if (mixerRef.current) {
+      mixerRef.current.update(delta);
+    } else if (ref.current) {
+      // Rotation de secours si aucune animation n'est présente
+      ref.current.rotation.y += 0.05;
     }
   });
 
   return (
     <Group position={position}>
-      <Float speed={3} floatIntensity={1}>
-        <Center top>
-          <Primitive ref={ref} object={model} scale={2} />
-        </Center>
-      </Float>
+      <Primitive ref={ref} object={model} scale={0.03} position={[0, 0.4, 0]} />
     </Group>
   );
 }
@@ -330,7 +343,7 @@ export function Moon({ color, position }: { color: string, position: [number, nu
 export function EinsteinBotModel({ position }: { position: [number, number, number] }) {
   const headRef = useRef<THREE.Group>(null);
   const timeRef = useRef(0);
-  
+
   useFrame((_state, delta) => {
     timeRef.current += delta;
     if (headRef.current) {
@@ -353,7 +366,7 @@ export function EinsteinBotModel({ position }: { position: [number, number, numb
           <CylinderGeometry args={[0.4, 0.6, 0.8, 32]} />
           <MeshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
         </Mesh>
-        
+
         {/* Glowing ring at base */}
         <Mesh position={[0, 0.05, 0]} rotation={[Math.PI / 2, 0, 0]}>
           <TorusGeometry args={[0.5, 0.05, 16, 100]} />
@@ -367,7 +380,7 @@ export function EinsteinBotModel({ position }: { position: [number, number, numb
             <SphereGeometry args={[0.45, 32, 32]} />
             <MeshStandardMaterial color="#0ea5e9" metalness={0.8} roughness={0.2} />
           </Mesh>
-          
+
           {/* Eyes / Visor */}
           <Mesh position={[0, 0.05, 0.35]}>
             <BoxGeometry args={[0.6, 0.15, 0.1]} />
@@ -383,7 +396,7 @@ export function EinsteinBotModel({ position }: { position: [number, number, numb
             <CylinderGeometry args={[0.02, 0.02, 0.3]} />
             <MeshStandardMaterial color="#555" />
           </Mesh>
-          
+
           {/* Little glowing balls on antennas */}
           <Mesh position={[0.38, 0.55, 0]}>
             <SphereGeometry args={[0.05]} />
@@ -411,11 +424,11 @@ export function Rocket({ color, position }: { color: string, position: [number, 
         if (child.material) {
           child.material = (child.material as THREE.Material).clone();
           const name = child.name.toLowerCase();
-          
+
           if (name.includes('body') || name.includes('wing') || name.includes('accent') || name.includes('fin')) {
             (child.material as any).color.set(color);
           }
-          
+
           if (name.includes('window') || name.includes('glass')) {
             (child.material as any).transparent = true;
             (child.material as any).opacity = 0.5;
