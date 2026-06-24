@@ -11,7 +11,6 @@ export type LessonStep = {
   title: string;
   content: string;
   imageUrl: string;
-  mobileImageUrl?: string;
 };
 
 export type Course = {
@@ -21,5 +20,4 @@ export type Course = {
   steps: LessonStep[];
   quiz: QuizQuestion[];
   thumbnailUrl: string;
-  mobileThumbnailUrl?: string;
 };

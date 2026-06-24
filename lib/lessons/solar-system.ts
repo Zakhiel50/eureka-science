@@ -4,7 +4,6 @@ export const solarSystem: Course = {
   id: "solar-system-planets",
   title: "Les 8 Planètes du Système Solaire",
   thumbnailUrl: "/images/solar-system/cover.avif",
-  mobileThumbnailUrl: "/images/solar-system/m-cover.avif",
   description:
     "Pars à la découverte des 8 planètes du système solaire ! Découvre leurs tailles, leurs lunes, leur gravité, leurs noyaux, leurs particularités et ce que tu ressentirais si tu pouvais voyager dessus.",
 
@@ -15,7 +14,6 @@ export const solarSystem: Course = {
       content:
         "Notre système solaire est composé du Soleil et de huit planètes qui tournent autour de lui grâce à la gravité. Chaque planète suit un chemin appelé orbite. Les planètes les plus proches du Soleil tournent plus vite autour de lui, tandis que les plus éloignées mettent beaucoup plus de temps à faire un tour complet.",
       imageUrl: "/images/solar-system/step1.avif",
-      mobileImageUrl: "/images/solar-system/m-step1.avif"
     },
     {
       id: "planet-types",
@@ -23,7 +21,6 @@ export const solarSystem: Course = {
       content:
         "Toutes les planètes ne se ressemblent pas ! Mercure, Vénus, la Terre et Mars sont des planètes rocheuses : elles possèdent une surface solide. Jupiter et Saturne sont des géantes gazeuses composées surtout de gaz. Uranus et Neptune sont appelées géantes glacées car elles contiennent davantage de glace, de gaz froids et de matériaux gelés.",
       imageUrl: "/images/solar-system/step2.avif",
-      mobileImageUrl: "/images/solar-system/m-step2.avif"
     },
     {
       id: "planet-structure",
@@ -31,7 +28,6 @@ export const solarSystem: Course = {
       content:
         "Les planètes possèdent souvent différentes couches : un noyau au centre, parfois rocheux ou métallique, puis d'autres couches autour. Sur une planète rocheuse comme la Terre, tu peux marcher sur le sol. Sur Jupiter ou Saturne, impossible : il n'existe pas de vrai sol solide où poser les pieds, car elles sont principalement faites de gaz très comprimés.",
       imageUrl: "/images/solar-system/step3.avif",
-      mobileImageUrl: "/images/solar-system/m-step3.avif"
     },
     {
       id: "inner-planets",
@@ -39,7 +35,6 @@ export const solarSystem: Course = {
       content:
         "Mercure est la planète la plus proche du Soleil. Elle est petite, rocheuse, possède un énorme noyau métallique et n'a aucune lune. Une année sur Mercure dure seulement 88 jours terrestres ! Vénus est parfois appelée la jumelle de la Terre à cause de sa taille proche, mais elle est extrêmement chaude avec une atmosphère très épaisse. Une année sur Vénus dure environ 225 jours et elle n'a aucune lune.",
       imageUrl: "/images/solar-system/step4.avif",
-      mobileImageUrl: "/images/solar-system/m-step4.avif"
     },
     {
       id: "earth-mars",
@@ -47,7 +42,6 @@ export const solarSystem: Course = {
       content:
         "La Terre est la seule planète connue à abriter la vie. Son noyau métallique aide à produire un champ magnétique qui nous protège. Elle possède une lune et met 365 jours à faire le tour du Soleil. Mars, la planète rouge, possède des volcans géants, de la glace aux pôles et deux petites lunes. Une année martienne dure environ 687 jours.",
       imageUrl: "/images/solar-system/step5.avif",
-      mobileImageUrl: "/images/solar-system/m-step5.avif"
     },
     {
       id: "gas-giants",
@@ -55,7 +49,6 @@ export const solarSystem: Course = {
       content:
         "Jupiter est la plus grosse planète du système solaire. C'est une géante gazeuse avec un énorme noyau et des dizaines de lunes. Sa gravité est très forte : si tu pèses 40 kg sur Terre, tu pèserais plus de 90 kg sur Jupiter ! Saturne est célèbre pour ses magnifiques anneaux composés de glace et de roche. Toutes deux tournent autour du Soleil sur des orbites légèrement ovales.",
       imageUrl: "/images/solar-system/step6.avif",
-      mobileImageUrl: "/images/solar-system/m-step6.avif"
     },
     {
       id: "ice-giants",
@@ -63,7 +56,6 @@ export const solarSystem: Course = {
       content:
         "Uranus et Neptune sont des géantes glacées. Uranus est étrange car elle semble tourner couchée sur le côté ! Neptune est extrêmement froide et possède certains des vents les plus rapides du système solaire. Neptune met environ 165 années terrestres pour faire un tour complet du Soleil.",
       imageUrl: "/images/solar-system/step7.avif",
-      mobileImageUrl: "/images/solar-system/m-step7.avif"
     },
     {
       id: "gravity-weight",
@@ -71,7 +63,6 @@ export const solarSystem: Course = {
       content:
         "Ton poids changerait énormément selon la gravité ! Si tu pèses 40 kg sur Terre, tu pèserais environ 15 kg sur la Lune, environ 38 kg sur Mars, presque pareil sur Vénus, mais plus de 100 kg sur Jupiter. Pourtant, ta masse resterait identique : seul le poids change selon la gravité.",
       imageUrl: "/images/solar-system/step8.avif",
-      mobileImageUrl: "/images/solar-system/m-step8.avif"
     },
     {
       id: "orbits",
@@ -79,7 +70,6 @@ export const solarSystem: Course = {
       content:
         "Les planètes ne tournent pas autour du Soleil en cercle parfait : leurs trajectoires ressemblent davantage à de légers ovales appelés ellipses. Plus une planète est proche du Soleil, plus son année est courte. Mercure tourne autour du Soleil en 88 jours alors que Neptune met environ 165 ans !",
       imageUrl: "/images/solar-system/step9.avif",
-      mobileImageUrl: "/images/solar-system/m-step9.avif"
     },
     {
       id: "life-on-planets",
@@ -87,7 +77,6 @@ export const solarSystem: Course = {
       content:
         "Pour l'instant, la Terre est la seule planète connue où la vie existe. Mercure est trop chaude le jour et très froide la nuit, Vénus est brûlante avec une atmosphère dangereuse, Mars est glaciale avec très peu d'air respirable, et les géantes gazeuses comme Jupiter ou Saturne n'ont même pas de sol solide ! Pourtant, les scientifiques cherchent si certaines lunes ou planètes pourraient un jour accueillir des humains grâce à la technologie.",
       imageUrl: "/images/solar-system/step10.avif",
-      mobileImageUrl: "/images/solar-system/m-step10.avif"
     }
   ],
 

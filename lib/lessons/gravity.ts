@@ -5,77 +5,66 @@ export const gravity: Course = {
   title: "Pourquoi on ne s'envole pas",
   description: "Découvre la splendeur de la gravité.",
   thumbnailUrl: "/images/gravity/cover.avif",
-  mobileThumbnailUrl: "/images/gravity/m-cover.avif",
   steps: [
     {
       id: "invisibleForce",
       title: "1. La force invisible",
       content: "La gravité est une force invisible qui attire tous les objets les uns vers les autres. C'est elle qui fait tomber ta tartine par terre ou qui fait revenir ton ballon quand tu le lances en l'air. Sans elle, tout flotterait comme dans l'espace !",
       imageUrl: "/images/gravity/step1.avif",
-      mobileImageUrl: "/images/gravity/m-step1.avif"
     },
     {
       id: "earthMagnet",
       title: "2. La Terre est un aimant géant",
       content: "Imagine que la Terre est un aimant énorme et très puissant. Elle attire tout vers son centre : les maisons, les océans, les arbres et même toi ! C'est pour ça qu'on a toujours les pieds bien posés sur le sol.",
       imageUrl: "/images/gravity/step2.avif",
-      mobileImageUrl: "/images/gravity/m-step2.avif"
     },
     {
       id: "massRule",
       title: "3. Plus c'est lourd, plus ça attire",
       content: "La règle de la gravité est simple : plus un objet est massif (lourd), plus sa force d'attraction est forte. La Terre est tellement gigantesque qu'elle gagne toujours contre les petits objets comme nous !",
       imageUrl: "/images/gravity/step3.avif",
-      mobileImageUrl: "/images/gravity/m-step3.avif"
     },
     {
       id: "newtonApple",
       title: "4. L'histoire d'Isaac Newton",
       content: "On raconte qu'un scientifique nommé Isaac Newton a compris la gravité en regardant une pomme tomber d'un arbre. Il s'est demandé : 'Pourquoi la pomme tombe-t-elle vers le bas et pas vers le haut ?'.",
       imageUrl: "/images/gravity/step4.avif",
-      mobileImageUrl: "/images/gravity/m-step4.avif"
     },
     {
       id: "moonTides",
       title: "5. La Lune et la Gravité",
       content: "La Lune aussi a de la gravité, mais elle est plus petite que la Terre. Sa force est assez forte pour attirer l'eau des océans, ce qui crée les marées (la mer qui monte et qui descend).",
       imageUrl: "/images/gravity/step5.avif",
-      mobileImageUrl: "/images/gravity/m-step5.avif"
     },
     {
       id: "weightVsMass",
       title: "6. Ton poids peut changer !",
       content: "Sur la Lune, comme la gravité est plus faible, tu te sentirais tout léger. Tu pourrais faire des bonds de géant ! Ta taille ne changerait pas, mais ton poids sur la balance serait divisé par 6.",
       imageUrl: "/images/gravity/step6.avif",
-      mobileImageUrl: "/images/gravity/m-step6.avif"
     },
     {
       id: "atmosphereHold",
       title: "7. Elle retient notre air",
       content: "La gravité ne retient pas que les objets solides, elle retient aussi l'air qu'on respire (l'atmosphère). Sans elle, l'air s'envolerait dans l'espace et on ne pourrait plus respirer.",
       imageUrl: "/images/gravity/step7.avif",
-      mobileImageUrl: "/images/gravity/m-step7.avif"
     },
     {
       id: "solarSystem",
       title: "8. Le chef du système solaire",
       content: "Le Soleil est l'objet le plus massif de notre système. Sa gravité est si forte qu'elle oblige toutes les planètes, dont la Terre, à tourner autour de lui sans s'échapper.",
       imageUrl: "/images/gravity/step8.avif",
-      mobileImageUrl: "/images/gravity/m-step8.avif"
     },
     {
       id: "noGravitySpace",
       title: "9. L'impesanteur",
       content: "Quand les astronautes sont dans l'espace, loin de la Terre, ils ne ressentent presque plus la gravité. Ils flottent : c'est ce qu'on appelle l'impesanteur. Même boire de l'eau devient un jeu !",
       imageUrl: "/images/gravity/step9.avif",
-      mobileImageUrl: "/images/gravity/m-step9.avif"
     },
     {
       id: "invisibleGlue",
       title: "10. La colle de l'Univers",
       content: "On peut dire que la gravité est la 'colle' de l'Univers. Elle forme les planètes, les étoiles et garde tout le monde ensemble. C'est une force indispensable à la vie !",
       imageUrl: "/images/gravity/step10.avif",
-      mobileImageUrl: "/images/gravity/m-step10.avif"
     }
   ],
   quiz: [

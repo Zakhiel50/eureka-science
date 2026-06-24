@@ -4,7 +4,6 @@ export const chemistry: Course = {
   id: "chemistry",
   title: "A la découverte de la Chimie",
   thumbnailUrl: "/images/chemistry/cover.avif",
-  mobileThumbnailUrl: "/images/chemistry/m-cover.avif",
   description:
     "Découvre la science des transformations ! Apprends comment la chimie agit partout autour de nous.",
   steps: [
@@ -14,7 +13,6 @@ export const chemistry: Course = {
       content:
         "La chimie est la science qui étudie la matière et ses transformations. Quand un gâteau cuit, quand le métal rouille ou quand un feu brûle, ce sont des réactions chimiques ! La chimie permet de comprendre comment les substances se mélangent, changent ou réagissent ensemble.",
       imageUrl: "/images/chemistry/step1.avif",
-      mobileImageUrl: "/images/chemistry/m-step1.avif"
     },
     {
       id: "matiere",
@@ -22,7 +20,6 @@ export const chemistry: Course = {
       content:
         "Comme nous avons pu voir dans le cours précédent, tout ce qui t'entoure est composé de matière : l'air, l'eau, les vêtements, les arbres et même ton corps. La matière peut exister sous trois états principaux : solide, liquide ou gaz. Les chimistes étudient comment cette matière se comporte et se transforme.",
       imageUrl: "/images/chemistry/step2.avif",
-      mobileImageUrl: "/images/chemistry/m-step2.avif"
     },
     {
       id: "transformations",
@@ -30,7 +27,6 @@ export const chemistry: Course = {
       content:
         "Une transformation chimique se produit lorsqu'une substance devient une nouvelle substance différente, comme nous avons vu, c'est une histore d'atome qui se rassemble ou se sépare pour creer une nouvelle molécule. Par exemple, le bois qui brûle produit de la fumée, des gaz et des cendres. Après la réaction, il est impossible de retrouver exactement le bois de départ.",
       imageUrl: "/images/chemistry/step3.avif",
-      mobileImageUrl: "/images/chemistry/m-step3.avif"
     },
     {
       id: "reactions",
@@ -38,7 +34,6 @@ export const chemistry: Course = {
       content:
         "Certaines réactions chimiques sont faciles à observer ! Elles peuvent produire des bulles, de la chaleur, de la lumière, une explosion de mousse ou un changement de couleur. Le célèbre mélange vinaigre + bicarbonate produit du dioxyde de carbone, un gaz invisible qui crée beaucoup de mousse.",
       imageUrl: "/images/chemistry/step4.avif",
-      mobileImageUrl: "/images/chemistry/m-step4.avif"
     },
     {
       id: "chemistry-quotidien",
@@ -46,7 +41,6 @@ export const chemistry: Course = {
       content:
         "La chimie est partout dans la vie quotidienne : le savon nettoie grâce à des réactions chimiques, le dentifrice protège les dents, et la cuisson transforme les aliments. Même les boissons gazeuses utilisent des réactions chimiques pour créer leurs bulles.",
       imageUrl: "/images/chemistry/step5.avif",
-      mobileImageUrl: "/images/chemistry/m-step5.avif"
     },
     {
       id: "industrial-chemistry",
@@ -54,7 +48,6 @@ export const chemistry: Course = {
       content:
         "Les usines utilisent la chimie pour fabriquer des médicaments, des vêtements, des batteries, des peintures et des plastiques. Grâce à la chimie industrielle, on peut produire rapidement des objets utiles pour des millions de personnes.",
       imageUrl: "/images/chemistry/step6.avif",
-      mobileImageUrl: "/images/chemistry/m-step6.avif"
     },
     {
       id: "body-chemistry",
@@ -62,7 +55,6 @@ export const chemistry: Course = {
       content:
         "Ton corps est une incroyable usine chimique ! Quand tu manges, ton organisme transforme les aliments en énergie. Ton cerveau, tes muscles et ton cœur fonctionnent grâce à des milliers de réactions chimiques invisibles qui se produisent chaque seconde. Ces réactions sont trés utile, comme par exemple lorsque tu as peur, ton cerveau demande à ton corps de creer de la dopamine pour pouvoir donner plus de puissance à tes muscles pour pouvoir fuir.",
       imageUrl: "/images/chemistry/step7.avif",
-      mobileImageUrl: "/images/chemistry/m-step7.avif"
     },
     {
       id: "warning-security",
@@ -70,7 +62,6 @@ export const chemistry: Course = {
       content:
         "Certaines substances chimiques peuvent être dangereuses. Elles peuvent être toxiques, inflammables ou corrosives. C'est pour cela que les scientifiques portent des lunettes, des gants et des blouses dans les laboratoires. Il ne faut jamais mélanger des produits ménagers car tu ne sais pas quelle réaction chimique celà va produit, cela peux creer un gaz comme le dichlore ou la chloramine qui sont des gaz mortels.",
       imageUrl: "/images/chemistry/step8.avif",
-      mobileImageUrl: "/images/chemistry/m-step8.avif"
     },
     {
       id: "green-chemistry",
@@ -78,7 +69,6 @@ export const chemistry: Course = {
       content:
         "Aujourd'hui, les scientifiques cherchent à créer une chimie plus propre et moins polluante. On parle de chimie verte. Le but est de fabriquer des produits qui respectent davantage la planète et produisent moins de déchets dangereux.",
       imageUrl: "/images/chemistry/step9.avif",
-      mobileImageUrl: "/images/chemistry/m-step9.avif"
     },
     {
       id: "medical-chemistry",
@@ -86,7 +76,6 @@ export const chemistry: Course = {
       content:
         "Les chercheurs en chimie aussi appellés laborantins recherchent des medicaments et vaccins en réalisant des mélanges chimique pour trouver des molécules qui combattent les virus et bactéries tout en faisant un minimum de dégats sur le corps humain.",
       imageUrl: "/images/chemistry/step10.avif",
-      mobileImageUrl: "/images/chemistry/m-step10.avif"
     }
   ],
   quiz: [

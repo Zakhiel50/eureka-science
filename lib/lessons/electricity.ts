@@ -4,7 +4,6 @@ export const electricity: Course = {
   id: "electricity",
   title: "À la découverte de l'Électricité",
   thumbnailUrl: "/images/electricity/cover.avif",
-  mobileThumbnailUrl: "/images/electricity/m-cover.avif",
   description:
     "Découvre l'incroyable énergie qui alimente notre monde ! Comprends comment fonctionne l'électricité, comment elle voyage, comment on la produit et pourquoi il faut toujours la manipuler avec prudence.",
 
@@ -15,7 +14,6 @@ export const electricity: Course = {
       content:
         "L'électricité est une forme d'énergie liée au déplacement de minuscules particules appelées électrons. Elle permet de faire fonctionner des lampes, des téléphones, des consoles, des ordinateurs et même certains véhicules. Même si on ne la voit pas directement, on peut observer ses effets partout autour de nous.",
       imageUrl: "/images/electricity/step1.avif",
-      mobileImageUrl: "/images/electricity/m-step1.avif"
     },
     {
       id: "electricity-nature",
@@ -23,7 +21,6 @@ export const electricity: Course = {
       content:
         "Tu as déjà découvert les éclairs dans un autre cours ! Les éclairs sont une forme très puissante d'électricité naturelle. Il existe aussi l'électricité statique : par exemple quand un ballon frotté sur les cheveux les fait se dresser ou quand une poignée métallique te donne un petit choc.",
       imageUrl: "/images/electricity/step2.avif",
-      mobileImageUrl: "/images/electricity/m-step2.avif"
     },
     {
       id: "electric-current",
@@ -31,7 +28,6 @@ export const electricity: Course = {
       content:
         "L'électricité circule grâce au courant électrique. Imagine un peu comme une rivière invisible qui voyage dans des fils électriques. Lorsque les électrons se déplacent dans un circuit, ils transportent de l'énergie qui peut allumer une ampoule ou faire fonctionner un appareil électrique.",
       imageUrl: "/images/electricity/step3.avif",
-      mobileImageUrl: "/images/electricity/m-step3.avif"
     },
     {
       id: "electric-circuit",
@@ -39,7 +35,6 @@ export const electricity: Course = {
       content:
         "Un circuit électrique est un chemin fermé qui permet à l'électricité de circuler. Une pile, des fils et une ampoule peuvent former un circuit simple. Si le chemin est coupé, par exemple avec un interrupteur éteint, l'électricité ne peut plus circuler : on appelle cela un circuit ouvert. Pour mieux comprendre place des deux index côte à côte sans se toucher en imaginant que c'est un interrupteur et circuit électrique, c'est un circuit ouvert (le chemin pour l'électricité est coupé). Maintenant fait les toucher du bout de tes doigts, c'est un circuit fermé, l'électricité peux passer.",
       imageUrl: "/images/electricity/step4.avif",
-      mobileImageUrl: "/images/electricity/m-step4.avif"
     },
     {
       id: "electric-production",
@@ -47,7 +42,6 @@ export const electricity: Course = {
       content:
         "L'électricité peut être produite de différentes façons : grâce au vent avec les éoliennes, au Soleil avec les panneaux solaires, à l'eau avec les barrages ou encore dans des centrales électriques. Certains pays utilisent aussi l'énergie nucléaire pour produire beaucoup d'électricité.",
       imageUrl: "/images/electricity/step5.avif",
-      mobileImageUrl: "/images/electricity/m-step5.avif"
     },
     {
       id: "batteries",
@@ -55,7 +49,6 @@ export const electricity: Course = {
       content:
         "Les piles et batteries stockent de l'énergie électrique pour pouvoir l'utiliser plus tard. Elles permettent d'alimenter des objets comme les télécommandes, les jouets, les téléphones, les voitures électriques ou les lampes torches.",
       imageUrl: "/images/electricity/step6.avif",
-      mobileImageUrl: "/images/electricity/m-step6.avif"
     },
     {
       id: "home-electricity",
@@ -63,7 +56,6 @@ export const electricity: Course = {
       content:
         "Dans une maison, l'électricité alimente les lampes, la télévision, le réfrigérateur, Internet, les consoles ou encore le micro-ondes. Sans électricité, une grande partie des objets modernes ne fonctionneraient plus.",
       imageUrl: "/images/electricity/step7.avif",
-      mobileImageUrl: "/images/electricity/m-step7.avif"
     },
     {
       id: "electricity-danger",
@@ -71,7 +63,6 @@ export const electricity: Course = {
       content:
         "L'électricité est très utile, mais elle peut aussi être dangereuse. Il ne faut jamais mettre les doigts dans une prise, toucher un appareil électrique avec les mains mouillées ou mélanger l'eau et l'électricité. Une forte décharge électrique peut blesser gravement une personne.",
       imageUrl: "/images/electricity/step8.avif",
-      mobileImageUrl: "/images/electricity/m-step8.avif"
     },
     {
       id: "electricity-technology",
@@ -79,7 +70,6 @@ export const electricity: Course = {
       content:
         "L'électricité aide les médecins avec certaines machines médicales, permet aux robots de fonctionner, recharge les téléphones et alimente des voitures électriques. Elle est indispensable à de nombreuses technologies modernes. Des technologies existe également pour brouiller, désactiver. ou détruire les objets éléctrique, on appelle ceci l'IEM (Impulsion Électro-Magnétique).",
       imageUrl: "/images/electricity/step9.avif",
-      mobileImageUrl: "/images/electricity/m-step9.avif"
     },
     {
       id: "electricity-future",
@@ -87,7 +77,6 @@ export const electricity: Course = {
       content:
         "Les scientifiques cherchent à produire une électricité plus propre et à créer de meilleures batteries pour moins polluer. Peut-être qu'un jour, les villes, voitures et maisons fonctionneront presque entièrement avec des énergies renouvelables. Les scientifique cherche à maîtriser la fusion nucléaire pour créer plus d'énergie tout en réduisant les déchets nucléaires",
       imageUrl: "/images/electricity/step10.avif",
-      mobileImageUrl: "/images/electricity/m-step10.avif"
     }
   ],
 

@@ -4,7 +4,7 @@ import { useUser } from "@/app/context/UserContext";
 import { coursesList } from "@/lib/courses-utils";
 import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, ArrowUp, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { getImageProps } from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useState, useEffect, useRef } from "react";
 
 const VOICES = [
@@ -138,38 +138,17 @@ export default function Home() {
                 aria-disabled={isLocked}
               >
                 <div className="h-48 relative overflow-hidden bg-gradient-to-br shrink-0">
-                  {course.thumbnailUrl && !isLocked && (() => {
-                    const common = { 
-                      alt: "", 
-                      fill: true, 
-                      priority: index === 0 
-                    };
-
-                    const { props: { srcSet: desktop } } = getImageProps({
-                      ...common,
-                      src: course.thumbnailUrl,
-                      quality: 75,
-                      sizes: "(max-width: 1024px) 50vw, 33vw",
-                    });
-
-                    const { props: { srcSet: mobile, ...rest } } = getImageProps({
-                      ...common,
-                      src: course.mobileThumbnailUrl || course.thumbnailUrl,
-                      quality: 75,
-                      sizes: "(max-width: 768px) calc(100vw - 64px), 100vw",
-                    });
-
-                    return (
-                      <picture>
-                        <source media="(min-width: 768px)" srcSet={desktop} />
-                        <source media="(max-width: 767px)" srcSet={mobile} />
-                        <img 
-                          {...rest} 
-                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" 
-                        />
-                      </picture>
-                    );
-                  })()}
+                  {course.thumbnailUrl && !isLocked && (
+                    <Image
+                      src={course.thumbnailUrl}
+                      alt=""
+                      fill
+                      priority={index === 0}
+                      quality={75}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    />
+                  )}
                   {isLocked ? (
                     <div className="absolute inset-0 flex items-center justify-center bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-sm">
                       <Lock className="w-12 h-12 text-slate-400" aria-label="Cours verrouillé" />

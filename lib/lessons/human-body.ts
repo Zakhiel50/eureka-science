@@ -5,77 +5,66 @@ export const humanBody: Course = {
   title: "Au coeur du corps humain",
   description: "Découvre comment fonctionne le corps humain.",
   thumbnailUrl: "/images/biology/cover.avif",
-  mobileThumbnailUrl: "/images/biology/m-cover.avif",
   steps: [
   {
     id: "humanBody",
     title: "1. Le corps humain, c’est une machine incroyable",
     content: "Le corps humain est comme une machine très complexe composée de plusieurs équipes (les organes). Un organe, c’est une partie du corps qui a un rôle précis et vital, par exemple, le cœur, les poumons, le cerveau, etc. Tous ces organes travaillent ensemble pour te maintenir en vie.",
     imageUrl: "/images/biology/step1.avif",
-    mobileImageUrl: "/images/biology/m-step1.avif"
   },
   {
     id: "bodyTeam",
     title: "2. Le cerveau (le chef)",
     content: "Le cerveau contrôle tout le corps par des messages nerveux. Il envoie des messages partout pour tenir au courant toutes les équipes : la douleur, le froid, le chaud, etc. Il permet de penser, bouger et ressentir. C'est lui qui te dit de retirer ta main quand tu touches un objet brûlant.",
     imageUrl: "/images/biology/step2.avif",
-    mobileImageUrl: "/images/biology/m-step2.avif"
   },
   {
     id: "heart",
     title: "3. Le Cœur (le transporteur)",
     content: "Son travail est de transporter le sang en battant, il est un peu comme une pompe. Par le sang, il apporte de l'oxygène et des nutriments dont toutes les autres équipes ont besoin. Le cœur bat environ 100 000 fois par jour !",
     imageUrl: "/images/biology/step3.avif",
-    mobileImageUrl: "/images/biology/m-step3.avif"
   },
   {
     id: "pulmon",
     title: "4. Les poumons (l'approvisionneur)",
     content: "Les poumons récupèrent l’oxygène de l’air en se gonflant. Le sang récupère cet oxygène (O2) en inspirant et rejette le dioxyde de carbone (CO2) que ton corps a produit comme déchet en expirant. Personne ne peut survivre sans respirer.",
     imageUrl: "/images/biology/step4.avif",
-    mobileImageUrl: "/images/biology/m-step4.avif"
   },
   {
     id: "disget",
     title: "5. Le système digestif (le collecteur)",
     content: "Il regroupe l'estomac et les intestins. Le but de cette équipe est de transformer les aliments que tu manges pour récupérer l'énergie (minéraux, vitamines) dont tu as besoin pour vivre. Les déchets sont ensuite évacués quand tu vas aux toilettes.",
     imageUrl: "/images/biology/step5.avif",
-    mobileImageUrl: "/images/biology/m-step5.avif"
   },
   {
     id: "muscle",
     title: "6. Le système musculaire (le mouvement)",
     content: "Nous avons plus de 600 muscles ! Ils permettent de bouger, porter des choses lourdes, marcher et courir. Ils travaillent avec les os en s'y attachant par des tendons. Même quand tu ne bouges pas, certains muscles (comme le diaphragme) travaillent.",
     imageUrl: "/images/biology/step6.avif",
-    mobileImageUrl: "/images/biology/m-step6.avif"
   },
   {
     id: "skull",
     title: "7. Le squelette (le support)",
     content: "Le squelette est la charpente de ton corps. Il te permet de tenir debout et protège tes organes fragiles (comme le crâne pour le cerveau). Sans lui, tu serais tout mou ! Un adulte possède 206 os solides.",
     imageUrl: "/images/biology/step7.avif",
-    mobileImageUrl: "/images/biology/m-step7.avif"
   },
   {
     id: "kidneys",
     title: "8. Les reins (le centre de nettoyage)",
     content: "Les reins sont tes filtres personnels. Ils nettoient ton sang en permanence pour enlever les déchets et le surplus d'eau. Tout ce qui est inutile est transformé en urine (le pipi) pour être évacué du corps.",
     imageUrl: "/images/biology/step8.avif",
-    mobileImageUrl: "/images/biology/m-step8.avif"
   },
   {
     id: "skin",
     title: "9. La peau (le bouclier protecteur)",
     content: "C'est ton organe le plus grand ! La peau est une barrière qui empêche les microbes d'entrer et te protège du soleil. Elle régule aussi ta température grâce à la transpiration et te permet de ressentir le toucher.",
     imageUrl: "/images/biology/step9.avif",
-    mobileImageUrl: "/images/biology/m-step9.avif"
   },
   {
     id: "immuneSystem",
     title: "10. Le système immunitaire (la patrouille)",
     content: "C'est l'armée invisible de ton corps. Elle est composée de globules blancs qui circulent dans le sang. Dès qu'un virus ou une bactérie tente de te rendre malade, ils l'attaquent pour le détruire et te guérir.",
     imageUrl: "/images/biology/step10.avif",
-    mobileImageUrl: "/images/biology/m-step10.avif"
   }
 ],
 quiz: [
