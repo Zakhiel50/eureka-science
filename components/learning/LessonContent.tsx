@@ -33,7 +33,7 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
       wasExpandedRef.current = true;
     } else {
       document.body.style.overflow = "";
-      
+
       if (wasExpandedRef.current) {
         wasExpandedRef.current = false;
         // Reset browser pinch-to-zoom on mobile when modal closes
