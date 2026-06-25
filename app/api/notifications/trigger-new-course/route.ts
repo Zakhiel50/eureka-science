@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const vapidKeys = JSON.parse(readFileSync(keysPath, 'utf-8'));
 
     webpush.setVapidDetails(
-      'mailto:lucrigaud@hotmail.fr',
+      'mailto:eureka.science.contact@gmail.com',
       vapidKeys.publicKey,
       vapidKeys.privateKey
     );
