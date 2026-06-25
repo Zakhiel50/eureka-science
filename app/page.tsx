@@ -2,10 +2,11 @@
 
 import { useUser } from "@/app/context/UserContext";
 import { coursesList } from "@/lib/courses-utils";
-import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, ArrowUp, Loader2 } from "lucide-react";
+import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, ArrowUp, Loader2, Bell, Send, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image, { getImageProps } from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { useNotifications } from "@/lib/useNotifications";
 
 const VOICES = [
   { id: 'fr-FR-DeniseNeural', name: 'Denise' },
@@ -22,6 +23,55 @@ export default function Home() {
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const {
+    isSupported: isNotificationSupported,
+    permission,
+    isSubscribed: isNotificationSubscribed,
+    loading: loadingNotifications,
+    subscribe: subscribeNotifications,
+    unsubscribe: unsubscribeNotifications,
+    sendTestNotification,
+    simulateNewCourseDeployment
+  } = useNotifications();
+
+  const [isTestingNotification, setIsTestingNotification] = useState(false);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [simulationResult, setSimulationResult] = useState<any>(null);
+
+  const handleSubscribe = async () => {
+    await subscribeNotifications();
+  };
+
+  const handleUnsubscribe = async () => {
+    await unsubscribeNotifications();
+  };
+
+  const handleTestNotification = async () => {
+    setIsTestingNotification(true);
+    await sendTestNotification();
+    setIsTestingNotification(false);
+  };
+
+  const handleSimulateNewCourse = async () => {
+    setIsSimulating(true);
+    setSimulationResult(null);
+
+    // Simuler le déploiement du dernier cours de la liste (ou un cours fictif)
+    const mockCourse = coursesList[coursesList.length - 1] || {
+      title: "L'Odyssée de l'Espace",
+      description: "Prêt à explorer les confins du système solaire et des galaxies ?",
+      id: "universe"
+    };
+
+    const res = await simulateNewCourseDeployment(
+      mockCourse.title,
+      mockCourse.description,
+      mockCourse.id
+    );
+    setSimulationResult(res);
+    setIsSimulating(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,22 +183,27 @@ export default function Home() {
                 id={index === 0 ? "first-course-card" : undefined}
                 key={course.id}
                 className={`group relative overflow-hidden rounded-3xl border transition-all duration-500 flex flex-col ${isLocked
-                    ? "bg-slate-100 dark:bg-slate-900/20 border-slate-200 dark:border-slate-800 opacity-60 grayscale"
-                    : "bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
+                  ? "bg-slate-100 dark:bg-slate-900/20 border-slate-200 dark:border-slate-800 opacity-60 grayscale"
+                  : "bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-700 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2"
                   }`}
                 aria-disabled={isLocked}
               >
                 <div className="h-48 relative overflow-hidden bg-gradient-to-br shrink-0">
                   {course.thumbnailUrl && !isLocked && (
-                    <Image
-                      src={course.thumbnailUrl}
-                      alt=""
-                      fill
-                      priority={index === 0}
-                      quality={75}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                    />
+                    <Link
+                      href={`/cours/${course.id}`}
+                      className="relative block w-full h-full"
+                    >
+                      <Image
+                        src={course.thumbnailUrl}
+                        alt=""
+                        fill
+                        priority={index === 0}
+                        quality={75}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                      />
+                    </Link>
                   )}
                   {isLocked ? (
                     <div className="absolute inset-0 flex items-center justify-center bg-slate-100/60 dark:bg-slate-900/60 backdrop-blur-sm">
@@ -215,8 +270,8 @@ export default function Home() {
                       <Link
                         href={`/cours/${course.id}`}
                         className={`flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-black transition-all shadow-lg focus:outline-none focus:ring-4 focus:ring-cyan-500/50 ${isCompleted
-                            ? "bg-slate-100 dark:bg-slate-800 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-500/30 hover:bg-slate-200 dark:hover:bg-slate-700"
-                            : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-cyan-600 dark:hover:bg-cyan-400 hover:text-white"
+                          ? "bg-slate-100 dark:bg-slate-800 text-cyan-700 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-500/30 hover:bg-slate-200 dark:hover:bg-slate-700"
+                          : "bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-cyan-600 dark:hover:bg-cyan-400 hover:text-white"
                           }`}
                         aria-label={isCompleted ? `Revoir le cours : ${course.title}` : `Démarrer le cours : ${course.title}`}
                       >
@@ -255,8 +310,8 @@ export default function Home() {
               <div
                 key={voice.id}
                 className={`group flex items-center gap-2 p-1 rounded-2xl border transition-all ${preferredVoice === voice.id
-                    ? "bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
-                    : "bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+                  ? "bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
+                  : "bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
                   }`}
               >
                 <button
@@ -278,8 +333,8 @@ export default function Home() {
                 <button
                   onClick={() => testVoice(voice.id)}
                   className={`p-4 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${playingVoiceId === voice.id
-                      ? "bg-cyan-600 dark:bg-cyan-500 text-white"
-                      : "bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-cyan-600 dark:hover:text-cyan-400"
+                    ? "bg-cyan-600 dark:bg-cyan-500 text-white"
+                    : "bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-cyan-600 dark:hover:text-cyan-400"
                     }`}
                   aria-label={`Écouter un aperçu de la voix de ${voice.name}`}
                 >
@@ -296,6 +351,120 @@ export default function Home() {
           <p className="text-center text-slate-500 italic text-sm">
             Clique sur une voix pour la sélectionner, ou sur le bouton de lecture pour l&apos;écouter.
           </p>
+
+          <hr className="border-slate-200 dark:border-slate-800 my-6" />
+
+          {/* Section Notifications PWA */}
+          <div className="space-y-4">
+            <h3 className="text-slate-900 dark:text-white font-bold flex items-center gap-2 text-lg">
+              <Bell className="w-6 h-6 text-cyan-600 dark:text-cyan-400" aria-hidden="true" />
+              Notifications PWA
+            </h3>
+            
+            <div className="bg-slate-50 dark:bg-slate-800/20 border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl space-y-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="space-y-1">
+                  <p className="font-bold text-slate-800 dark:text-slate-200">
+                    Abonnement aux nouveaux cours
+                  </p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Reçois une alerte en temps réel dès qu'un nouveau cours de sciences est disponible.
+                  </p>
+                </div>
+                
+                {loadingNotifications ? (
+                  <div className="flex items-center gap-2 text-slate-500">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Chargement...</span>
+                  </div>
+                ) : !isNotificationSupported ? (
+                  <span className="text-xs bg-red-500/10 text-red-500 border border-red-500/20 px-3 py-1.5 rounded-full font-bold">
+                    Non supporté
+                  </span>
+                ) : isNotificationSubscribed ? (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-green-500/10 text-green-500 border border-green-500/20 px-3 py-1.5 rounded-full font-bold flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                      Activé
+                    </span>
+                    <button
+                      onClick={handleUnsubscribe}
+                      className="px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-bold text-sm transition-all focus:outline-none focus:ring-2 focus:ring-slate-500/50"
+                    >
+                      Désactiver
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-slate-200 dark:bg-slate-800 text-slate-500 px-3 py-1.5 rounded-full font-bold">
+                      Désactivé
+                    </span>
+                    <button
+                      onClick={handleSubscribe}
+                      className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold text-sm transition-all shadow-[0_0_15px_rgba(6,182,212,0.15)] hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+                    >
+                      Activer
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {permission === 'denied' && (
+                <div className="bg-red-500/5 border border-red-500/10 text-red-600 dark:text-red-400 p-4 rounded-xl text-sm leading-relaxed">
+                  ⚠️ <strong>Notifications bloquées par le navigateur.</strong> Pour recevoir les alertes, tu dois autoriser les notifications pour ce site dans les paramètres de ton navigateur.
+                </div>
+              )}
+
+              {isNotificationSubscribed && (
+                <div className="pt-4 border-t border-slate-200 dark:border-slate-800/80 space-y-4">
+                  <p className="font-bold text-sm text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                    Zone de Test & Simulation
+                  </p>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button
+                      onClick={handleTestNotification}
+                      disabled={isTestingNotification}
+                      className="flex items-center justify-center gap-2 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/50 text-slate-800 dark:text-slate-200 rounded-xl font-bold text-sm transition-all hover:shadow-lg disabled:opacity-50"
+                    >
+                      {isTestingNotification ? (
+                        <Loader2 className="w-4 h-4 animate-spin text-cyan-500" />
+                      ) : (
+                        <Sparkles className="w-4 h-4 text-yellow-500" />
+                      )}
+                      Tester une notification
+                    </button>
+
+                    <button
+                      onClick={handleSimulateNewCourse}
+                      disabled={isSimulating}
+                      className="flex items-center justify-center gap-2 p-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold text-sm transition-all shadow-[0_0_15px_rgba(6,182,212,0.15)] disabled:opacity-50"
+                    >
+                      {isSimulating ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Send className="w-4 h-4" />
+                      )}
+                      Simuler un nouveau cours
+                    </button>
+                  </div>
+
+                  {simulationResult && (
+                    <div className={`p-4 rounded-xl text-xs font-mono border ${
+                      simulationResult.success 
+                        ? "bg-green-500/5 border-green-500/10 text-green-600 dark:text-green-400" 
+                        : "bg-red-500/5 border-red-500/10 text-red-600 dark:text-red-400"
+                    }`}>
+                      {simulationResult.success 
+                        ? `Notification envoyée avec succès à ${simulationResult.successCount} abonné(s) !`
+                        : `Erreur de simulation : ${simulationResult.error || 'Erreur inconnue'}`
+                      }
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 

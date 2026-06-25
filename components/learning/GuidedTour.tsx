@@ -70,7 +70,7 @@ const steps: TourStep[] = [
   },
   {
     target: "",
-    message: "Tu es maintenant paré pour ton voyage scientifique ! Reviens à l'accueil, commence ton premier cours et éclate-toi ! Bon voyage scientifique ! 🚀",
+    message: "Tu es maintenant paré pour ton voyage scientifique ! Clique sur 'Terminer' pour revenir à l'accueil pour commencer ton premier cours et apprendre la science en t'amusant ! Bon voyage scientifique ! 🚀",
     route: "/laboratoire",
     placement: "center"
   }
@@ -92,6 +92,16 @@ export default function GuidedTour() {
 
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const activeStep = steps[currentStep];
+
+  const overlayDims = useMemo(() => {
+    if (!targetRect) return null;
+    const top = Math.max(0, targetRect.top - 8);
+    const bottom = targetRect.bottom + 8;
+    const left = Math.max(0, targetRect.left - 8);
+    const right = targetRect.right + 8;
+    const height = Math.max(0, bottom - top);
+    return { top, bottom, left, right, height };
+  }, [targetRect]);
 
   // Save current step to localstorage
   useEffect(() => {
@@ -184,6 +194,9 @@ export default function GuidedTour() {
   };
 
   const prevStep = () => {
+    if (currentStep === 6) {
+      router.back();
+    }
     if (currentStep > 0) {
       setCurrentStep(prev => prev - 1);
     }
@@ -203,46 +216,50 @@ export default function GuidedTour() {
   };
 
   const clickOnLaboratory = () => {
-    router.push("/laboratoire");
+    if (currentStep === 5) {
+      router.push("/laboratoire");
+    }
   };
 
   if (hasCompletedTutorial || !activeStep) return null;
 
   return (
     <>
-      {/* SVG Spotlight Cutout Overlay */}
-      <div className="fixed inset-0 z-[190] pointer-events-none" onClick={() => {
-        if (currentStep === 5) {
-          clickOnLaboratory();
-        }
-      }}>
-        {targetRect ? (
-          <svg className="w-full h-full">
-            <mask id="spotlight-mask">
-              <rect x="0" y="0" width="100%" height="100%" fill="white" />
-              <rect
-                x={targetRect.left - 8}
-                y={targetRect.top - 8}
-                width={targetRect.width + 16}
-                height={targetRect.height + 16}
-                rx="16"
-                fill="black"
-              />
-            </mask>
-            <rect
-              x="0"
-              y="0"
-              width="100%"
-              height="100%"
-              fill="rgba(2, 6, 23, 0.75)"
-              mask="url(#spotlight-mask)"
-              className="pointer-events-auto cursor-default"
-            />
-          </svg>
-        ) : (
-          <div className="fixed inset-0 bg-slate-950/75 pointer-events-auto cursor-default" />
-        )}
-      </div>
+      {/* Spotlight Cutout Overlay (4 divs blocking outside, empty in the middle) */}
+      {overlayDims ? (
+        <>
+          {/* Top overlay */}
+          <div
+            className="fixed bg-slate-950/75 z-[190] left-0 right-0 top-0 cursor-default"
+            style={{ height: overlayDims.top }}
+          />
+          {/* Bottom overlay */}
+          <div
+            className="fixed bg-slate-950/75 z-[190] left-0 right-0 bottom-0 cursor-default"
+            style={{ top: overlayDims.bottom }}
+          />
+          {/* Left overlay */}
+          <div
+            className="fixed bg-slate-950/75 z-[190] left-0 cursor-default"
+            style={{
+              top: overlayDims.top,
+              height: overlayDims.height,
+              width: overlayDims.left,
+            }}
+          />
+          {/* Right overlay */}
+          <div
+            className="fixed bg-slate-950/75 z-[190] right-0 cursor-default"
+            style={{
+              top: overlayDims.top,
+              height: overlayDims.height,
+              left: overlayDims.right,
+            }}
+          />
+        </>
+      ) : (
+        <div className="fixed inset-0 bg-slate-950/75 z-[190] cursor-default" />
+      )}
 
       {/* Neon border highlight around target element */}
       {targetRect && (
@@ -254,9 +271,10 @@ export default function GuidedTour() {
             width: targetRect.width + 16,
             height: targetRect.height + 16,
             pointerEvents: "none",
-            zIndex: 191,
+            zIndex: 250,
           }}
           className="border-4 border-cyan-400 rounded-2xl animate-pulse shadow-[0_0_20px_rgba(6,182,212,0.8)] transition-all duration-150"
+          onClick={clickOnLaboratory}
         />
       )}
 
@@ -282,7 +300,7 @@ export default function GuidedTour() {
                 {"Précédent"}
               </button>
             )}
-            {currentStep !== 5 && (
+            {currentStep && (
               <button
                 onClick={nextStep}
                 className="flex-grow py-2 bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-500 dark:to-blue-500 hover:opacity-90 text-white rounded-xl font-bold text-xs shadow-lg transition-all transform active:scale-95 text-center"
