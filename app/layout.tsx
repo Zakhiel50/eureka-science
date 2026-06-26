@@ -19,12 +19,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "EUREKA : L'Odyssée des Sciences",
+  title: "EUREKA Science",
   description: "Apprendre les sciences en s'amusant",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "EUREKA",
+    title: "EUREKA Science : L'Odyssée des Sciences",
   },
   formatDetection: {
     telephone: false,

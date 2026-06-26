@@ -6,6 +6,7 @@ import { CheckCircle2, XCircle, Trophy, ArrowRight, RefreshCcw, Check } from "lu
 import { motion, AnimatePresence } from "framer-motion";
 import { useEinstein } from "@/app/context/EinsteinContext";
 import { useRouter } from "next/router";
+import { useUser } from "@/app/context/UserContext";
 
 interface QuizEngineProps {
   questions: QuizQuestion[];
@@ -43,6 +44,7 @@ const shuffleQuestionsOptions = (originalQuestions: QuizQuestion[]) => {
 
 export default function QuizEngine({ questions, onSuccess, onNextCourse, onScoreUpdate }: QuizEngineProps) {
   const { say, clear, isCoolingDown } = useEinstein();
+  const { requiredScore } = useUser();
   
   const [shuffledQuestions, setShuffledQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -116,7 +118,7 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
   };
 
   const successRate = shuffledQuestions.length > 0 ? (score / shuffledQuestions.length) * 100 : 0;
-  const isPassed = successRate >= 80;
+  const isPassed = successRate >= requiredScore;
 
   if (showResult) {
     return (
@@ -160,7 +162,7 @@ export default function QuizEngine({ questions, onSuccess, onNextCourse, onScore
         <p className="text-slate-700 dark:text-slate-300">
           {isPassed
             ? "Tu as brillamment réussi ce quiz. Tu es prêt pour l'aventure suivante !"
-            : "Il te faut au moins 80% pour débloquer la suite. Relis bien le cours et réessaie !"}
+            : `Il te faut au moins ${requiredScore}% pour débloquer la suite. Relis bien le cours et réessaie !`}
         </p>
 
         <div className="flex flex-wrap gap-4 justify-center">

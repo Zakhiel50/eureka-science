@@ -39,6 +39,10 @@ interface UserContextType {
   setPreferredVoice: (voice: string) => void;
   setIsMuted: (muted: boolean) => void;
   setShowBackground: (show: boolean) => void;
+  hasPreferencesSet: boolean;
+  requiredScore: number;
+  pinCode: string | null;
+  savePreferences: (score: number, pin: string | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -53,6 +57,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [showBackground, setShowBackground] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasCompletedTutorial, setHasCompletedTutorial] = useState(false);
+  const [hasPreferencesSet, setHasPreferencesSet] = useState(false);
+  const [requiredScore, setRequiredScore] = useState(80);
+  const [pinCode, setPinCode] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("eureka_progress");
@@ -67,6 +74,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setIsMuted(data.isMuted || false);
         setShowBackground(data.showBackground !== undefined ? data.showBackground : true);
         setHasCompletedTutorial(data.hasCompletedTutorial || false);
+        setHasPreferencesSet(data.hasPreferencesSet || false);
+        setRequiredScore(data.requiredScore !== undefined ? data.requiredScore : 80);
+        setPinCode(data.pinCode || null);
       } catch (e) {
         console.error("Failed to parse progress", e);
       }
@@ -76,10 +86,22 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isLoaded) {
-      const data = { xp, completed: completedCourses, scores, inventory, preferredVoice, isMuted, showBackground, hasCompletedTutorial };
+      const data = { 
+        xp, 
+        completed: completedCourses, 
+        scores, 
+        inventory, 
+        preferredVoice, 
+        isMuted, 
+        showBackground, 
+        hasCompletedTutorial,
+        hasPreferencesSet,
+        requiredScore,
+        pinCode
+      };
       localStorage.setItem("eureka_progress", JSON.stringify(data));
     }
-  }, [xp, completedCourses, scores, inventory, preferredVoice, isMuted, showBackground, hasCompletedTutorial, isLoaded]);
+  }, [xp, completedCourses, scores, inventory, preferredVoice, isMuted, showBackground, hasCompletedTutorial, hasPreferencesSet, requiredScore, pinCode, isLoaded]);
 
   const addXP = (amount: number) => {
     setXp(prev => prev + amount);
@@ -96,7 +118,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       return prev;
     });
 
-    if (score >= 80) {
+    if (score >= requiredScore) {
       setCompletedCourses(prev => {
         if (!prev.includes(courseId)) {
           return [...prev, courseId];
@@ -119,6 +141,32 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return true;
   };
 
+  const savePreferences = (score: number, pin: string | null) => {
+    setRequiredScore(score);
+    setPinCode(pin);
+    setHasPreferencesSet(true);
+
+    // Recompute completed courses with the new threshold
+    setCompletedCourses(prev => {
+      const updated = [...prev];
+      // We look at all scores we have recorded
+      Object.entries(scores).forEach(([courseId, courseScore]) => {
+        if (courseScore >= score) {
+          if (!updated.includes(courseId)) {
+            updated.push(courseId);
+          }
+        } else {
+          // If the score is now below the new threshold, remove it
+          const index = updated.indexOf(courseId);
+          if (index !== -1) {
+            updated.splice(index, 1);
+          }
+        }
+      });
+      return updated;
+    });
+  };
+
   return (
     <UserContext.Provider value={{ 
       xp, 
@@ -136,7 +184,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
       buyItem, 
       setPreferredVoice,
       setIsMuted,
-      setShowBackground
+      setShowBackground,
+      hasPreferencesSet,
+      requiredScore,
+      pinCode,
+      savePreferences
     }}>
       {children}
     </UserContext.Provider>

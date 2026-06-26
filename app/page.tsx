@@ -2,11 +2,13 @@
 
 import { useUser } from "@/app/context/UserContext";
 import { coursesList } from "@/lib/courses-utils";
-import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, ArrowUp, Loader2, Bell, Send, Sparkles } from "lucide-react";
+import { GraduationCap, Lock, Star, Play, CheckCircle, Target, FlaskConical, Settings, Volume2, ArrowUp, Loader2, Bell, Send, Sparkles, Shield, KeyRound, Check, AlertCircle, HelpCircle, Unlock } from "lucide-react";
 import Link from "next/link";
 import Image, { getImageProps } from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNotifications } from "@/lib/useNotifications";
+import PreferencesOnboarding from "@/components/learning/PreferencesOnboarding";
+import { AnimatePresence, motion } from "framer-motion";
 
 const VOICES = [
   { id: 'fr-FR-DeniseNeural', name: 'Denise' },
@@ -19,10 +21,47 @@ const VOICES = [
 ];
 
 export default function Home() {
-  const { xp, completedCourses, scores, preferredVoice, setPreferredVoice } = useUser();
+  const {
+    xp,
+    completedCourses,
+    scores,
+    preferredVoice,
+    setPreferredVoice,
+    hasPreferencesSet,
+    requiredScore,
+    pinCode,
+    savePreferences,
+    isLoaded
+  } = useUser();
+
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Parental Settings Local States
+  const [isParentAuthorized, setIsParentAuthorized] = useState(false);
+  const [pinVerify, setPinVerify] = useState<string[]>(["", "", "", ""]);
+  const [verifyError, setVerifyError] = useState("");
+
+  const [tempScore, setTempScore] = useState(80);
+  const [parentTogglePin, setParentTogglePin] = useState(false);
+  const [newPin, setNewPin] = useState<string[]>(["", "", "", ""]);
+  const [confirmNewPin, setConfirmNewPin] = useState<string[]>(["", "", "", ""]);
+  const [settingsError, setSettingsError] = useState("");
+  const [isEditingPin, setIsEditingPin] = useState(false);
+  const [successSavedMsg, setSuccessSavedMsg] = useState("");
+
+  const pinVerifyRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+  const newPinRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+  const confirmNewPinRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+
+  // Sync state with context preferences when loaded
+  useEffect(() => {
+    if (isLoaded) {
+      setTempScore(requiredScore);
+      setParentTogglePin(!!pinCode);
+    }
+  }, [requiredScore, pinCode, isLoaded]);
 
   const {
     isSupported: isNotificationSupported,
@@ -34,6 +73,229 @@ export default function Home() {
     sendTestNotification,
     simulateNewCourseDeployment
   } = useNotifications();
+
+  // Parental control handlers
+  const handlePinVerifyChange = (index: number, value: string) => {
+    const cleanValue = value.replace(/[^0-9]/g, "");
+    const state = [...pinVerify];
+    const oldValue = state[index];
+
+    if (cleanValue === "") {
+      state[index] = "";
+      setPinVerify(state);
+      return;
+    }
+
+    let newDigit = cleanValue;
+    if (cleanValue.length > 1 && oldValue) {
+      if (cleanValue.startsWith(oldValue)) {
+        newDigit = cleanValue.slice(oldValue.length);
+      } else if (cleanValue.endsWith(oldValue)) {
+        newDigit = cleanValue.slice(0, cleanValue.length - oldValue.length);
+      } else {
+        newDigit = cleanValue[cleanValue.length - 1];
+      }
+    }
+    newDigit = newDigit[newDigit.length - 1] || "";
+
+    state[index] = newDigit;
+    setPinVerify(state);
+
+    if (newDigit && index < 3 && pinVerifyRefs[index + 1].current) {
+      pinVerifyRefs[index + 1].current?.focus();
+    }
+  };
+
+  const handlePinVerifyKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace") {
+      if (pinVerify[index] === "") {
+        if (index > 0 && pinVerifyRefs[index - 1].current) {
+          pinVerifyRefs[index - 1].current?.focus();
+          const state = [...pinVerify];
+          state[index - 1] = "";
+          setPinVerify(state);
+        }
+      } else {
+        const state = [...pinVerify];
+        state[index] = "";
+        setPinVerify(state);
+      }
+    }
+  };
+
+  const verifyParentPin = () => {
+    const enteredPin = pinVerify.join("");
+    if (enteredPin === pinCode) {
+      setIsParentAuthorized(true);
+      setVerifyError("");
+      setPinVerify(["", "", "", ""]);
+    } else {
+      setVerifyError("Code parental incorrect. Veuillez réessayer.");
+      setPinVerify(["", "", "", ""]);
+      pinVerifyRefs[0].current?.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (pinVerify.join("").length === 4) {
+      verifyParentPin();
+    }
+  }, [pinVerify]);
+
+  const handleNewPinChange = (index: number, value: string) => {
+    const cleanValue = value.replace(/[^0-9]/g, "");
+    const state = [...newPin];
+    const oldValue = state[index];
+
+    if (cleanValue === "") {
+      state[index] = "";
+      setNewPin(state);
+      return;
+    }
+
+    let newDigit = cleanValue;
+    if (cleanValue.length > 1 && oldValue) {
+      if (cleanValue.startsWith(oldValue)) {
+        newDigit = cleanValue.slice(oldValue.length);
+      } else if (cleanValue.endsWith(oldValue)) {
+        newDigit = cleanValue.slice(0, cleanValue.length - oldValue.length);
+      } else {
+        newDigit = cleanValue[cleanValue.length - 1];
+      }
+    }
+    newDigit = newDigit[newDigit.length - 1] || "";
+
+    state[index] = newDigit;
+    setNewPin(state);
+
+    if (newDigit && index < 3 && newPinRefs[index + 1].current) {
+      newPinRefs[index + 1].current?.focus();
+    }
+  };
+
+  const handleNewPinKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace") {
+      if (newPin[index] === "") {
+        if (index > 0 && newPinRefs[index - 1].current) {
+          newPinRefs[index - 1].current?.focus();
+          const state = [...newPin];
+          state[index - 1] = "";
+          setNewPin(state);
+        }
+      } else {
+        const state = [...newPin];
+        state[index] = "";
+        setNewPin(state);
+      }
+    }
+  };
+
+  const handleConfirmNewPinChange = (index: number, value: string) => {
+    const cleanValue = value.replace(/[^0-9]/g, "");
+    const state = [...confirmNewPin];
+    const oldValue = state[index];
+
+    if (cleanValue === "") {
+      state[index] = "";
+      setConfirmNewPin(state);
+      return;
+    }
+
+    let newDigit = cleanValue;
+    if (cleanValue.length > 1 && oldValue) {
+      if (cleanValue.startsWith(oldValue)) {
+        newDigit = cleanValue.slice(oldValue.length);
+      } else if (cleanValue.endsWith(oldValue)) {
+        newDigit = cleanValue.slice(0, cleanValue.length - oldValue.length);
+      } else {
+        newDigit = cleanValue[cleanValue.length - 1];
+      }
+    }
+    newDigit = newDigit[newDigit.length - 1] || "";
+
+    state[index] = newDigit;
+    setConfirmNewPin(state);
+
+    if (newDigit && index < 3 && confirmNewPinRefs[index + 1].current) {
+      confirmNewPinRefs[index + 1].current?.focus();
+    }
+  };
+
+  const handleConfirmNewPinKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace") {
+      if (confirmNewPin[index] === "") {
+        if (index > 0 && confirmNewPinRefs[index - 1].current) {
+          confirmNewPinRefs[index - 1].current?.focus();
+          const state = [...confirmNewPin];
+          state[index - 1] = "";
+          setConfirmNewPin(state);
+        }
+      } else {
+        const state = [...confirmNewPin];
+        state[index] = "";
+        setConfirmNewPin(state);
+      }
+    }
+  };
+
+  const handleSaveParentalSettings = () => {
+    if (tempScore < 10 || tempScore > 100) {
+      setSettingsError("Le taux de réussite doit être compris entre 10% et 100%.");
+      return;
+    }
+
+    let finalPin: string | null = pinCode;
+
+    if (parentTogglePin) {
+      if (!pinCode || isEditingPin) {
+        const p = newPin.join("");
+        const cp = confirmNewPin.join("");
+
+        if (p.length < 4 || cp.length < 4) {
+          setSettingsError("Le code PIN doit contenir exactement 4 chiffres.");
+          return;
+        }
+
+        if (p !== cp) {
+          setSettingsError("Les deux codes de sécurité ne correspondent pas.");
+          setConfirmNewPin(["", "", "", ""]);
+          confirmNewPinRefs[0].current?.focus();
+          return;
+        }
+
+        finalPin = p;
+      }
+    } else {
+      finalPin = null;
+    }
+
+    savePreferences(tempScore, finalPin);
+    setIsParentAuthorized(false);
+    setIsEditingPin(false);
+    setSettingsError("");
+    setSuccessSavedMsg("Paramètres de progression sauvegardés !");
+    setTimeout(() => {
+      setSuccessSavedMsg("");
+    }, 3000);
+  };
+
+  const handleCancelParentalSettings = () => {
+    setTempScore(requiredScore);
+    setParentTogglePin(!!pinCode);
+    setNewPin(["", "", "", ""]);
+    setConfirmNewPin(["", "", "", ""]);
+    setPinVerify(["", "", "", ""]);
+    setSettingsError("");
+    setVerifyError("");
+    setIsEditingPin(false);
+    setIsParentAuthorized(false);
+  };
+
+  useEffect(() => {
+    setNewPin(["", "", "", ""]);
+    setConfirmNewPin(["", "", "", ""]);
+    setSettingsError("");
+  }, [parentTogglePin]);
 
   const [isTestingNotification, setIsTestingNotification] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
@@ -136,6 +398,18 @@ export default function Home() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-12 h-12 animate-spin text-cyan-500" />
+      </div>
+    );
+  }
+
+  if (!hasPreferencesSet) {
+    return <PreferencesOnboarding onSave={savePreferences} />;
+  }
 
   return (
     <div className="min-h-screen p-8 max-w-7xl mx-auto space-y-12 relative">
@@ -305,7 +579,7 @@ export default function Home() {
             Voix d&apos;Einstein-bot
           </label>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" role="radiogroup" aria-labelledby="voice-label">
+          <div id="voice-setting" className="grid grid-cols-1 sm:grid-cols-2 gap-4" role="radiogroup" aria-labelledby="voice-label">
             {VOICES.map((voice) => (
               <div
                 key={voice.id}
@@ -354,13 +628,265 @@ export default function Home() {
 
           <hr className="border-slate-200 dark:border-slate-800 my-6" />
 
+          {/* Section Sécurité & Progression (Parents) */}
+          <div id="parental-settings-card" className="space-y-4">
+            <h3 className="text-slate-900 dark:text-white font-bold flex items-center gap-2 text-lg">
+              <Shield className="w-6 h-6 text-cyan-600 dark:text-cyan-400" aria-hidden="true" />
+              Sécurité & Progression (Parents)
+            </h3>
+
+            <div className="bg-slate-50 dark:bg-slate-800/20 border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl space-y-6">
+              {pinCode && !isParentAuthorized ? (
+                /* LOCK SCREEN */
+                <div className="flex flex-col items-center justify-center py-6 text-center space-y-4">
+                  <div className="p-3 bg-red-500/10 rounded-2xl border border-red-500/20 text-red-500">
+                    <Lock className="w-8 h-8 animate-bounce" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="font-bold text-slate-800 dark:text-slate-200">
+                      Paramètres de progression verrouillés
+                    </p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md">
+                      Saisis le code parental à 4 chiffres pour modifier le taux de réussite et gérer la sécurité.
+                    </p>
+                  </div>
+
+                  {/* PIN entry */}
+                  <div className="flex gap-2 justify-center pt-2">
+                    {pinVerify.map((digit, i) => (
+                      <input
+                        key={`verify-${i}`}
+                        ref={pinVerifyRefs[i]}
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        value={digit}
+                        onChange={(e) => handlePinVerifyChange(i, e.target.value)}
+                        onKeyDown={(e) => handlePinVerifyKeyDown(i, e)}
+                        onFocus={(e) => e.target.select()}
+                        className="w-12 h-14 bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-xl text-center text-xl font-bold text-slate-800 dark:text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all font-mono"
+                      />
+                    ))}
+                  </div>
+
+                  {verifyError && (
+                    <p className="text-sm text-red-500 font-bold flex items-center gap-1.5 justify-center">
+                      <AlertCircle className="w-4 h-4" /> {verifyError}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                /* UNLOCKED / EDITABLE SCREEN */
+                <div className="space-y-6">
+                  {/* Message de succès temporaire */}
+                  {successSavedMsg && (
+                    <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-600 dark:text-green-400 text-sm font-bold flex items-center gap-2">
+                      <Check className="w-5 h-5" /> {successSavedMsg}
+                    </div>
+                  )}
+
+                  {/* Taux de réussite Slider */}
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <label className="font-bold text-slate-800 dark:text-slate-200">
+                        🎯 Taux de réussite pour débloquer le cours suivant :
+                      </label>
+                      <span className="text-xl font-black text-cyan-600 dark:text-cyan-400 font-mono">
+                        {tempScore}%
+                      </span>
+                    </div>
+
+                    <input
+                      type="range"
+                      min="10"
+                      max="100"
+                      step="10"
+                      value={tempScore}
+                      onChange={(e) => {
+                        setTempScore(parseInt(e.target.value));
+                        if (successSavedMsg) setSuccessSavedMsg("");
+                      }}
+                      className="w-full h-2 bg-slate-200 dark:bg-slate-850 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                    />
+
+                    {/* Presets */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {[20, 50, 80, 100].map((val) => (
+                        <button
+                          type="button"
+                          key={val}
+                          onClick={() => {
+                            setTempScore(val);
+                            if (successSavedMsg) setSuccessSavedMsg("");
+                          }}
+                          className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border ${tempScore === val
+                            ? "bg-cyan-500/10 border-cyan-500 text-cyan-600 dark:text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.15)]"
+                            : "bg-white dark:bg-slate-800/40 border-slate-250 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-slate-350 hover:text-slate-800 dark:hover:text-white"
+                            }`}
+                        >
+                          {val}%
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <hr className="border-slate-200 dark:border-slate-800" />
+
+                  {/* Toggle code PIN */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <span className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                          <KeyRound className="w-5 h-5 text-purple-500" /> Sécurité par Code Parental
+                        </span>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          Empêcher l&apos;enfant de modifier le taux de réussite lui-même.
+                        </p>
+                      </div>
+
+                      {/* Toggle Switch button */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setParentTogglePin(!parentTogglePin);
+                          if (successSavedMsg) setSuccessSavedMsg("");
+                          if (parentTogglePin) {
+                            setIsEditingPin(false);
+                          }
+                        }}
+                        className={`w-14 h-8 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${parentTogglePin ? "bg-purple-600" : "bg-slate-300 dark:bg-slate-800"
+                          }`}
+                        role="switch"
+                        aria-checked={parentTogglePin}
+                      >
+                        <div
+                          className={`w-6 h-6 rounded-full bg-white transition-transform duration-300 shadow-md ${parentTogglePin ? "translate-x-6" : "translate-x-0"
+                            }`}
+                        />
+                      </button>
+                    </div>
+
+                    {/* PIN forms depending on configuration status */}
+                    <AnimatePresence>
+                      {parentTogglePin && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="space-y-4 pt-2 overflow-hidden"
+                        >
+                          {pinCode && !isEditingPin ? (
+                            /* Already has a pin code, show status */
+                            <div className="flex items-center justify-between p-4 bg-slate-105 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/50">
+                              <span className="text-sm font-bold text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                                <Unlock className="w-4 h-4 text-green-500" /> Code PIN de sécurité actif
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setIsEditingPin(true);
+                                  setNewPin(["", "", "", ""]);
+                                  setConfirmNewPin(["", "", "", ""]);
+                                }}
+                                className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold transition-all"
+                              >
+                                Modifier le Code PIN
+                              </button>
+                            </div>
+                          ) : (
+                            /* Needs to define pin (either initial or modifying) */
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-slate-100 dark:bg-slate-800/40 rounded-xl border border-slate-250 dark:border-slate-700/50">
+                              {/* New pin */}
+                              <div className="space-y-2">
+                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                                  {pinCode ? "Nouveau code PIN à 4 chiffres :" : "Définir le code à 4 chiffres :"}
+                                </span>
+                                <div className="flex gap-2">
+                                  {newPin.map((digit, i) => (
+                                    <input
+                                      key={`new-${i}`}
+                                      ref={newPinRefs[i]}
+                                      type="text"
+                                      inputMode="numeric"
+                                      pattern="[0-9]*"
+                                      value={digit}
+                                      onChange={(e) => handleNewPinChange(i, e.target.value)}
+                                      onKeyDown={(e) => handleNewPinKeyDown(i, e)}
+                                      onFocus={(e) => e.target.select()}
+                                      className="w-10 h-12 bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-xl text-center text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-purple-500 transition-all font-mono"
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Confirm new pin */}
+                              <div className="space-y-2">
+                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                                  Confirmer le code PIN :
+                                </span>
+                                <div className="flex gap-2">
+                                  {confirmNewPin.map((digit, i) => (
+                                    <input
+                                      key={`confirm-${i}`}
+                                      ref={confirmNewPinRefs[i]}
+                                      type="text"
+                                      inputMode="numeric"
+                                      pattern="[0-9]*"
+                                      value={digit}
+                                      onChange={(e) => handleConfirmNewPinChange(i, e.target.value)}
+                                      onKeyDown={(e) => handleConfirmNewPinKeyDown(i, e)}
+                                      onFocus={(e) => e.target.select()}
+                                      className="w-10 h-12 bg-white dark:bg-slate-800 border border-slate-250 dark:border-slate-700 rounded-xl text-center text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-purple-500 transition-all font-mono"
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {settingsError && (
+                      <p className="text-sm text-red-500 font-bold flex items-center gap-1.5">
+                        <AlertCircle className="w-4 h-4" /> {settingsError}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Actions buttons */}
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={handleSaveParentalSettings}
+                      className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:opacity-95 text-white rounded-xl font-bold text-sm shadow-md transition-all flex items-center gap-2"
+                    >
+                      Enregistrer
+                    </button>
+                    {(pinCode || isParentAuthorized) && (
+                      <button
+                        type="button"
+                        onClick={handleCancelParentalSettings}
+                        className="px-5 py-3 bg-slate-200 hover:bg-slate-350 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 rounded-xl font-bold text-sm transition-all"
+                      >
+                        Annuler / Verrouiller
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <hr className="border-slate-200 dark:border-slate-800 my-6" />
+
           {/* Section Notifications PWA */}
-          <div className="space-y-4">
+          <div id="pwa-notifications-card" className="space-y-4">
             <h3 className="text-slate-900 dark:text-white font-bold flex items-center gap-2 text-lg">
               <Bell className="w-6 h-6 text-cyan-600 dark:text-cyan-400" aria-hidden="true" />
-              Notifications PWA
+              Notifications
             </h3>
-            
+
             <div className="bg-slate-50 dark:bg-slate-800/20 border border-slate-200 dark:border-slate-800/80 p-6 rounded-2xl space-y-6">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div className="space-y-1">
@@ -371,7 +897,7 @@ export default function Home() {
                     Reçois une alerte en temps réel dès qu'un nouveau cours de sciences est disponible.
                   </p>
                 </div>
-                
+
                 {loadingNotifications ? (
                   <div className="flex items-center gap-2 text-slate-500">
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -420,7 +946,7 @@ export default function Home() {
                   <p className="font-bold text-sm text-slate-800 dark:text-slate-200 uppercase tracking-wider">
                     Zone de Test & Simulation
                   </p>
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <button
                       onClick={handleTestNotification}
@@ -450,12 +976,11 @@ export default function Home() {
                   </div>
 
                   {simulationResult && (
-                    <div className={`p-4 rounded-xl text-xs font-mono border ${
-                      simulationResult.success 
-                        ? "bg-green-500/5 border-green-500/10 text-green-600 dark:text-green-400" 
-                        : "bg-red-500/5 border-red-500/10 text-red-600 dark:text-red-400"
-                    }`}>
-                      {simulationResult.success 
+                    <div className={`p-4 rounded-xl text-xs font-mono border ${simulationResult.success
+                      ? "bg-green-500/5 border-green-500/10 text-green-600 dark:text-green-400"
+                      : "bg-red-500/5 border-red-500/10 text-red-600 dark:text-red-400"
+                      }`}>
+                      {simulationResult.success
                         ? `Notification envoyée avec succès à ${simulationResult.successCount} abonné(s) !`
                         : `Erreur de simulation : ${simulationResult.error || 'Erreur inconnue'}`
                       }

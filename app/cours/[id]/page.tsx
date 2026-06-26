@@ -13,22 +13,28 @@ export default function CoursePage() {
   const params = useParams();
   const router = useRouter();
   const [mode, setMode] = useState<"lesson" | "quiz">("lesson");
-  const { saveCourseProgress, completedCourses, isLoaded } = useUser();
+  const { saveCourseProgress, completedCourses, isLoaded, hasPreferencesSet } = useUser();
 
   // Sélection du cours en fonction de l'ID dans l'URL
   const allCourses = coursesList;
   const course = allCourses.find(c => c.id === params.id);
   const currentIndex = allCourses.findIndex(c => c.id === params.id);
 
-  // Sécurité : Vérifier si le cours précédent est terminé
+  // Sécurité : Vérifier si le cours précédent est terminé et si les préférences sont définies
   useEffect(() => {
-    if (isLoaded && currentIndex > 0) {
-      const previousCourse = allCourses[currentIndex - 1];
-      if (!completedCourses.includes(previousCourse.id)) {
+    if (isLoaded) {
+      if (!hasPreferencesSet) {
         router.push("/");
+        return;
+      }
+      if (currentIndex > 0) {
+        const previousCourse = allCourses[currentIndex - 1];
+        if (!completedCourses.includes(previousCourse.id)) {
+          router.push("/");
+        }
       }
     }
-  }, [isLoaded, currentIndex, completedCourses, router, allCourses]);
+  }, [isLoaded, currentIndex, completedCourses, hasPreferencesSet, router, allCourses]);
 
   const handleSuccess = (score: number) => {
     if (course) saveCourseProgress(course.id, score);
