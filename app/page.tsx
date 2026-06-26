@@ -68,6 +68,7 @@ export default function Home() {
     permission,
     isSubscribed: isNotificationSubscribed,
     loading: loadingNotifications,
+    error: notificationError,
     subscribe: subscribeNotifications,
     unsubscribe: unsubscribeNotifications,
     sendTestNotification,
@@ -934,6 +935,15 @@ export default function Home() {
                   </div>
                 )}
               </div>
+
+              {notificationError && (
+                <div className="bg-red-500/5 border border-red-500/10 text-red-600 dark:text-red-400 p-4 rounded-xl text-sm leading-relaxed flex items-start gap-2.5">
+                  <AlertCircle className="w-5 h-5 mt-0.5 shrink-0 text-red-500" aria-hidden="true" />
+                  <div>
+                    <strong>Erreur de notification :</strong> {notificationError}
+                  </div>
+                </div>
+              )}
 
               {permission === 'denied' && (
                 <div className="bg-red-500/5 border border-red-500/10 text-red-600 dark:text-red-400 p-4 rounded-xl text-sm leading-relaxed">

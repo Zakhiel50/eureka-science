@@ -21,6 +21,7 @@ export function useNotifications() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(true);
   const [subscription, setSubscription] = useState<PushSubscription | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Vérifier le support au chargement
   useEffect(() => {
@@ -39,7 +40,52 @@ export function useNotifications() {
           const registration = await navigator.serviceWorker.register('/sw.js');
           
           // Vérifier si un abonnement existe déjà
-          const sub = await registration.pushManager.getSubscription();
+          let sub = await registration.pushManager.getSubscription();
+          
+          if (sub) {
+            // Vérifier si la clé VAPID correspond pour éviter tout conflit
+            try {
+              const keyRes = await fetch('/api/notifications/vapid-public-key');
+              if (keyRes.ok) {
+                const { publicKey } = await keyRes.json();
+                const serverKey = urlBase64ToUint8Array(publicKey);
+                const clientKey = sub.options?.applicationServerKey;
+                
+                if (clientKey) {
+                  const clientKeyUint8 = new Uint8Array(clientKey);
+                  let keysMatch = clientKeyUint8.length === serverKey.length;
+                  if (keysMatch) {
+                    for (let i = 0; i < serverKey.length; i++) {
+                      if (clientKeyUint8[i] !== serverKey[i]) {
+                        keysMatch = false;
+                        break;
+                      }
+                    }
+                  }
+                  
+                  if (!keysMatch) {
+                    console.warn("Clé VAPID obsolète détectée au chargement, désabonnement automatique...");
+                    const oldSub = sub;
+                    await sub.unsubscribe();
+                    sub = null;
+                    
+                    // Notifier le serveur pour nettoyer l'ancienne entrée
+                    await fetch('/api/notifications/subscribe', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        action: 'unsubscribe',
+                        subscription: oldSub,
+                      }),
+                    }).catch(() => {});
+                  }
+                }
+              }
+            } catch (err) {
+              console.error('Erreur vérification clé VAPID au chargement:', err);
+            }
+          }
+
           setSubscription(sub);
           setIsSubscribed(!!sub);
         } catch (err) {
@@ -56,6 +102,7 @@ export function useNotifications() {
   const subscribe = async () => {
     if (!isSupported) return false;
     setLoading(true);
+    setError(null);
 
     try {
       // 1. Demander la permission
@@ -74,6 +121,39 @@ export function useNotifications() {
 
       // 3. Obtenir le Service Worker enregistré
       const registration = await navigator.serviceWorker.ready;
+
+      // 3.5. Vérifier s'il existe déjà un abonnement et le nettoyer s'il y a conflit de clé VAPID
+      const existingSub = await registration.pushManager.getSubscription();
+      if (existingSub) {
+        let keysMatch = false;
+        const clientKey = existingSub.options?.applicationServerKey;
+        if (clientKey) {
+          const clientKeyUint8 = new Uint8Array(clientKey);
+          const serverKey = urlBase64ToUint8Array(publicKey);
+          if (clientKeyUint8.length === serverKey.length) {
+            keysMatch = true;
+            for (let i = 0; i < serverKey.length; i++) {
+              if (clientKeyUint8[i] !== serverKey[i]) {
+                keysMatch = false;
+                break;
+              }
+            }
+          }
+        }
+        
+        if (!keysMatch) {
+          console.warn("Clé VAPID différente détectée lors de l'abonnement, désinscription de l'ancien...");
+          await existingSub.unsubscribe();
+          await fetch('/api/notifications/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'unsubscribe',
+              subscription: existingSub,
+            }),
+          }).catch(() => {});
+        }
+      }
 
       // 4. S'abonner via PushManager
       const sub = await registration.pushManager.subscribe({
@@ -97,8 +177,13 @@ export function useNotifications() {
       setIsSubscribed(true);
       setLoading(false);
       return true;
-    } catch (err) {
+    } catch (err: any) {
       console.error("Erreur lors de l'abonnement aux notifications:", err);
+      let errMsg = err.message || String(err);
+      if (err.name === 'AbortError' || errMsg.toLowerCase().includes('push service error')) {
+        errMsg = "Impossible de se connecter au service de push. Si vous utilisez Brave, activez 'Utiliser les services Google pour la messagerie push' dans vos paramètres, ou vérifiez votre connexion.";
+      }
+      setError(errMsg);
       setLoading(false);
       return false;
     }
@@ -108,6 +193,7 @@ export function useNotifications() {
   const unsubscribe = async () => {
     if (!isSupported || !subscription) return false;
     setLoading(true);
+    setError(null);
 
     try {
       // 1. Se désabonner côté navigateur
@@ -127,8 +213,9 @@ export function useNotifications() {
       setIsSubscribed(false);
       setLoading(false);
       return true;
-    } catch (err) {
+    } catch (err: any) {
       console.error("Erreur lors du désabonnement aux notifications:", err);
+      setError(err.message || String(err));
       setLoading(false);
       return false;
     }
@@ -137,6 +224,7 @@ export function useNotifications() {
   // Envoyer une notification de test à l'utilisateur actuel
   const sendTestNotification = async () => {
     if (!isSubscribed || !subscription) return false;
+    setError(null);
 
     try {
       const res = await fetch('/api/notifications/trigger-new-course', {
@@ -150,15 +238,21 @@ export function useNotifications() {
           targetSubscription: subscription,
         }),
       });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Erreur lors de l'envoi de la notification de test");
+      }
       return res.ok;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Erreur envoi notification test:', err);
+      setError(err.message || String(err));
       return false;
     }
   };
 
   // Simuler le déploiement d'un nouveau cours
   const simulateNewCourseDeployment = async (courseTitle: string, courseDesc: string, courseId: string) => {
+    setError(null);
     try {
       const res = await fetch('/api/notifications/trigger-new-course', {
         method: 'POST',
@@ -170,12 +264,17 @@ export function useNotifications() {
           isTest: false,
         }),
       });
-      if (!res.ok) throw new Error('Erreur de requête');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Erreur de requête");
+      }
       const data = await res.json();
       return data;
-    } catch (err) {
+    } catch (err: any) {
       console.error('Erreur simulation nouveau cours:', err);
-      return { success: false, error: err };
+      const errMsg = err.message || String(err);
+      setError(errMsg);
+      return { success: false, error: errMsg };
     }
   };
 
@@ -184,6 +283,7 @@ export function useNotifications() {
     permission,
     isSubscribed,
     loading,
+    error,
     subscribe,
     unsubscribe,
     sendTestNotification,
