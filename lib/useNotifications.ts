@@ -222,18 +222,22 @@ export function useNotifications() {
   };
 
   // Envoyer une notification de test à l'utilisateur actuel
-  const sendTestNotification = async () => {
+  const sendTestNotification = async (courseTitle?: string, courseDesc?: string, courseId?: string) => {
     if (!isSubscribed || !subscription) return false;
     setError(null);
+
+    const title = courseTitle ? `🔬 Nouveau cours : ${courseTitle}` : '🔬 Eureka : Test de Notification !';
+    const body = courseDesc || 'Félicitations, ta PWA est parfaitement configurée pour recevoir nos nouveautés !';
+    const url = courseId ? `/cours/${courseId}` : '/';
 
     try {
       const res = await fetch('/api/notifications/trigger-new-course', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: '🔬 Eureka : Test de Notification !',
-          body: 'Félicitations, ta PWA est parfaitement configurée pour recevoir nos nouveautés !',
-          url: '/',
+          title,
+          body,
+          url,
           isTest: true,
           targetSubscription: subscription,
         }),

@@ -298,42 +298,12 @@ export default function Home() {
     setSettingsError("");
   }, [parentTogglePin]);
 
-  const [isTestingNotification, setIsTestingNotification] = useState(false);
-  const [isSimulating, setIsSimulating] = useState(false);
-  const [simulationResult, setSimulationResult] = useState<any>(null);
-
   const handleSubscribe = async () => {
     await subscribeNotifications();
   };
 
   const handleUnsubscribe = async () => {
     await unsubscribeNotifications();
-  };
-
-  const handleTestNotification = async () => {
-    setIsTestingNotification(true);
-    await sendTestNotification();
-    setIsTestingNotification(false);
-  };
-
-  const handleSimulateNewCourse = async () => {
-    setIsSimulating(true);
-    setSimulationResult(null);
-
-    // Simuler le déploiement du dernier cours de la liste (ou un cours fictif)
-    const mockCourse = coursesList[coursesList.length - 1] || {
-      title: "L'Odyssée de l'Espace",
-      description: "Prêt à explorer les confins du système solaire et des galaxies ?",
-      id: "universe"
-    };
-
-    const res = await simulateNewCourseDeployment(
-      mockCourse.title,
-      mockCourse.description,
-      mockCourse.id
-    );
-    setSimulationResult(res);
-    setIsSimulating(false);
   };
 
   useEffect(() => {
@@ -951,53 +921,7 @@ export default function Home() {
                 </div>
               )}
 
-              {isNotificationSubscribed && (
-                <div className="pt-4 border-t border-slate-200 dark:border-slate-800/80 space-y-4">
-                  <p className="font-bold text-sm text-slate-800 dark:text-slate-200 uppercase tracking-wider">
-                    Zone de Test & Simulation
-                  </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <button
-                      onClick={handleTestNotification}
-                      disabled={isTestingNotification}
-                      className="flex items-center justify-center gap-2 p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/50 text-slate-800 dark:text-slate-200 rounded-xl font-bold text-sm transition-all hover:shadow-lg disabled:opacity-50"
-                    >
-                      {isTestingNotification ? (
-                        <Loader2 className="w-4 h-4 animate-spin text-cyan-500" />
-                      ) : (
-                        <Sparkles className="w-4 h-4 text-yellow-500" />
-                      )}
-                      Tester une notification
-                    </button>
-
-                    <button
-                      onClick={handleSimulateNewCourse}
-                      disabled={isSimulating}
-                      className="flex items-center justify-center gap-2 p-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold text-sm transition-all shadow-[0_0_15px_rgba(6,182,212,0.15)] disabled:opacity-50"
-                    >
-                      {isSimulating ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Send className="w-4 h-4" />
-                      )}
-                      Simuler un nouveau cours
-                    </button>
-                  </div>
-
-                  {simulationResult && (
-                    <div className={`p-4 rounded-xl text-xs font-mono border ${simulationResult.success
-                      ? "bg-green-500/5 border-green-500/10 text-green-600 dark:text-green-400"
-                      : "bg-red-500/5 border-red-500/10 text-red-600 dark:text-red-400"
-                      }`}>
-                      {simulationResult.success
-                        ? `Notification envoyée avec succès à ${simulationResult.successCount} abonné(s) !`
-                        : `Erreur de simulation : ${simulationResult.error || 'Erreur inconnue'}`
-                      }
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
           </div>
         </div>

@@ -75,7 +75,7 @@ export default function SoutenirPage() {
       {/* Bouton de retour */}
       <Link
         href="/"
-        className="flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors font-bold self-start group w-fit"
+        className="flex items-center gap-2 text-slate-600 hover:text-slate-900 dark:text-white dark:hover:text-white transition-colors font-bold self-start group w-fit"
       >
         <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
         Retour à l'accueil
@@ -120,7 +120,7 @@ export default function SoutenirPage() {
                   src={tier.imageUrl}
                   alt={tier.title}
                   fill
-                  quality={85}
+                  quality={75}
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
                 />

@@ -87,8 +87,10 @@ export async function POST(req: NextRequest) {
     ).length;
     const failureCount = results.length - successCount;
 
+    const overallSuccess = successCount > 0;
+
     return NextResponse.json({
-      success: true,
+      success: overallSuccess,
       sent: results.length,
       successCount,
       failureCount,

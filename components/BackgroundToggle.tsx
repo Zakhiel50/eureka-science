@@ -4,7 +4,9 @@ import { useUser } from "@/app/context/UserContext";
 import { Image as ImageIcon, ImageOff } from "lucide-react";
 
 export default function BackgroundToggle() {
-  const { showBackground, setShowBackground } = useUser();
+  const { showBackground, setShowBackground, hasPreferencesSet } = useUser();
+
+  if (!hasPreferencesSet) return null;
 
   const toggleBackground = () => {
     setShowBackground(!showBackground);

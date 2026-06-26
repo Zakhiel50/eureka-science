@@ -44,11 +44,14 @@ export async function POST(req: NextRequest) {
 
     if (action === 'subscribe') {
       // Vérifier si l'abonnement existe déjà
-      const exists = subscriptions.some(s => s.endpoint === subscription.endpoint);
-      if (!exists) {
+      const index = subscriptions.findIndex(s => s.endpoint === subscription.endpoint);
+      if (index === -1) {
         subscriptions.push(subscription);
-        saveSubscriptions(subscriptions);
+      } else {
+        // Mettre à jour l'abonnement existant pour rafraîchir les clés
+        subscriptions[index] = subscription;
       }
+      saveSubscriptions(subscriptions);
       return NextResponse.json({ success: true, message: 'Subscribed successfully' });
     } else if (action === 'unsubscribe') {
       const filtered = subscriptions.filter(s => s.endpoint !== subscription.endpoint);
