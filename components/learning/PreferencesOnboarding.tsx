@@ -261,7 +261,7 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
                   <button
                     type="button"
                     onClick={() => setUsePin(!usePin)}
-                    className={`w-14 h-8 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${usePin ? "bg-purple-600" : "bg-slate-800"
+                    className={`w-14 h-8 rounded-full p-1 shrink-0 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${usePin ? "bg-purple-600" : "bg-slate-800"
                       }`}
                     role="switch"
                     aria-checked={usePin}

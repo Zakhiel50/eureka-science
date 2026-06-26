@@ -13,13 +13,15 @@ import { electricity } from "./lessons/electricity";
 import { solarSystem } from "./lessons/solar-system";
 import { sunCourse } from "./lessons/sun";
 import { botany } from "./lessons/botany";
+import { dnaCourse } from "./lessons/dna";
 
 export const coursesList: Course[] = [
   waterCycleCourse,
   volcanologyCourse,
-  humanBody,
   gravity,
   lightning,
+  humanBody,
+  dnaCourse,
   microscopic,
   atom,
   chemistry,

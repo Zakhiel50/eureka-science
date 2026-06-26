@@ -725,7 +725,7 @@ export default function Home() {
                             setIsEditingPin(false);
                           }
                         }}
-                        className={`w-14 h-8 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${parentTogglePin ? "bg-purple-600" : "bg-slate-300 dark:bg-slate-800"
+                        className={`w-14 h-8 rounded-full p-1 shrink-0 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 ${parentTogglePin ? "bg-purple-600" : "bg-slate-300 dark:bg-slate-800"
                           }`}
                         role="switch"
                         aria-checked={parentTogglePin}
