@@ -76,8 +76,19 @@ export default function LessonContent({ steps, onComplete }: LessonContentProps)
         audioRef.current.pause();
         audioRef.current = null;
       }
+      setIsPlaying(false);
     };
   }, [currentStep]);
+
+  // Dispatch global event when TTS play state changes to notify background music player
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("eureka_tts_state", { detail: { isPlaying } }));
+    return () => {
+      if (isPlaying) {
+        window.dispatchEvent(new CustomEvent("eureka_tts_state", { detail: { isPlaying: false } }));
+      }
+    };
+  }, [isPlaying]);
 
   const toggleAudio = async () => {
     if (isPlaying && audioRef.current) {

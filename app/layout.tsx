@@ -9,6 +9,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import ButtonDonation from "@/components/ButtonDonation";
 import BackgroundToggle from "@/components/BackgroundToggle";
+import MusicToggle from "@/components/MusicToggle";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -73,6 +74,7 @@ export default function RootLayout({
           <AnimatedBackground />
           <ThemeToggle />
           <BackgroundToggle />
+          <MusicToggle />
           <ButtonDonation />
           <EinsteinProvider>
             <main id="main-content" className="relative z-10">
