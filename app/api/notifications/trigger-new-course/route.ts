@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import webpush from 'web-push';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-
-const keysPath = join(process.cwd(), 'lib/db/vapid-keys.json');
-const dbPath = join(process.cwd(), 'lib/db/subscriptions.json');
+import { getVapidKeys, getSubscriptions, saveSubscriptions } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,10 +10,7 @@ export async function POST(req: NextRequest) {
     const { title, body: text, url, isTest, targetSubscription } = body;
 
     // Charger les clés VAPID
-    if (!existsSync(keysPath)) {
-      return NextResponse.json({ error: 'Les clés VAPID ne sont pas encore générées' }, { status: 500 });
-    }
-    const vapidKeys = JSON.parse(readFileSync(keysPath, 'utf-8'));
+    const vapidKeys = getVapidKeys();
 
     webpush.setVapidDetails(
       'mailto:eureka.science.contact@gmail.com',
@@ -30,13 +23,7 @@ export async function POST(req: NextRequest) {
     if (isTest && targetSubscription) {
       subscriptions = [targetSubscription];
     } else {
-      if (existsSync(dbPath)) {
-        try {
-          subscriptions = JSON.parse(readFileSync(dbPath, 'utf-8'));
-        } catch (e) {
-          subscriptions = [];
-        }
-      }
+      subscriptions = getSubscriptions();
     }
 
     if (subscriptions.length === 0) {
@@ -66,16 +53,16 @@ export async function POST(req: NextRequest) {
     );
 
     // Nettoyer les abonnements expirés (uniquement en cas de broadcast global)
-    if (!isTest && existsSync(dbPath)) {
+    if (!isTest) {
       const expiredEndpoints = results
         .filter((r): r is PromiseFulfilledResult<any> => r.status === 'fulfilled' && Boolean(r.value?.expired))
         .map(r => r.value.endpoint);
 
       if (expiredEndpoints.length > 0) {
         try {
-          const currentSubs = JSON.parse(readFileSync(dbPath, 'utf-8'));
+          const currentSubs = getSubscriptions();
           const activeSubs = currentSubs.filter((s: any) => !expiredEndpoints.includes(s.endpoint));
-          writeFileSync(dbPath, JSON.stringify(activeSubs, null, 2), 'utf-8');
+          saveSubscriptions(activeSubs);
         } catch (e) {
           console.error('Erreur lors du nettoyage des abonnements expirés:', e);
         }
@@ -104,3 +91,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
