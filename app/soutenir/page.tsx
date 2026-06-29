@@ -13,7 +13,6 @@ interface Tier {
   price: string;
   description: string;
   imageUrl: string;
-  tipeurs: number;
   perk: string;
   color: string;
 }
@@ -25,8 +24,7 @@ const SUPPORT_TIERS: Tier[] = [
     price: "1 €",
     description: "Votre soutien aide directement à garder Eureka-science gratuit et à le maintenir en vie. Chaque euro compte énormément pour faire grandir Eureka Science !",
     imageUrl: "/images/dons/d1.avif",
-    tipeurs: 0,
-    perk: "Accès à notre éternelle gratitude !",
+    perk: "Accès à mon éternelle gratitude !",
     color: "from-cyan-500 to-blue-500 shadow-cyan-500/10 dark:shadow-cyan-400/5",
   },
   {
@@ -35,7 +33,6 @@ const SUPPORT_TIERS: Tier[] = [
     price: "5 €",
     description: "Votre nom sera ajouté à la liste des contributeurs officiels directement sur le site Eureka Science pour laisser une trace de votre aide. Je mets la liste à jour en bloc une fois par mois.",
     imageUrl: "/images/dons/d2.avif",
-    tipeurs: 0,
     perk: "Votre nom inscrit au panthéon d'Eureka",
     color: "from-purple-500 to-pink-500 shadow-purple-500/10 dark:shadow-purple-400/5",
   },
@@ -45,7 +42,6 @@ const SUPPORT_TIERS: Tier[] = [
     price: "15 €",
     description: "Votre nom apparaîtra en haut de la liste des contributeurs avec un badge spécial \"Pilier scientifique\". Vous devenez un pilier essentiel du projet, sans aucune limite de temps.",
     imageUrl: "/images/dons/d3.avif",
-    tipeurs: 0,
     perk: "Badge de contributeur pillier de la science",
     color: "from-amber-500 to-rose-500 shadow-amber-500/10 dark:shadow-amber-400/5",
   },
@@ -94,8 +90,8 @@ export default function SoutenirPage() {
         <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300">
           Soutenir EUREKA Science
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-relaxed font-medium">
-          Eureka Science est un projet éducatif indépendant, 100% gratuit et sans publicité. Chaque don m'aide directement pour payer les frais de développement et de maintenance du site et de l'application, et pour concevoir de nouvelles aventures scientifiques et maintenir la plateforme vivante !
+        <p className="text-slate-600 dark:text-white text-lg md:text-xl leading-relaxed font-medium">
+          Eureka Science est un projet éducatif indépendant, 100% gratuit et sans publicité. Chaque don m'aide directement pour payer les frais de développement et de maintenance de l'application, et pour concevoir de nouvelles aventures scientifiques et maintenir la plateforme vivante !
         </p>
       </header>
 
@@ -153,14 +149,6 @@ export default function SoutenirPage() {
                   <div className="p-3.5 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-100 dark:border-slate-800/80 text-xs font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-2.5">
                     <Sparkles className="w-4 h-4 text-yellow-500 shrink-0" />
                     <span>{tier.perk}</span>
-                  </div>
-
-                  {/* Nombre de tipeurs et CTA */}
-                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-bold border-t border-slate-100 dark:border-slate-800 pt-4">
-                    <span className="flex items-center gap-1.5">
-                      <Users className="w-4 h-4 text-slate-400" />
-                      {tier.tipeurs} tipeur{tier.tipeurs > 1 ? 's' : ''}
-                    </span>
                   </div>
 
                   <a
