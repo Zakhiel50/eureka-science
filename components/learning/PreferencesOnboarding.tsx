@@ -166,16 +166,13 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
   ];
 
   return (
-    <div className="fixed inset-0 z-[200] overflow-y-auto bg-[#020617] flex flex-col items-center justify-start md:justify-center p-4 md:p-8 pt-28 md:pt-8 pb-10 animate-in fade-in zoom-in-95 duration-300">
-      {/* Background glowing decorations */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
+    <div className=" inset-0 z-[200] overflow-y-auto flex flex-col justify-start md:justify-center p-4 md:p-8 pt-28 md:pt-8 pb-10 animate-in fade-in zoom-in-95 duration-300">
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative w-full max-w-2xl bg-slate-900/60 border border-slate-800 rounded-3xl p-8 backdrop-blur-xl shadow-[0_0_50px_rgba(8,145,178,0.15)] space-y-8"
+        className=""
       >
         <div className="text-center space-y-3">
           <div className="inline-flex p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
@@ -184,10 +181,11 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
           <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight uppercase">
             EUREKA <span className="text-cyan-400">Science</span>
           </h1>
-          <p className="text-slate-400 font-medium">Configuration de départ</p>
+          <h2 className="text-white font-medium">Apprendre et comprendre les concept scientifique pas à pas !</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
+          <p className="text-white font-medium text-center text-[24px] mt-10">Configuration de départ</p>
           {/* Explanation Banner */}
           <div className="bg-slate-800/40 border border-slate-700/50 p-5 rounded-2xl flex gap-3 text-sm text-slate-300 leading-relaxed">
             <HelpCircle className="w-6 h-6 text-cyan-400 shrink-0 mt-0.5" />
@@ -221,7 +219,7 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
                 onChange={(e) => setScore(parseInt(e.target.value))}
                 className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
               />
-              <div className="flex justify-between text-xs text-slate-500 font-mono">
+              <div className="flex justify-between text-xs text-white font-mono">
                 <span>10% (Minimum)</span>
                 <span>100% (Parfait)</span>
               </div>
@@ -236,7 +234,7 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
                   onClick={() => setScore(preset.value)}
                   className={`px-4 py-3 rounded-xl text-xs font-bold transition-all border ${score === preset.value
                     ? "bg-cyan-500/10 border-cyan-500 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)]"
-                    : "bg-slate-800/40 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-white"
+                    : "bg-slate-800/40 border-slate-800 text-white hover:border-slate-700 hover:text-white"
                     }`}
                 >
                   {preset.label}
@@ -272,7 +270,7 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
                     />
                   </button>
                 </div>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-white">
                   Optionnel : Protéger les paramètres par un code d'accès à 4 chiffres.
                 </p>
               </div>
@@ -291,7 +289,7 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                     {/* First Code Input */}
                     <div className="space-y-3">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+                      <span className="text-xs font-bold text-white uppercase tracking-wider block">
                         Définir le code à 4 chiffres :
                       </span>
                       <div className="flex gap-2">
@@ -315,7 +313,7 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
 
                     {/* Confirmation Input */}
                     <div className="space-y-3">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+                      <span className="text-xs font-bold text-white uppercase tracking-wider block">
                         Confirmer le code parental :
                       </span>
                       <div className="flex gap-2">
@@ -362,7 +360,7 @@ export default function PreferencesOnboarding({ onSave }: PreferencesOnboardingP
             <button
               type="button"
               onClick={handleSkip}
-              className="w-full sm:w-auto px-6 py-4 bg-slate-800 text-slate-400 hover:text-white rounded-2xl font-bold text-sm border border-slate-700/50 hover:bg-slate-750 transition-all"
+              className="w-full sm:w-auto px-6 py-4 bg-slate-800 text-white hover:text-white rounded-2xl font-bold text-sm border border-slate-700/50 hover:bg-slate-750 transition-all"
             >
               Passer (Taux standard 80%)
             </button>

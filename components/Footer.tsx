@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FlaskConical, Shield, FileText, Heart, Scale } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Ne pas afficher le footer sur les pages de cours
+  if (pathname?.startsWith("/cours")) {
+    return null;
+  }
+
   return (
-    <footer className="relative z-10 w-full mt-20 pb-12 px-4 md:px-8">
+    <footer className="relative z-1 w-full mt-20">
       <div className="max-w-7xl mx-auto">
-        <div className="glass-panel rounded-[2rem] p-8 md:p-12 space-y-8 bg-slate-950/40 border border-slate-800/80 shadow-[0_0_30px_rgba(6,182,212,0.05)]">
+        <div className="glass-panel p-8 md:p-12 space-y-8 bg-slate-950/40 border border-slate-800/80 shadow-[0_0_30px_rgba(6,182,212,0.05)]">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-slate-800/60">
             <div className="space-y-3">
               <Link href="/" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded-xl px-2 py-1 -ml-2">

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useUser } from "@/app/context/UserContext";
 
 export default function AnimatedBackground() {
-  const { showBackground } = useUser();
+  const { showBackground, hasPreferencesSet } = useUser();
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isLab = pathname === "/laboratoire";
@@ -61,8 +61,8 @@ export default function AnimatedBackground() {
     });
   }, []);
 
-  // Désactiver le fond animé sur la page Labo ou si l'utilisateur l'a désactivé
-  if (!mounted || isLab || !showBackground) return null;
+  // Désactiver le fond animé sur la page Labo, si l'utilisateur est sur l'onboarding, ou si l'utilisateur l'a désactivé
+  if (!mounted || isLab || !showBackground || !hasPreferencesSet) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
