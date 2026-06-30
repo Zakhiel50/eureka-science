@@ -10,7 +10,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import ButtonDonation from "@/components/ButtonDonation";
 import BackgroundToggle from "@/components/BackgroundToggle";
 import MusicToggle from "@/components/MusicToggle";
-import Footer from "@/components/Footer";
+
 
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -82,7 +82,7 @@ export default function RootLayout({
             <main id="main-content" className="relative z-10">
               {children}
             </main>
-            <Footer />
+
             <ClientEinsteinBot />
 
             <ClientGuidedTour />
