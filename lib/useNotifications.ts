@@ -34,7 +34,8 @@ export function useNotifications() {
       setIsSupported(supported);
 
       if (supported) {
-        setPermission(Notification.permission);
+        const currentPermission = Notification.permission;
+        setPermission(currentPermission);
         try {
           // Enregistrer ou récupérer le service worker
           const registration = await navigator.serviceWorker.register('/sw.js');
@@ -64,7 +65,7 @@ export function useNotifications() {
                   }
                   
                   if (!keysMatch) {
-                    console.warn("Clé VAPID obsolète détectée au chargement, désabonnement automatique...");
+                    console.warn("Clé VAPID obsolète détectée au chargement, réabonnement automatique...");
                     const oldSub = sub;
                     await sub.unsubscribe();
                     sub = null;
@@ -78,11 +79,79 @@ export function useNotifications() {
                         subscription: oldSub,
                       }),
                     }).catch(() => {});
+
+                    // Tenter de se réabonner automatiquement avec la nouvelle clé
+                    if (currentPermission === 'granted') {
+                      try {
+                        const newSub = await registration.pushManager.subscribe({
+                          userVisibleOnly: true,
+                          applicationServerKey: serverKey,
+                        });
+                        
+                        await fetch('/api/notifications/subscribe', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            action: 'subscribe',
+                            subscription: newSub,
+                          }),
+                        });
+                        
+                        sub = newSub;
+                        console.log("Réabonnement automatique réussi avec la nouvelle clé VAPID.");
+                      } catch (subErr) {
+                        console.error("Échec du réabonnement automatique:", subErr);
+                      }
+                    }
+                  } else {
+                    // Les clés correspondent, synchronisation de l'abonnement existant avec le serveur (idempotent)
+                    console.log("Synchronisation de l'abonnement existant avec le serveur...");
+                    await fetch('/api/notifications/subscribe', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        action: 'subscribe',
+                        subscription: sub,
+                      }),
+                    }).catch((err) => {
+                      console.error("Erreur de synchronisation de l'abonnement:", err);
+                    });
                   }
                 }
               }
             } catch (err) {
               console.error('Erreur vérification clé VAPID au chargement:', err);
+            }
+          } else {
+            // Pas d'abonnement push actif trouvé. Vérifier si l'utilisateur souhaite être abonné et si la permission est accordée.
+            const wantsNotifications = localStorage.getItem('eureka_wants_notifications') === 'true';
+            if (wantsNotifications && currentPermission === 'granted') {
+              console.log("Abonnement manquant détecté mais souhaité. Tentative d'abonnement automatique...");
+              try {
+                const keyRes = await fetch('/api/notifications/vapid-public-key');
+                if (keyRes.ok) {
+                  const { publicKey } = await keyRes.json();
+                  const serverKey = urlBase64ToUint8Array(publicKey);
+                  const newSub = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: serverKey,
+                  });
+                  
+                  await fetch('/api/notifications/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      action: 'subscribe',
+                      subscription: newSub,
+                    }),
+                  });
+                  
+                  sub = newSub;
+                  console.log("Abonnement de récupération automatique réussi.");
+                }
+              } catch (subErr) {
+                console.error("Échec de l'abonnement de récupération automatique:", subErr);
+              }
             }
           }
 
@@ -173,6 +242,9 @@ export function useNotifications() {
 
       if (!subRes.ok) throw new Error("Erreur d'enregistrement de l'abonnement côté serveur");
 
+      // Enregistrer l'intention de l'utilisateur dans le LocalStorage
+      localStorage.setItem('eureka_wants_notifications', 'true');
+
       setSubscription(sub);
       setIsSubscribed(true);
       setLoading(false);
@@ -208,6 +280,9 @@ export function useNotifications() {
           subscription,
         }),
       });
+
+      // Mettre à jour l'intention dans le LocalStorage
+      localStorage.setItem('eureka_wants_notifications', 'false');
 
       setSubscription(null);
       setIsSubscribed(false);
