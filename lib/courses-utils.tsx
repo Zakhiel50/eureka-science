@@ -14,6 +14,7 @@ import { solarSystem } from "./lessons/solar-system";
 import { sunCourse } from "./lessons/sun";
 import { botany } from "./lessons/botany";
 import { dnaCourse } from "./lessons/dna";
+import { lightCourse } from "./lessons/light";
 
 export const coursesList: Course[] = [
   waterCycleCourse,
@@ -30,5 +31,6 @@ export const coursesList: Course[] = [
   electricity,
   solarSystem,
   sunCourse,
+  lightCourse,
   botany,
 ];

@@ -12,14 +12,14 @@ export type LabItem = {
 };
 
 export const AVAILABLE_ITEMS: LabItem[] = [
-  { id: '1', name: 'Fiole de Chimie', price: 50, modelType: 'flask', color: '#ff3366', image: '/images/shop-labs/flask.avif' },
-  { id: '2', name: 'Microscope Optique', price: 150, modelType: 'microscope', color: '#00ffcc', image: '/images/shop-labs/microscope.avif' },
-  { id: '3', name: 'Distillateur Chimique', price: 250, modelType: 'distillator', color: '#8b5cf6', image: '/images/shop-labs/table.avif' },
-  { id: '4', name: 'Modèle Atomique', price: 100, modelType: 'atom', color: '#ffff00', image: '/images/shop-labs/atom.avif' },
-  { id: '5', name: 'Échantillon Viral', price: 300, modelType: 'virus', color: '#ff0055', image: '/images/shop-labs/virus.avif' },
+  { id: '1', name: 'Fiole de Chimie', price: 100, modelType: 'flask', color: '#ff3366', image: '/images/shop-labs/flask.avif' },
+  { id: '2', name: 'Microscope Optique', price: 400, modelType: 'microscope', color: '#00ffcc', image: '/images/shop-labs/microscope.avif' },
+  { id: '3', name: 'Distillateur Chimique', price: 600, modelType: 'distillator', color: '#8b5cf6', image: '/images/shop-labs/table.avif' },
+  { id: '4', name: 'Modèle Atomique', price: 200, modelType: 'atom', color: '#ffff00', image: '/images/shop-labs/atom.avif' },
+  { id: '5', name: 'Échantillon Viral', price: 200, modelType: 'virus', color: '#ff0055', image: '/images/shop-labs/virus.avif' },
   { id: '6', name: 'Cœur Anatomique', price: 400, modelType: 'hearth', color: '#ff4d4d', image: '/images/shop-labs/hearth.avif' },
-  { id: '7', name: 'Modèle Lunaire', price: 200, modelType: 'moon', color: '#e2e8f0', image: '/images/shop-labs/moon.avif' },
-  { id: '8', name: 'Fusée d\'Exploration', price: 500, modelType: 'rocket', color: '#38bdf8', image: '/images/shop-labs/rocket.avif' },
+  { id: '7', name: 'Modèle Lunaire', price: 800, modelType: 'moon', color: '#e2e8f0', image: '/images/shop-labs/moon.avif' },
+  { id: '8', name: 'Fusée d\'Exploration', price: 700, modelType: 'rocket', color: '#38bdf8', image: '/images/shop-labs/rocket.avif' },
 ];
 
 interface UserContextType {
@@ -86,14 +86,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (isLoaded) {
-      const data = { 
-        xp, 
-        completed: completedCourses, 
-        scores, 
-        inventory, 
-        preferredVoice, 
-        isMuted, 
-        showBackground, 
+      const data = {
+        xp,
+        completed: completedCourses,
+        scores,
+        inventory,
+        preferredVoice,
+        isMuted,
+        showBackground,
         hasCompletedTutorial,
         hasPreferencesSet,
         requiredScore,
@@ -131,13 +131,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const buyItem = (itemId: string) => {
     const item = AVAILABLE_ITEMS.find(i => i.id === itemId);
     if (!item) return false;
-    
+
     if (inventory.includes(itemId)) return false;
     if (xp < item.price) return false;
 
     setXp(prev => prev - item.price);
     setInventory(prev => [...prev, itemId]);
-    
+
     return true;
   };
 
@@ -168,20 +168,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <UserContext.Provider value={{ 
-      xp, 
-      completedCourses, 
-      scores, 
-      inventory, 
-      preferredVoice, 
+    <UserContext.Provider value={{
+      xp,
+      completedCourses,
+      scores,
+      inventory,
+      preferredVoice,
       isMuted,
       showBackground,
       isLoaded,
       hasCompletedTutorial,
       setHasCompletedTutorial,
-      addXP, 
-      saveCourseProgress, 
-      buyItem, 
+      addXP,
+      saveCourseProgress,
+      buyItem,
       setPreferredVoice,
       setIsMuted,
       setShowBackground,
